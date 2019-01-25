@@ -27,10 +27,6 @@ type Props = {
 const logger = createLogger({
   stateTransformer: state =>
     Object.keys(state).reduce((newState, key) => {
-      if (Immutable.Iterable.isIterable(state[key])) {
-        return { ...newState, [key]: state[key].toJS() };
-      }
-
       return { ...newState, [key]: state[key] };
     }, {}),
 });

@@ -13,6 +13,9 @@ type Props = {
 
 
 class Home extends React.Component<Props> {
+    static navigationOptions = {
+        title : 'wasadasda',
+    }
   render() {
     return (
       <View
@@ -23,6 +26,10 @@ class Home extends React.Component<Props> {
                 console.log("HOOOY");
                 this.props.navigation.navigate('Login');
             }} />
+        
+        <Button title="ToggleDrawer" 
+            onPress={() => 
+  this.props.navigation.openDrawer()}/>
       </View>
     );
   }

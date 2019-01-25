@@ -26,11 +26,6 @@ export default function autoMergeLevel2Immutable(
           )
         return
       }
-      if (isPlainEnoughObject(reducedState[key].toJS())) {
-        // if object is plain enough shallow merge the new values (hence "Level2")
-        newState[key] = newState[key].merge(inboundState[key])
-        return
-      }
       // otherwise hard set
       newState[key] = inboundState[key]
     })

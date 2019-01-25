@@ -1,25 +1,35 @@
 import React from 'react';
-import View from 'react-native';
+import Text from 'react-native';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import InitialRoute from './InitialRoute';
 import Home from '../containers/home/home';
 import Login from '../containers/authentication/login';
 import Registration from '../containers/authentication/registration';
-
+import DrawerMenu from './drawer.menu';
 const AuthenticationStack = createStackNavigator({
     Login : {
         screen : Login,
     },
     Registration : {
         screen : Registration,
-    }
+    },
 });
+
+const MainStack = createStackNavigator({
+    Home: {
+        screen: Home,
+        navigationOptions: ({ navigation }) => ({}),
+    },
+});
+
 
 const HomeStack = createDrawerNavigator({
     Home: {
-        screen: Home,
-        navigationOptions: () => ({}),
+        screen: MainStack,
     },
+},
+{
+    contentComponent: props => <DrawerMenu {...props} />,
 });
 
 const StackNavigator = createStackNavigator(
