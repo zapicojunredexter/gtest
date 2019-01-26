@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '../../../../constants/colors';
+
 export default (userType = 'seculacer') => StyleSheet.create({
     mainContainer : {
         padding : 40,
@@ -11,7 +13,7 @@ export default (userType = 'seculacer') => StyleSheet.create({
         backgroundColor : 'orange',
     },
     label : {
-        color : 'white',
+        color : colors.fontColor,
         fontSize : 20,
     },
     stepsWrapper : {
@@ -23,13 +25,13 @@ export default (userType = 'seculacer') => StyleSheet.create({
         flexDirection : 'row',
     },
     active : {
-        backgroundColor : 'white',
+        backgroundColor : colors.fontColor,
         height : 4,
         borderRadius : 3,
         width : '30%'
     },
     inactive : {
-        backgroundColor : 'white',
+        backgroundColor : colors.fontColor,
         height : 2,
         borderRadius : 3,
         width : '30%'

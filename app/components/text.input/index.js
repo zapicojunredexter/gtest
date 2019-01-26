@@ -7,6 +7,8 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import { colors } from '../../constants/colors';
+
 const _style = StyleSheet.create({
     textInputWrapper : {
         width : '100%',
@@ -14,7 +16,7 @@ const _style = StyleSheet.create({
     defaultTxtInput: {
         borderWidth : 0,
         height : 40,
-        color : 'white',
+        color : colors.fontColor,
     },
     errorMessage : {
         color : 'red',
@@ -27,9 +29,9 @@ export default class CustomTextInput extends React.PureComponent<> {
         return (
             <View style={[_style.textInputWrapper, wrapperStyle]}>
                 <TextInput
-                    underlineColorAndroid={underlineColorAndroid}
                     {...this.props}
                     style={[_style.defaultTxtInput,style]}
+                    underlineColorAndroid={underlineColorAndroid}
                 />
                 <Text style={_style.errorMessage}>{error}</Text>
             </View>

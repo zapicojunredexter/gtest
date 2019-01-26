@@ -13,11 +13,11 @@ export default (userType = 'seculacer') => StyleSheet.create({
     },
     label : {
         textAlign : 'center',
-        color : 'white',
+        color : colors.fontColor,
         fontSize : 20,
     },
     textFields : {
-        color : 'white',
+        color : colors.fontColor,
     },
     buttonsWrapper : {
         flexDirection : 'row',
@@ -30,7 +30,7 @@ export default (userType = 'seculacer') => StyleSheet.create({
         height : 40,
         alignItems : 'center',
         justifyContent : 'center',
-        backgroundColor : 'white',
+        backgroundColor : colors.fontColor,
     },
     titleStyle : {
         color : colors[userType].main,

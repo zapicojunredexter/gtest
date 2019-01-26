@@ -4,11 +4,12 @@ import {
   Text,
   View,
   StyleSheet,
-  Picker
+  // Picker
 } from 'react-native';
 
 import TextInput from '../../../../components/text.input';
-
+import Picker from '../../../../components/picker';
+import { colors } from '../../../../constants/colors';
 const _styles = StyleSheet.create({
     createAccountContainer : {
         width : '100%',
@@ -22,10 +23,20 @@ const _styles = StyleSheet.create({
         marginBottom : 5,
     },
     label : {
-        color : 'white',
+        color : colors.fontColor,
         fontSize : 15,
         marginBottom : 5,
     },
+    sidenote : {
+        color : colors.fontColor,
+        textAlign : 'center',
+    },
+    lineSeparator : {
+        height : 1,
+        backgroundColor : '#79ACC9',
+        marginTop : 10,
+        marginBottom : 10,
+    }
 });
 
 type Props = {
@@ -35,6 +46,9 @@ export default class AdditionalInfo extends React.PureComponent<Props> {
     constructor(props) {
         super(props);
         this.state = {
+            birthdate : { value : '', errorMessage : ''},
+            gender : { value : '', errorMessage : ''},
+
             province : { value : '', errorMessage : ''},
             city : { value : '', errorMessage : ''},
             barangay : { value : '', errorMessage : ''},
@@ -49,21 +63,43 @@ export default class AdditionalInfo extends React.PureComponent<Props> {
 
     render() {
         const {
+            gender,
             province,
             city,
             barangay,
             street,
+            birthdate,
         } = this.state;
+
         return (
             <View style={_styles.createAccountContainer}>
-                <Text style={_styles.label}>Set up your address</Text>
                 <Picker
-  selectedValue={this.state.language}
-  style={_styles.textInput}
-  onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
-  <Picker.Item label="Java" value="java" />
-  <Picker.Item label="JavaScript" value="js" />
-</Picker>
+                    placeholder="Birthdate"
+                    style={_styles.textInput}
+                    error={birthdate.errorMessage}
+                    selectedValue={birthdate.value}
+                    wrapperStyle={_styles.textInputWrapper}
+                    onValueChange={(value) => this.setFields('birthdate', value)}
+                    choices={[
+                        {label : 'Birthday 1', value : 'male'},
+                        {label : 'Birthday 2', value : 'female'}
+                    ]}
+                />
+                <Picker
+                    placeholder="Select Gender"
+                    style={_styles.textInput}
+                    error={gender.errorMessage}
+                    selectedValue={gender.value}
+                    wrapperStyle={_styles.textInputWrapper}
+                    onValueChange={(value) => this.setFields('gender', value)}
+                    choices={[
+                        {label : 'Male', value : 'male'},
+                        {label : 'Female', value : 'female'}
+                    ]}
+                />
+                <Text style={_styles.sidenote}>ALWAYS MAKE YOUR INFO UPDATED</Text>
+                <View style={_styles.lineSeparator} />
+                <Text style={_styles.label}>Set up your address</Text>
                 <TextInput
                     value={province.value}
                     placeholder="Province"

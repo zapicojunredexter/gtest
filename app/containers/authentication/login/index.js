@@ -49,10 +49,10 @@ class Login extends React.PureComponent<Props> {
 
         const newUser = {
             username : this.state.username.value,
-            type : 'seculacer'
+            type : this.state.username.value == 1 ? 'responder' : 'seculacer'
         }
         login(newUser);
-        navigation.navigate('Home')
+        navigation.navigate('ControlDevice')
     }
 
     render() {

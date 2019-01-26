@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import TextInput from '../../../../components/text.input';
+import { colors } from '../../../../constants/colors';
 
 const _styles = StyleSheet.create({
     createAccountContainer : {
@@ -17,13 +18,34 @@ const _styles = StyleSheet.create({
         backgroundColor : '#79ACC9',
         paddingLeft : 10,
     },
+    codeTxtInput : {
+        backgroundColor : colors.seculacer.main,
+        width : '70%',
+        paddingLeft : 10,
+        textAlign : 'center',
+    },
+    codeTxtInputWrapper : {
+        marginBottom : 5,
+        justifyContent : 'center',
+        alignItems : 'center',
+    },
     textInputWrapper : {
         marginBottom : 5,
     },
     label : {
-        color : 'white',
+        color : colors.fontColor,
         fontSize : 15,
         marginBottom : 5,
+    },
+    footnote : {
+        color : colors.fontColor,
+        fontSize : 12,
+        marginTop : 5,
+    },
+    fieldSet : {
+        backgroundColor : '#79ACC9',
+        alignItems : 'center',
+        padding : 10,
     },
 });
 
@@ -53,7 +75,6 @@ export default class SetupAccount extends React.PureComponent<Props> {
         } = this.state;
         return (
             <View style={_styles.createAccountContainer}>
-                <Text style={_styles.label}>Set up your address</Text>
                 <TextInput
                     value={username.value}
                     placeholder="Username"
@@ -81,6 +102,35 @@ export default class SetupAccount extends React.PureComponent<Props> {
                     wrapperStyle={_styles.textInputWrapper}
                     onChange={(value) => this.setFields('password2', value)}
                 />
+
+                <View style={_styles.fieldSet}>
+                    <Text style={_styles.label}>Enter 4 digit code</Text>
+                    <TextInput
+                        value={password2.value}
+                        placeholder="••••"
+                        style={_styles.codeTxtInput}
+                        error={password2.errorMessage}
+                        placeholderTextColor="#FFF"
+                        wrapperStyle={_styles.codeTxtInputWrapper}
+                        onChange={(value) => this.setFields('password2', value)}
+                    />
+                    <Text style={_styles.label}>Confirm code</Text>
+                    <TextInput
+                        value={password2.value}
+                        placeholder="••••"
+                        style={_styles.codeTxtInput}
+                        error={password2.errorMessage}
+                        placeholderTextColor="#FFF"
+                        wrapperStyle={_styles.codeTxtInputWrapper}
+                        onChange={(value) => this.setFields('password2', value)}
+                    />
+                </View>
+
+                <Text style={_styles.footnote}>
+                    By clicking Done you have agreed with the 
+                    <Text style={{color : 'yellow'}}>{' '}Terms and Conditions{' '}</Text>
+                    of Seculace
+                </Text>
             </View>
         );
     }

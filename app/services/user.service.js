@@ -1,10 +1,9 @@
 import UserAction from '../reducers/user/user.action';
 
 class UserService {
-  login = (newUser) => (dispatch) => {
-      console.log('NATAWAG SHAAAA', newUser);
-    dispatch(UserAction.setNewUser(newUser));
-  };
+    login = (newUser) => (dispatch) => {
+        dispatch(UserAction.setNewUser(newUser));
+    };
 
 }
 

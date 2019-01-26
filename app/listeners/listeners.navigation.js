@@ -41,7 +41,7 @@ class Listeners extends React.Component<Props, State> {
       nextAppState.match(/inactive|background/)
     ) {
       // it is called when the app become inactive or background
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate('ControlDevice');
     }
     this.setState({ appState: nextAppState });
   };

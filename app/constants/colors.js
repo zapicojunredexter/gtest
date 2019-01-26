@@ -4,5 +4,6 @@ export const colors = {
     },
     responder : {
         main : '#A50E15',
-    }
+    },
+    fontColor : '#FFF',
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import Text from 'react-native';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import InitialRoute from './InitialRoute';
-import Home from '../containers/home/home';
+import { ControlDevice, Contacts, Messages, Notifications, VIP, WhitePane } from '../containers/home';
 import Login from '../containers/authentication/login';
 import Registration from '../containers/authentication/registration';
 import DrawerMenu from './drawer.menu';
@@ -16,10 +16,12 @@ const AuthenticationStack = createStackNavigator({
 });
 
 const MainStack = createStackNavigator({
-    Home: {
-        screen: Home,
-        navigationOptions: ({ navigation }) => ({}),
-    },
+    ControlDevice: { screen: ControlDevice },
+    Contacts: { screen: Contacts },
+    Messages: { screen: Messages },
+    Notifications: { screen: Notifications },
+    VIP: { screen: VIP },
+    WhitePane: { screen: WhitePane },
 });
 
 
