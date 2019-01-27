@@ -15,6 +15,7 @@ class Messages extends React.PureComponent<Props> {
         headerLeft : null,
     }
     render() {
+        console.log('HERE U ARE', this.props.navigation.state)
         return (
             <View>
                 <Text>Messages</Text>

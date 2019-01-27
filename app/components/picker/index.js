@@ -16,7 +16,6 @@ const _style = StyleSheet.create({
     defaultPicker: {
         borderWidth : 0,
         height : 40,
-        color : colors.fontColor,
     },
     errorMessage : {
         color : 'red',

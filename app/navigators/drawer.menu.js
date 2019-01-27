@@ -54,7 +54,7 @@ class DrawerMenu extends React.Component<Props> {
 
         return (
             <View style={styles.mainContainer}>
-                <View style={{backgroundColor : 'orange',width:'100%',height : 100}} />
+                <View style={{backgroundColor : colors[userType].mainHeader,width:'100%',height : 100}} />
                 <ScrollView>
                     {userLinks.map(userLink => (
                         <TouchableOpacity

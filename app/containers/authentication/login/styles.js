@@ -25,7 +25,6 @@ export default (userType = 'seculacer') => StyleSheet.create({
         marginTop : 30,
     },
     buttons : {
-        backgroundColor : 'orange',
         width : '45%',
         height : 40,
         alignItems : 'center',

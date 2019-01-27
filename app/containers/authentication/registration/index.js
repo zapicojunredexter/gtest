@@ -18,6 +18,7 @@ class Registration extends React.Component<Props> {
     static navigationOptions = ({ navigation }) => ({
         header : null,
     });
+    
 
     constructor(props) {
         super(props);
