@@ -10,4 +10,5 @@ export const colors = {
     fontColor : '#FFF',
     fieldSetBg : '#E4E3DF',
     switchColor : '#49B2F5',
+    error : 'red',
 }
