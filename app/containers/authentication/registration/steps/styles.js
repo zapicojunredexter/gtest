@@ -8,9 +8,6 @@ export default (userType = 'seculacer') => StyleSheet.create({
         alignItems : 'center',
     },
     icon : {
-        height : 50,
-        width : 50,
-        backgroundColor : 'orange',
     },
     label : {
         color : colors.fontColor,

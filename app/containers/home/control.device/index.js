@@ -65,7 +65,7 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
 
 class ControlDevice extends React.PureComponent<Props> {
     static navigationOptions = ({ navigation }) => {
-        const colorSets = colors[navigation.state.params && navigation.state.params.user.type];
+        const colorSets = colors[navigation.state.params && navigation.state.params.user && navigation.state.params.user.type];
         return ({
             title : 'SECULACE',
             headerTitleStyle : {
@@ -74,7 +74,7 @@ class ControlDevice extends React.PureComponent<Props> {
             headerStyle : {
                 backgroundColor : colorSets && colorSets.mainHeader,
             },
-            headerRight : <HeaderRight />,
+            headerRight : <HeaderRight navigation={navigation} />,
             headerLeft : <HeaderLeft />
         });
     };
@@ -110,6 +110,8 @@ class ControlDevice extends React.PureComponent<Props> {
         );
     }
     render() {
+        const { user } = this.props;
+        if(!user) return null;
         const userType = this.props.user.type;
         const styles = _styles(userType);
           

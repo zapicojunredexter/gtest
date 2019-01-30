@@ -4,6 +4,7 @@ import { Text as TextSMS } from 'react-native-openanything';
 import { connect } from 'react-redux';
 import { getUser } from '../selectors/user.selector';
 import { colors } from '../constants/colors';
+import UserActions from '../reducers/user/user.action';
 
 type Props = {
   navigation: {
@@ -46,8 +47,15 @@ const drawerLinks = {
 
 
 class DrawerMenu extends React.Component<Props> {
+
+    onPressLogout = () => {
+        const { navigation, logout } = this.props;
+        logout();
+        navigation.navigate('Login');
+    }
     render() {
         const { navigation, user } = this.props;
+        if(!user) return null;
         const currentPath = navigation.getParam('currentPath', null);
         const userType = user.type;
         const styles = _styles(userType || 'seculacer');
@@ -66,7 +74,7 @@ class DrawerMenu extends React.Component<Props> {
                     ))}
                 </ScrollView>
                 <View style={styles.subOptions}>
-                    <Text onPress={() => navigation.navigate('Login')} style={styles.subOptionTxt}>Logout</Text>
+                    <Text onPress={this.onPressLogout} style={styles.subOptionTxt}>Logout</Text>
                     <Text style={styles.subOptionTxt}>Help</Text>
                     <Text style={styles.subOptionTxt}>Settings</Text>
                     <Text style={styles.subOptionTxt}>About</Text>
@@ -80,6 +88,7 @@ const mapStateToProps = store => ({
     user : getUser(store),
 });
 const mapDispatchProps = dispatch => ({
+    logout : () => dispatch(UserActions.setNewUser(null)),
 });
 
 export default connect(

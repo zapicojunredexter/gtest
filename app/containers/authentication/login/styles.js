@@ -8,8 +8,9 @@ export default (userType = 'seculacer') => StyleSheet.create({
         alignItems : 'center',
     },
     logoWrapper : {
-        backgroundColor : 'orange',
         flex : 1,
+        alignItems : 'center',
+        justifyContent : 'flex-end',
     },
     label : {
         textAlign : 'center',

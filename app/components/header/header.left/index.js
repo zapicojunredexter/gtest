@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
+  Image
 } from 'react-native';
 import { getUser } from '../../../selectors/user.selector';
 
@@ -15,7 +16,14 @@ class HeaderLeft extends React.PureComponent<> {
         const { } = this.props;
         return (
             <TouchableOpacity {...this.props}>
-                <Text>LEFT</Text>
+                <Image
+                    style={{
+                        width: 30,
+                        height: 30,
+                        marginLeft : 10,
+                    }}
+                    source={require('../../../assets/images/user.png')}
+                />
             </TouchableOpacity>
         );
     }

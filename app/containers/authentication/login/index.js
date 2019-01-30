@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   Text,
   View,
+  Image,
 } from 'react-native';
 import UserAction from '../../../reducers/user/user.action';
 import UserService from '../../../services/user.service';
@@ -29,7 +30,7 @@ class Login extends React.PureComponent<Props> {
         super(props);
         this.state = {
             username : {
-                value : '1',
+                value : '',
                 errorMessage : '',
             },
             password : {
@@ -68,7 +69,18 @@ class Login extends React.PureComponent<Props> {
 
         return (
             <View style={_styles.mainContainer}>
-                <View style={_styles.logoWrapper} />
+                <View style={_styles.logoWrapper}>
+                    <Image
+                        style={{
+                            // flex: 1,
+                            // resizeMode : 'cover',
+                            // position: 'absolute',
+                            width: 200,
+                            height: 200,
+                        }}
+                        source={require('../../../assets/images/logo.png')}
+                    />
+                </View>
                 <Text style={_styles.label}>Log in</Text>
                 <View style={_styles.formControls}>
                     <TextField

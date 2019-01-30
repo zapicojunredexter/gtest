@@ -108,6 +108,11 @@ class WhitePane extends React.PureComponent<Props> {
 
         // Map([10.30963,123.90400]);
     }
+
+    onPressEmergencySend = () => {
+        alert('SEND');
+    }
+
     renderEnterPassCode = () => {
         const styles = _styles();
         return (
@@ -124,7 +129,7 @@ class WhitePane extends React.PureComponent<Props> {
             <View style={styles.edmWrapper}>
                 <Text style={styles.edmHeaderTitle}>Emergency Distress Message</Text>
                 <TextInput placeholder="Type message" style={styles.edmTextBox}/>
-                <Button style={styles.edmButton} titleStyle={styles.edmButtonTitle} title="EMERGENCY SEND" />
+                <Button onPress={this.onPressEmergencySend} style={styles.edmButton} titleStyle={styles.edmButtonTitle} title="EMERGENCY SEND" />
                 <View style={{flexDirection : 'row',alignItems : 'center'}}>
                     <View style={{ flex : 1, height : 3, margin : 5, backgroundColor : 'silver'}}/>
                     <Text style={styles.edmHeaderTitle}>Emergency Distress Message</Text>
