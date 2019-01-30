@@ -6,7 +6,7 @@ import {
     Image,
     StyleSheet,
 } from 'react-native';
-
+import { Map } from 'react-native-openanything';
 import { colors } from '../../../constants/colors';
 import TextInput from '../../../components/text.input';
 import HeaderRight from '../../../components/header/header.right';
@@ -105,6 +105,8 @@ class WhitePane extends React.PureComponent<Props> {
 
         const { navigation } = props;
         navigation.setParams({ user : { ...props.user }});
+
+        // Map([10.30963,123.90400]);
     }
     renderEnterPassCode = () => {
         const styles = _styles();

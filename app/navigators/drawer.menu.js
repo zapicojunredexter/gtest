@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, View, ScrollView, StyleSheet } from 'react-native';
+import { Text as TextSMS } from 'react-native-openanything';
 import { connect } from 'react-redux';
 import { getUser } from '../selectors/user.selector';
 import { colors } from '../constants/colors';
@@ -36,7 +37,7 @@ const drawerLinks = {
         {label : 'CONTROL NECKLACE', path : 'ControlDevice'},
         {label : 'WHITE PANE', path : 'WhitePane'},
         {label : 'NOTIFICATION', path : 'Notifications'},
-        {label : 'MESSAGES', path : 'Messages'},
+        {label : 'MESSAGES', path : 'Messages', onPress : () => TextSMS('09771634283')},
         {label : 'CONTACTS', path : 'Contacts'},
         {label : 'VIP', path : 'VIP'},
     ],
@@ -58,13 +59,14 @@ class DrawerMenu extends React.Component<Props> {
                 <ScrollView>
                     {userLinks.map(userLink => (
                         <TouchableOpacity
-                            onPress={() => navigation.navigate(userLink.path)}
+                            onPress={userLink.onPress || (() => navigation.navigate(userLink.path))}
                         >
                             <Text style={styles.navLink}>{userLink.label}</Text>
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
                 <View style={styles.subOptions}>
+                    <Text onPress={() => navigation.navigate('Login')} style={styles.subOptionTxt}>Logout</Text>
                     <Text style={styles.subOptionTxt}>Help</Text>
                     <Text style={styles.subOptionTxt}>Settings</Text>
                     <Text style={styles.subOptionTxt}>About</Text>

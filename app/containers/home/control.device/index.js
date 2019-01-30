@@ -4,13 +4,15 @@ import {
     Text,
     View,
     Button,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight
 } from 'react-native';
 import { getUser } from '../../../selectors/user.selector';
 import { colors } from '../../../constants/colors';
 import HeaderRight from '../../../components/header/header.right';
 import HeaderLeft from '../../../components/header/header.left';
 import Switch from '../../../components/switch';
+import ModalWrapper from '../../../components/modal.wrapper';
 
 type Props = {
 };
@@ -79,6 +81,9 @@ class ControlDevice extends React.PureComponent<Props> {
 
     constructor(props) {
         super(props);
+        this.state = {
+            isModalOpen : false
+        }
         const { navigation } = props;
         navigation.setParams({ user : { ...props.user }});
     }
@@ -107,6 +112,7 @@ class ControlDevice extends React.PureComponent<Props> {
     render() {
         const userType = this.props.user.type;
         const styles = _styles(userType);
+          
         return (
             <View style={styles.mainContainer}>
                 <Text style={styles.headerText}>Device Controller</Text>
@@ -135,7 +141,14 @@ class ControlDevice extends React.PureComponent<Props> {
 
                 <View style={styles.instructionsContainer} />
                 <Button title="messages" onPress={() => this.props.navigation.navigate('Messages',{something:true})}/>
+                <Button title="MODAL" onPress={() => this.setState({isModalOpen : true})}/>
                 
+                <ModalWrapper
+                    visible={this.state.isModalOpen}
+                    closeModal={() => this.setState({isModalOpen : false})}
+                >
+                    <Text>asd</Text>
+                </ModalWrapper>
             </View>
         );
     }

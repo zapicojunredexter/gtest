@@ -19,6 +19,7 @@
     "react-native": "0.55.4",
     "react-native-console-time-polyfill": "0.0.6",
     "react-native-material-textfield": "^0.12.0",
+    "react-native-openanything": "0.0.3",
     "react-navigation": "2.2.5",
     "react-navigation-redux-helpers": "^1.1.2",
     "react-redux": "^5.0.7",

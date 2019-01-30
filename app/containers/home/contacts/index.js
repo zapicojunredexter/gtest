@@ -9,8 +9,13 @@ import {
 } from 'react-native';
 
 import { getUser } from '../../../selectors/user.selector';
+import { getContactList } from '../../../selectors/contacts.selector';
 import { colors } from '../../../constants/colors';
 import Button from '../../../components/button';
+
+import ContactsAction from '../../../reducers/contacts/contacts.action';
+
+import AddContactModal from './add.contact.modal';
 type Props = {
 };
 
@@ -81,8 +86,28 @@ class Contacts extends React.PureComponent<Props> {
         title : 'CONTACTS',
     }
 
+    constructor(props){
+        super(props);
+        // props.setContacts([
+        //     {test:'test1'},
+        //     {test:'test2'},
+        //     {test:'test3'},
+        //     {test:'test4'},
+        // ]);
+        // props.setContacts([]);
+        this.state = {
+            isAddModalOpen : false,
+        };
+    }
+
+    onClickAdd = (data) => {
+        const { addContact } = this.props;
+        addContact(data);
+        this.setState({ isAddModalOpen : false });
+    }
+
     renderContactRow = ({item}) => {
-        const { user } = this.props;
+        const { user, deleteContact } = this.props;
         const styles = _styles(user.type);
         return (
             <View style={styles.rowWrapper}>
@@ -93,14 +118,14 @@ class Contacts extends React.PureComponent<Props> {
                     />
                     <View style={styles.txtWrapper}>
                         <Text style={styles.txtName}>{item.name}</Text>
-                        <Text style={styles.txtContNo}>{item.contact}</Text>
+                        <Text style={styles.txtContNo}>{item.contactNum}</Text>
                         <Text style={styles.txtEmail}>{item.email}</Text>
                     </View>
                     {true && <Text style={{ color : 'yellow', fontSize : 20, }}>★</Text>}
                 </View>
                 <View style={styles.rowRight}>
                     <Text>E</Text>
-                    <Text>D</Text>
+                    <Text onPress={() => deleteContact(JSON.stringify(item))}>D</Text>
                 </View>
             </View>
         );
@@ -108,36 +133,26 @@ class Contacts extends React.PureComponent<Props> {
 
     render() {
         const styles = _styles();
-        const sampleData = [
-            {
-                name : 'person 1',
-                contact : 'contact 1',
-                email : 'email 1',
-            },
-            {
-                name : 'person 2',
-                contact : 'contact 2',
-                email : 'email 2',
-            },
-            {
-                name : 'person 3',
-                contact : 'contact 3',
-                email : 'email 3',
-            },
-            {
-                name : 'person 4',
-                contact : 'contact 4',
-                email : 'email 4',
-            }
-        ];
+        const { isAddModalOpen } = this.state;
+        const { contactList } = this.props;
         return (
             <View style={styles.mainContainer}>
                 <View style={styles.formControlWrapper}>
-                    <Button style={styles.addButton} titleStyle={styles.addButtonTitle} title="Add"/>
+                    <Button
+                        style={styles.addButton}
+                        titleStyle={styles.addButtonTitle}
+                        title="Add"
+                        onPress={() => this.setState({ isAddModalOpen : true })}
+                    />
                 </View>
                 <FlatList
-                    data={sampleData}
+                    data={contactList}
                     renderItem={this.renderContactRow}
+                />
+                <AddContactModal
+                    visible={isAddModalOpen}
+                    onClose={() => this.setState({ isAddModalOpen : false })}
+                    onSubmit={this.onClickAdd}
                 />
             </View>
         );
@@ -145,8 +160,12 @@ class Contacts extends React.PureComponent<Props> {
 }
 const mapStateToProps = store => ({
     user : getUser(store),
+    contactList : getContactList(store),
 });
 const mapDispatchToProps = dispatch => ({
+    setContacts : contacts => dispatch(ContactsAction.setContacts(contacts)),
+    addContact : contact => dispatch(ContactsAction.addContact(contact)),
+    deleteContact : contactId => dispatch(ContactsAction.deleteContact(contactId)),
 });
 
 export default connect(

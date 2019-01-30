@@ -8,7 +8,7 @@ import {
     FlatList,
     Image,
 } from 'react-native';
-
+import { Call, Text as TextSMS } from 'react-native-openanything';
 import { getUser } from '../../../selectors/user.selector';
 import { colors } from '../../../constants/colors';
 import HeaderRight from '../../../components/header/header.right';
@@ -151,8 +151,8 @@ class EDM extends React.PureComponent<Props> {
                         <Text style={styles.txtName}>{item.name}</Text>
                         <Text style={styles.txtContNo}>{`${item.contact}        ${item.email}`}</Text>
                         <View style={styles.buttonWrapper}>
-                            <Button titleStyle={styles.msgTitleButton} style={[styles.button,styles.msgButton]} title="MESSAGE" />
-                            <Button titleStyle={styles.callTitleButton} style={[styles.button,styles.callButton]} title="CALL" />
+                            <Button onPress={() => TextSMS('+639569006808', 'MY smessage').catch(err => console.error(err))} titleStyle={styles.msgTitleButton} style={[styles.button,styles.msgButton]} title="MESSAGE" />
+                            <Button onPress={() => Call('+639569006808').catch(err => console.error(err))} titleStyle={styles.callTitleButton} style={[styles.button,styles.callButton]} title="CALL" />
                         </View>
                     </View>
                     <Text>ARROW</Text>
