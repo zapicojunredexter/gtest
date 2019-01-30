@@ -29,7 +29,7 @@ class Login extends React.PureComponent<Props> {
         super(props);
         this.state = {
             username : {
-                value : '',
+                value : '1',
                 errorMessage : '',
             },
             password : {
@@ -52,7 +52,7 @@ class Login extends React.PureComponent<Props> {
             type : this.state.username.value == 1 ? 'responder' : 'seculacer'
         }
         login(newUser);
-        navigation.navigate('ControlDevice')
+        navigation.navigate(newUser.type === 'seculacer' ? 'ControlDevice' : 'EDM');
     }
 
     render() {

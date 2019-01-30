@@ -4,7 +4,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    FlatList
 } from 'react-native';
 
 import { colors } from '../../../constants/colors';
