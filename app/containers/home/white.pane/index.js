@@ -4,6 +4,7 @@ import {
     Text,
     View,
     Image,
+    Slider,
     StyleSheet,
 } from 'react-native';
 import { Map } from 'react-native-openanything';
@@ -13,7 +14,11 @@ import HeaderRight from '../../../components/header/header.right';
 import HeaderLeft from '../../../components/header/header.left';
 import Button from '../../../components/button';
 import WebView from '../../../components/webview';
+import RadioButton from '../../../components/radio.button';
 import { getUser } from '../../../selectors/user.selector';
+import { getFavContacts } from '../../../selectors/contacts.selector';
+import { getEdmPreferred, getTemplateMessage } from '../../../selectors/white.pane.selector';
+import WhitePaneActions from '../../../reducers/white.pane/white.pane.action';
 
 type Props = {
 };
@@ -66,9 +71,10 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
         padding : 5,
         marginTop : 10,
         marginBottom : 10,
+        color : 'black',
     },
     edmButton : {
-        backgroundColor : 'red',
+        backgroundColor : colors.responder.mainHeader,
         width : '70%',
         borderRadius : 3,
         alignSelf : 'center',
@@ -101,6 +107,7 @@ class WhitePane extends React.PureComponent<Props> {
         super(props);
         this.state = {
             isMapShown : true,
+            templateMessage : props.templateMessage,
         };
 
         const { navigation } = props;
@@ -125,16 +132,45 @@ class WhitePane extends React.PureComponent<Props> {
 
     renderEDMBody = () => {
         const styles = _styles();
+        const { edmPreferred, setEDMPreferred, editTemplate } = this.props;
         return (
             <View style={styles.edmWrapper}>
                 <Text style={styles.edmHeaderTitle}>Emergency Distress Message</Text>
-                <TextInput placeholder="Type message" style={styles.edmTextBox}/>
+                <TextInput onChangeText={(value) => this.setState({templateMessage : value})} value={this.state.templateMessage} placeholder="Type message" style={styles.edmTextBox}/>
+                <Button style={{marginBottom : 20}} titleStyle={{textAlign : 'right'}} title="Save template" onPress={() => editTemplate(this.state.templateMessage)} />
                 <Button onPress={this.onPressEmergencySend} style={styles.edmButton} titleStyle={styles.edmButtonTitle} title="EMERGENCY SEND" />
                 <View style={{flexDirection : 'row',alignItems : 'center'}}>
                     <View style={{ flex : 1, height : 3, margin : 5, backgroundColor : 'silver'}}/>
                     <Text style={styles.edmHeaderTitle}>Emergency Distress Message</Text>
                     <View style={{ flex : 1, height : 3, margin : 5, backgroundColor : 'silver'}}/>
                 </View>
+                <View style={{flexDirection : 'row', justifyContent : 'space-between', width: '80%', alignItems : 'center'}}>
+                    <RadioButton onPress={() => setEDMPreferred('responders')} selected={edmPreferred === 'responders'}/>
+                    <Text>Watcher</Text>
+                    <RadioButton onPress={() => setEDMPreferred('contacts')} selected={edmPreferred === 'contacts'}/>
+                    <Text>Contacts</Text>
+                </View>
+                {/*
+                <Slider
+                    minimumValue={1}
+                    maximumValue={2}
+                    step={1}
+                    thumbImage={<Image src={require('../../../assets/images/user.png')} />}
+                    trackStyle={{
+                        height: 20,
+                        backgroundColor: '#303030',
+                      }}
+            thumbStyle={{
+                width: 30,
+                height: 30,
+                backgroundColor: 'rgba(150, 150, 150, 0.3)',
+                borderColor: 'rgba(150, 150, 150, 0.6)',
+                borderWidth: 14,
+                borderRadius: 15,
+              }}
+            minimumTrackTintColor='#2f2f2f'
+                />*/}
+                <Button style={{margin : 15, backgroundColor : 'red'}} title="CALL" onPress={() => alert('CALL')} />
             </View>
         );
     }
@@ -186,8 +222,13 @@ class WhitePane extends React.PureComponent<Props> {
 }
 const mapStateToProps = store => ({
     user : getUser(store),
+    favContacts : getFavContacts(store),
+    edmPreferred : getEdmPreferred(store),
+    templateMessage : getTemplateMessage(store),
 });
 const mapDispatchToProps = dispatch => ({
+    setEDMPreferred : edmPreferred => dispatch(WhitePaneActions.setEdmPreferred(edmPreferred)),
+    editTemplate : templateMessage => dispatch(WhitePaneActions.setTemplateMessage(templateMessage)),
 });
 
 export default connect(

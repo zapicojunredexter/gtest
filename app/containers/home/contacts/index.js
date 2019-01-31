@@ -6,6 +6,8 @@ import {
     FlatList,
     StyleSheet,
     Image,
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 
 import { getUser } from '../../../selectors/user.selector';
@@ -107,13 +109,13 @@ class Contacts extends React.PureComponent<Props> {
     }
 
     renderContactRow = ({item}) => {
-        const { user, deleteContact } = this.props;
+        const { user, deleteContact, editContact } = this.props;
         const styles = _styles(user.type);
         return (
             <View style={styles.rowWrapper}>
-                <View style={styles.rowLeft}>
+                <TouchableOpacity onPress={() => editContact({...item, isFav : !item.isFav})}style={styles.rowLeft}>
                     <Image
-                        source={require('../../../assets/images/googlemapsbg.jpg')}
+                        source={require('../../../assets/images/user.png')}
                         style={styles.userProfilePic}
                     />
                     <View style={styles.txtWrapper}>
@@ -121,11 +123,36 @@ class Contacts extends React.PureComponent<Props> {
                         <Text style={styles.txtContNo}>{item.contactNum}</Text>
                         <Text style={styles.txtEmail}>{item.email}</Text>
                     </View>
-                    {true && <Text style={{ color : 'yellow', fontSize : 20, }}>★</Text>}
-                </View>
+                    {item.isFav && <Text style={{ color : 'yellow', fontSize : 20, }}>★</Text>}
+                </TouchableOpacity>
                 <View style={styles.rowRight}>
                     <Text>E</Text>
-                    <Text onPress={() => deleteContact(JSON.stringify(item))}>D</Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            Alert.alert(
+                                'Delete Contact',
+                                'Are you sure you want to delete contact?',
+                                [
+                                    {
+                                        text: 'Yes',
+                                        onPress: () => deleteContact(item.id),
+                                    },
+                                    {
+                                        text: 'Cancel',
+                                        onPress: () => {},
+                                        style: 'cancel',
+                                    },
+                                ],
+                                {cancelable: false},
+                            );
+                            ;
+                        }}
+                    >
+                        <Image
+                            source={require('../../../assets/images/delete.png')}
+                            style={{ width : 20, height : 20 }}
+                        />
+                    </TouchableOpacity>
                 </View>
             </View>
         );
@@ -166,6 +193,7 @@ const mapDispatchToProps = dispatch => ({
     setContacts : contacts => dispatch(ContactsAction.setContacts(contacts)),
     addContact : contact => dispatch(ContactsAction.addContact(contact)),
     deleteContact : contactId => dispatch(ContactsAction.deleteContact(contactId)),
+    editContact : contact => dispatch(ContactsAction.editContact(contact)),
 });
 
 export default connect(
