@@ -114,18 +114,33 @@ class WhitePane extends React.PureComponent<Props> {
 
         const { navigation } = props;
         navigation.setParams({ user : { ...props.user }});
-
         // Map([10.30963,123.90400]);
     }
 
-    onPressEmergencySend = () => {
-        const { favContacts } = this.props;
-
-        SendSMS.send(123, "09672046590", "Hey.., this is me!\nGood to see you. Have a nice day.",
-        (msg)=>{
-        alert(msg);
+    onPressEmergencySend = async () => {
+        const { edmPreferred, favContacts, templateMessage } = this.props;
+        const array = favContacts.map(contact => contact.contactNum);
+        
+        if(edmPreferred === 'contacts'){
+            if(favContacts.length > 0){        
+                array.forEach((arr,index) => {
+                    SendSMS.send(
+                        index,
+                        arr,
+                        templateMessage,
+                        (msg) => alert('Messsages have been sent')
+                    );
+                });
+            }else{
+                alert('No contacts have been set')
+            }
         }
-    );
+        if(edmPreferred === 'responders'){
+            alert('TODO : SEND MESSAGE EDM RESPONDER');
+        }
+        // 09672046590 ekong
+        // 
+
     }
 
     onTriggerCall = () => {
