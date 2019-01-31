@@ -7,6 +7,7 @@ import {
     Slider,
     StyleSheet,
 } from 'react-native';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
 import SendSMS from 'react-native-sms-x';
 import { Map } from 'react-native-openanything';
@@ -110,7 +111,17 @@ class WhitePane extends React.PureComponent<Props> {
         this.state = {
             isMapShown : true,
             templateMessage : props.templateMessage,
+            currentLocation:{
+                latitude: 37.78825,
+                longitude:-122.4324,
+            }
         };
+        setInterval(() => this.setState({
+            currentLocation:{
+                latitude: this.state.currentLocation.latitude + 0.0001,
+                longitude: this.state.currentLocation.longitude + 0.0001,
+            }
+        }), 1000);
 
         const { navigation } = props;
         navigation.setParams({ user : { ...props.user }});
@@ -218,8 +229,10 @@ class WhitePane extends React.PureComponent<Props> {
     }
 
     renderMapBody = () => {
+        console.log('HOY',this.state.currentLocation);
         return (
             <View style={{flex:1}}>
+                {/*
                 <WebView
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
@@ -227,6 +240,33 @@ class WhitePane extends React.PureComponent<Props> {
                     source={{uri: 'https://www.google.com/maps/place/Cebu+City,+Cebu/@10.3901115,123.75039,11.44z/data=!4m5!3m4!1s0x33a999258dcd2dfd:0x4c34030cdbd33507!8m2!3d10.3156992!4d123.8854366'}}
                     style={{flex : 1,margin : 15}}
                 />
+                */}
+
+                <MapView
+                    provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                    style={{
+                        ...StyleSheet.absoluteFillObject,
+                    }}
+                    initialRegion={{
+                        latitude: 37.78825,
+                        longitude: -122.4324,
+                        latitudeDelta: 0.015,
+                        longitudeDelta: 0.0121,
+                    }}
+                    moveOnMarkerPress={false}
+                    showsUserLocation
+                    showsPointsOfInterest={false}
+                    followsUserLocation={true}   
+                    showsUserLocation       
+                >
+                <Marker.Animated
+                    coordinate={this.state.currentLocation}
+                    title={"title"}
+                    description={"descr"}
+                    identifier={"123"}
+                    key={"123"}
+                />
+                </MapView>
             </View>
         );
     }
