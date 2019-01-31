@@ -118,7 +118,23 @@ class WhitePane extends React.PureComponent<Props> {
     }
 
     onPressEmergencySend = () => {
-        alert('SEND');
+        const { favContacts } = this.props;
+    }
+
+    onTriggerCall = () => {
+        // RNImmediatePhoneCall.immediatePhoneCall('09672046590');
+        const { edmPreferred, favContacts } = this.props;
+        if(edmPreferred === 'contacts'){
+            if(favContacts.length > 0){
+                const callNumber = favContacts[0].contactNum;
+                RNImmediatePhoneCall.immediatePhoneCall(callNumber);
+            }else{
+                alert('No contacts have been set')
+            }
+        }
+        if(edmPreferred === 'responders'){
+            alert('TODO : CALL EDM RESPONDER');
+        }
     }
 
     renderEnterPassCode = () => {
@@ -174,7 +190,7 @@ class WhitePane extends React.PureComponent<Props> {
                 <Button
                     style={{margin : 15, backgroundColor : 'red'}}
                     title="CALL"
-                    onPress={() => RNImmediatePhoneCall.immediatePhoneCall('09672046590')} />
+                    onPress={this.onTriggerCall} />
             </View>
         );
     }
