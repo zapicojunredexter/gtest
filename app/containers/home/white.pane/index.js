@@ -8,6 +8,7 @@ import {
     StyleSheet,
 } from 'react-native';
 import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
+import SendSMS from 'react-native-sms-x';
 import { Map } from 'react-native-openanything';
 import { colors } from '../../../constants/colors';
 import TextInput from '../../../components/text.input';
@@ -119,6 +120,12 @@ class WhitePane extends React.PureComponent<Props> {
 
     onPressEmergencySend = () => {
         const { favContacts } = this.props;
+
+        SendSMS.send(123, "09672046590", "Hey.., this is me!\nGood to see you. Have a nice day.",
+        (msg)=>{
+        alert(msg);
+        }
+    );
     }
 
     onTriggerCall = () => {

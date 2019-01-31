@@ -111,6 +111,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/banana2/Desktop/seculace/android/app/build/intermediates/exploded-aar/SecuLace/react-native-sms-x/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="31fa5c8183ec40f729221a279d803e281f373d9d">
+        <dex dex="/Users/banana2/Desktop/seculace/android/app/build/intermediates/pre-dexed/debug/SecuLace-react-native-sms-x-unspecified_9dfb8e203204a1014bd31344bc9902593b9b6568.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/banana2/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
         jumboMode="false"
         optimize="true"
