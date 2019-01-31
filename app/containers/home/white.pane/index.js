@@ -7,6 +7,7 @@ import {
     Slider,
     StyleSheet,
 } from 'react-native';
+import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
 import { Map } from 'react-native-openanything';
 import { colors } from '../../../constants/colors';
 import TextInput from '../../../components/text.input';
@@ -170,7 +171,10 @@ class WhitePane extends React.PureComponent<Props> {
               }}
             minimumTrackTintColor='#2f2f2f'
                 />*/}
-                <Button style={{margin : 15, backgroundColor : 'red'}} title="CALL" onPress={() => alert('CALL')} />
+                <Button
+                    style={{margin : 15, backgroundColor : 'red'}}
+                    title="CALL"
+                    onPress={() => RNImmediatePhoneCall.immediatePhoneCall('09672046590')} />
             </View>
         );
     }

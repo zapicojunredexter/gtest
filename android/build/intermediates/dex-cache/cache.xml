@@ -156,6 +156,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/banana2/Desktop/seculace/android/app/build/intermediates/exploded-aar/SecuLace/react-native-immediate-phone-call/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="dc8609afc60af0dc1edce146617d1733cd919dc7">
+        <dex dex="/Users/banana2/Desktop/seculace/android/app/build/intermediates/pre-dexed/debug/SecuLace-react-native-immediate-phone-call-unspecified_5e6a8004f23c88e323e83f62258b4a6078903010.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/banana2/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
         jumboMode="false"
         optimize="true"
