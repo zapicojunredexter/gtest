@@ -6,6 +6,9 @@ import { ControlDevice, Contacts, Messages, Notifications, VIP, WhitePane, EDM }
 import Login from '../containers/authentication/login';
 import Registration from '../containers/authentication/registration';
 import DrawerMenu from './drawer.menu';
+import HeaderLeft from '../components/header/header.left';
+import HeaderRight from '../components/header/header.right';
+import { colors } from '../constants/colors';
 const AuthenticationStack = createStackNavigator({
     Login : {
         screen : Login,
@@ -16,14 +19,63 @@ const AuthenticationStack = createStackNavigator({
 });
 
 const MainStack = createStackNavigator({
-    ControlDevice: { screen: ControlDevice },
-    Contacts: { screen: Contacts },
-    Messages: { screen: Messages },
-    Notifications: { screen: Notifications },
-    VIP: { screen: VIP },
-    WhitePane: { screen: WhitePane },
-    EDM : { screen: EDM },
-});
+    ControlDevice: {
+        screen: ControlDevice,
+        navigationOptions : {
+            title : 'SECULACE'
+        }
+    },
+    Contacts: {
+        screen: Contacts,
+        navigationOptions : {
+            title : 'CONTACTS'
+        }
+    },
+    Messages: {
+        screen: Messages,
+        navigationOptions : {
+            title : 'MESSAGES'
+        }
+    },
+    Notifications: {
+        screen: Notifications,
+        navigationOptions : {
+            title : 'NOTIFICATIONS'
+        }
+    },
+    VIP: {
+        screen: VIP,
+        navigationOptions : {
+            title : 'VIP'
+        }
+    },
+    WhitePane: {
+        screen: WhitePane,
+        navigationOptions : {
+            title : 'WHITE PANE'
+        }
+    },
+    EDM : {
+        screen: EDM,
+        navigationOptions : {
+            title : 'SECULACE'
+        }
+    },
+},
+
+{
+    // headerMode: 'none',
+    navigationOptions : ({ navigation }) => {
+        return ({
+            headerTitleStyle : {
+                color : colors.fontColor,
+            },
+            headerRight : <HeaderRight navigation={navigation} />,
+            headerLeft : <HeaderLeft />
+        });
+    },
+  }
+);
 
 
 const HomeStack = createDrawerNavigator({

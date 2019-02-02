@@ -7,7 +7,8 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
-    Alert
+    Alert,
+    TextInput
 } from 'react-native';
 
 import { getUser } from '../../../selectors/user.selector';
@@ -72,20 +73,27 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
         backgroundColor : colors[userType].mainHeader,
         width : 100,
         right : 0,
-        margin : 10
+        margin : 10,
+        alignItems : 'center',
+        justifyContent : 'center',
     },
     addButtonTitle : {
         color : colors.fontColor,
     },
     formControlWrapper : {
-        alignItems : 'flex-end',
+        // alignItems : 'flex-end',
         flexDirection : 'row'
     },
 });
 
 class Contacts extends React.PureComponent<Props> {
-    static navigationOptions = {
-        title : 'CONTACTS',
+    static navigationOptions = ({ navigation }) => {
+        const colorSets = colors['seculacer'];
+        return ({
+            headerStyle : {
+                backgroundColor : colorSets && colorSets.mainHeader,
+            },
+        });
     }
 
     constructor(props){
@@ -170,6 +178,15 @@ class Contacts extends React.PureComponent<Props> {
                         titleStyle={styles.addButtonTitle}
                         title="Add"
                         onPress={() => this.setState({ isAddModalOpen : true })}
+                    />
+                    <TextInput
+                        style={{
+                            margin : 10,
+                            borderRadius : 3,
+                            borderWidth : 1,
+                            borderColor : 'gray',
+                            flex : 1,
+                        }}
                     />
                 </View>
                 <FlatList

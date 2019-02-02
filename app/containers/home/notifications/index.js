@@ -4,15 +4,24 @@ import {
     Text,
     View,
 } from 'react-native';
+import { colors } from '../../../constants/colors';
 
 type Props = {
 };
 
 
 class Notifications extends React.PureComponent<Props> {
-    static navigationOptions = {
-        title : 'NOTIFICATIONS',
+    static navigationOptions = ({ navigation }) => {
+        const colorSets = colors['seculacer'];
+        return ({
+            headerStyle : {
+                backgroundColor : colorSets && colorSets.mainHeader,
+            },
+        });
     }
+    // static navigationOptions = {
+    //     title : 'NOTIFICATIONS',
+    // }
     render() {
         return (
             <View>

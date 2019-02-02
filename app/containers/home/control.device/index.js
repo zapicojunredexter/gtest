@@ -65,32 +65,37 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
 
 class ControlDevice extends React.PureComponent<Props> {
     static navigationOptions = ({ navigation }) => {
-        const colorSets = colors[navigation.state.params && navigation.state.params.user && navigation.state.params.user.type];
+        const colorSets = colors['seculacer'];
         return ({
-            title : 'SECULACE',
-            headerTitleStyle : {
-                color : colors.fontColor,
-            },
             headerStyle : {
                 backgroundColor : colorSets && colorSets.mainHeader,
             },
-            headerRight : <HeaderRight navigation={navigation} />,
-            headerLeft : <HeaderLeft />
         });
-    };
+    }
+    // static navigationOptions = ({ navigation }) => {
+    //     const colorSets = colors[navigation.state.params && navigation.state.params.user && navigation.state.params.user.type];
+    //     return ({
+    //         title : 'SECULACE',
+    //         headerTitleStyle : {
+    //             color : colors.fontColor,
+    //         },
+    //         headerStyle : {
+    //             backgroundColor : colorSets && colorSets.mainHeader,
+    //         },
+    //         headerRight : <HeaderRight navigation={navigation} />,
+    //         headerLeft : <HeaderLeft />
+    //     });
+    // };
 
     constructor(props) {
         super(props);
         this.state = {
             isModalOpen : false
         }
-        const { navigation } = props;
-        navigation.setParams({ user : { ...props.user }});
     }
 
     renderRow = (rowDetails, hasSettings) => {
-        const userType = this.props.user.type;
-        const styles = _styles(userType);
+        const styles = _styles('seculacer');
         const { title, description, value } = rowDetails;
         return (
             <View style={styles.rowWrapper}>
@@ -112,8 +117,8 @@ class ControlDevice extends React.PureComponent<Props> {
     render() {
         const { user } = this.props;
         if(!user) return null;
-        const userType = this.props.user.type;
-        const styles = _styles(userType);
+        // const userType = this.props.user.type;
+        const styles = _styles('seculacer');
           
         return (
             <View style={styles.mainContainer}>
@@ -142,15 +147,7 @@ class ControlDevice extends React.PureComponent<Props> {
                 },false)}
 
                 <View style={styles.instructionsContainer} />
-                <Button title="messages" onPress={() => this.props.navigation.navigate('Messages',{something:true})}/>
-                <Button title="MODAL" onPress={() => this.setState({isModalOpen : true})}/>
                 
-                <ModalWrapper
-                    visible={this.state.isModalOpen}
-                    closeModal={() => this.setState({isModalOpen : false})}
-                >
-                    <Text>asd</Text>
-                </ModalWrapper>
             </View>
         );
     }

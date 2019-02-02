@@ -76,10 +76,18 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
 
 
 class Messages extends React.PureComponent<Props> {
-    static navigationOptions = {
-        title : 'MESSAGES',
-        headerLeft : null,
+    static navigationOptions = ({ navigation }) => {
+        const colorSets = colors['seculacer'];
+        return ({
+            headerStyle : {
+                backgroundColor : colorSets && colorSets.mainHeader,
+            },
+        });
     }
+    // static navigationOptions = {
+    //     title : 'MESSAGES',
+    //     headerLeft : null,
+    // }
 
     onSelectItem = () => {
 

@@ -92,19 +92,27 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
 
 class WhitePane extends React.PureComponent<Props> {
     static navigationOptions = ({ navigation }) => {
-        const colorSets = colors[navigation.state.params && navigation.state.params.user.type || 'seculacer'];
+        const colorSets = colors['seculacer'];
         return ({
-            title : 'WHITE PANE',
-            headerTitleStyle : {
-                color : colors.fontColor,
-            },
             headerStyle : {
                 backgroundColor : colorSets && colorSets.mainHeader,
             },
-            headerRight : <HeaderRight />,
-            headerLeft : <HeaderLeft />
         });
-    };
+    }
+    // static navigationOptions = ({ navigation }) => {
+    //     const colorSets = colors[navigation.state.params && navigation.state.params.user.type || 'seculacer'];
+    //     return ({
+    //         title : 'WHITE PANE',
+    //         headerTitleStyle : {
+    //             color : colors.fontColor,
+    //         },
+    //         headerStyle : {
+    //             backgroundColor : colorSets && colorSets.mainHeader,
+    //         },
+    //         headerRight : <HeaderRight />,
+    //         headerLeft : <HeaderLeft />
+    //     });
+    // };
 
     constructor(props) {
         super(props);
@@ -112,8 +120,8 @@ class WhitePane extends React.PureComponent<Props> {
             isMapShown : true,
             templateMessage : props.templateMessage,
             currentLocation:{
-                latitude: 37.78825,
-                longitude:-122.4324,
+                latitude: 10.2997468,
+                longitude: 123.9031766,
             }
         };
         setInterval(() => this.setState({
@@ -123,8 +131,8 @@ class WhitePane extends React.PureComponent<Props> {
             }
         }), 1000);
 
-        const { navigation } = props;
-        navigation.setParams({ user : { ...props.user }});
+        // const { navigation } = props;
+        // navigation.setParams({ user : { ...props.user }});
         // Map([10.30963,123.90400]);
     }
 
@@ -221,17 +229,22 @@ class WhitePane extends React.PureComponent<Props> {
             minimumTrackTintColor='#2f2f2f'
                 />*/}
                 <Button
-                    style={{margin : 15, backgroundColor : 'red'}}
-                    title="CALL"
+                    style={{
+                        margin : 15,
+                        backgroundColor : colors.responder.main,
+                        padding : 10,
+                        borderRadius : 3,
+                    }}
+                    titleStyle={{textAlign : 'center',color : colors.fontColor}}
+                    title="EMERGENCY CALL"
                     onPress={this.onTriggerCall} />
             </View>
         );
     }
 
     renderMapBody = () => {
-        console.log('HOY',this.state.currentLocation);
         return (
-            <View style={{flex:1}}>
+            <View style={{flex:1, margin : 20 }}>
                 {/*
                 <WebView
                     javaScriptEnabled={true}
@@ -248,8 +261,8 @@ class WhitePane extends React.PureComponent<Props> {
                         ...StyleSheet.absoluteFillObject,
                     }}
                     initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
+                        latitude: 10.2997468,
+                        longitude: 123.9031766,
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                     }}

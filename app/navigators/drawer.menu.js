@@ -38,7 +38,12 @@ const drawerLinks = {
         {label : 'CONTROL NECKLACE', path : 'ControlDevice'},
         {label : 'WHITE PANE', path : 'WhitePane'},
         {label : 'NOTIFICATION', path : 'Notifications'},
-        {label : 'MESSAGES', path : 'Messages', onPress : () => TextSMS('09771634283')},
+        {
+            label : 'MESSAGES',
+            path : 'Messages',
+            onPress : () => TextSMS('09771634283'),
+            onPress : () => TextSMS('09569006808', 'zxc'),
+        },
         {label : 'CONTACTS', path : 'Contacts'},
         {label : 'VIP', path : 'VIP'},
     ],
@@ -47,7 +52,12 @@ const drawerLinks = {
 
 
 class DrawerMenu extends React.Component<Props> {
-
+    constructor(props){
+        super(props);
+        const { navigation } = props;
+        navigation.setParams({ user : { ...props.user }});
+        
+    }
     onPressLogout = () => {
         const { navigation, logout } = this.props;
         logout();

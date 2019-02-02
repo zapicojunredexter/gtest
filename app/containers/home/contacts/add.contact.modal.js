@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Modal,
     TouchableWithoutFeedback,
+    Image
 } from 'react-native';
 
 import { getUser } from '../../../selectors/user.selector';
@@ -57,14 +58,38 @@ export default class AddContact extends React.PureComponent<Props> {
                 <TouchableOpacity onPress={onClose} style={styles.mainContainer}>
                     
                     <TouchableOpacity onPress={null} style={{width : '80%', backgroundColor : 'white', padding : 30}}>
-                        <TouchableOpacity onPress={onClose}>
-                            <Text>CLOSE</Text>
-                        </TouchableOpacity>
+                        <Image
+                            source={require('../../../assets/images/contact.png')}
+                            style={{alignSelf : 'center',width : 50,height : 50}}
+                        />
                         <TextInput underlineColorAndroid="#336699" placeholder="Name" onChangeText={text => this.setState({ name : text })} value={name} style={{color: 'black'}} />
                         <TextInput underlineColorAndroid="#336699" placeholder="Contact Number" onChangeText={text => this.setState({ contactNum : text })} value={contactNum} style={{color: 'black'}} />
                         <TextInput underlineColorAndroid="#336699" placeholder="Email" onChangeText={text => this.setState({ email : text })} value={email} style={{color: 'black'}} />
                     
-                        <Button title="SUBMIT" onPress={() => onSubmit({...this.state})} style={{ backgroundColor : 'blue' }}/>
+                        <View style={{flexDirection  : 'row',justifyContent:'space-between'}}>
+                            <Button
+                                title="SUBMIT"
+                                onPress={() => onSubmit({...this.state})}
+                                style={{
+                                    backgroundColor : colors.seculacer.main,
+                                    width : '47%',
+                                    borderRadius : 3,
+                                    padding : 10,
+                                }}
+                                titleStyle={{textAlign : 'center',color : colors.fontColor}}
+                            />
+                            <Button
+                                title="CANCEL"
+                                onPress={onClose}
+                                style={{
+                                    backgroundColor : 'gray',
+                                    width : '47%',
+                                    borderRadius : 3,
+                                    padding : 10,
+                                }}
+                                titleStyle={{textAlign : 'center',color : colors.fontColor}}
+                            />
+                        </View>
                     </TouchableOpacity>
                     
                 </TouchableOpacity>

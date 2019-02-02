@@ -100,19 +100,28 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
 
 class EDM extends React.PureComponent<Props> { 
     static navigationOptions = ({ navigation }) => {
-        const colorSets = colors[navigation.state.params && navigation.state.params.user.type];
+        const colorSets = colors['responder'];
         return ({
-            title : 'SECULACE',
-            headerTitleStyle : {
-                color : colors.fontColor,
-            },
             headerStyle : {
                 backgroundColor : colorSets && colorSets.mainHeader,
             },
-            headerRight : <HeaderRight />,
-            headerLeft : <HeaderLeft />
         });
     };
+
+    // static navigationOptions = ({ navigation }) => {
+    //     const colorSets = colors[navigation.state.params && navigation.state.params.user.type];
+    //     return ({
+    //         title : 'SECULACE',
+    //         headerTitleStyle : {
+    //             color : colors.fontColor,
+    //         },
+    //         headerStyle : {
+    //             backgroundColor : colorSets && colorSets.mainHeader,
+    //         },
+    //         headerRight : <HeaderRight />,
+    //         headerLeft : <HeaderLeft />
+    //     });
+    // };
 
     constructor(props) {
         super(props);
@@ -125,8 +134,7 @@ class EDM extends React.PureComponent<Props> {
     }
 
     renderTabHeaders = () => {
-        const userType = this.props.user.type
-        const styles = _styles(userType);
+        const styles = _styles('responder');
         const { currentPage } = this.state;
         return (
             <View style={styles.tabsHeaderWrapper}>
@@ -139,7 +147,7 @@ class EDM extends React.PureComponent<Props> {
 
     renderEDMRow = ({item}) => {
         const { user } = this.props;
-        const styles = _styles(user.type);
+        const styles = _styles('responder');
         return (
             <TouchableOpacity onPress={() => this.onSelectItem(item)} style={styles.rowWrapper}>
                 <View style={styles.rowLeft}>
