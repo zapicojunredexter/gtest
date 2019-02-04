@@ -19,6 +19,7 @@ import Button from '../../../components/button';
 import ContactsAction from '../../../reducers/contacts/contacts.action';
 
 import AddContactModal from './add.contact.modal';
+import EditContactModal from './edit.contact.modal';
 type Props = {
 };
 
@@ -107,6 +108,8 @@ class Contacts extends React.PureComponent<Props> {
         // props.setContacts([]);
         this.state = {
             isAddModalOpen : false,
+            filterText : '',
+            toEdit : null,
         };
     }
 
@@ -114,6 +117,12 @@ class Contacts extends React.PureComponent<Props> {
         const { addContact } = this.props;
         addContact(data);
         this.setState({ isAddModalOpen : false });
+    }
+
+    onClickEdit = data => {
+        const { editContact } = this.props;
+        editContact(data);
+        this.setState({ toEdit : null });
     }
 
     renderContactRow = ({item}) => {
@@ -134,7 +143,24 @@ class Contacts extends React.PureComponent<Props> {
                     {item.isFav && <Text style={{ color : 'yellow', fontSize : 20, }}>★</Text>}
                 </TouchableOpacity>
                 <View style={styles.rowRight}>
-                    <Text>E</Text>
+                
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.setState({toEdit : item})
+                        }}
+                        style={{
+                            flex:1,
+                            justifyContent : 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Image
+                            source={require('../../../assets/images/edit.png')}
+                            style={{ width : 15, height : 15 }}
+                        />
+                    </TouchableOpacity>
+
+
                     <TouchableOpacity
                         onPress={() => {
                             Alert.alert(
@@ -155,6 +181,11 @@ class Contacts extends React.PureComponent<Props> {
                             );
                             ;
                         }}
+                        style={{
+                            flex:1,
+                            justifyContent : 'center',
+                            alignItems: 'center',
+                        }}
                     >
                         <Image
                             source={require('../../../assets/images/delete.png')}
@@ -168,8 +199,16 @@ class Contacts extends React.PureComponent<Props> {
 
     render() {
         const styles = _styles();
-        const { isAddModalOpen } = this.state;
+        const { isAddModalOpen, filterText, toEdit } = this.state;
         const { contactList } = this.props;
+        const filteredContacts = contactList.filter((contact) => {
+            const substring = filterText.toLowerCase();
+            return (
+                contact.name.toLowerCase().indexOf(substring) !== -1 ||
+                contact.contactNum.toLowerCase().indexOf(substring) !== -1 ||
+                contact.email.toLowerCase().indexOf(substring) !== -1
+            );
+        })
         return (
             <View style={styles.mainContainer}>
                 <View style={styles.formControlWrapper}>
@@ -187,17 +226,29 @@ class Contacts extends React.PureComponent<Props> {
                             borderColor : 'gray',
                             flex : 1,
                         }}
+                        value={filterText}
+                        onChangeText={(value) => this.setState({filterText : value})}
                     />
                 </View>
                 <FlatList
-                    data={contactList}
+                    data={filteredContacts}
                     renderItem={this.renderContactRow}
                 />
-                <AddContactModal
-                    visible={isAddModalOpen}
-                    onClose={() => this.setState({ isAddModalOpen : false })}
-                    onSubmit={this.onClickAdd}
-                />
+                {isAddModalOpen && (
+                    <AddContactModal
+                        visible={isAddModalOpen}
+                        onClose={() => this.setState({ isAddModalOpen : false })}
+                        onSubmit={this.onClickAdd}
+                    />
+                )}
+                {!!toEdit && (
+                    <EditContactModal
+                        data={toEdit}
+                        visible={(!!toEdit)}
+                        onClose={() => this.setState({ toEdit : null })}
+                        onSubmit={this.onClickEdit}
+                    />
+                )}
             </View>
         );
     }

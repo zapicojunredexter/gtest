@@ -29,14 +29,15 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
     },
 });
 
-export default class AddContact extends React.PureComponent<Props> {
+export default class EditContact extends React.PureComponent<Props> {
     constructor(props){
         super(props);
 
         this.state = {
-            name : '',
-            contactNum : '',
-            email : '',
+            id : props.data.id,
+            name : props.data.name,
+            contactNum : props.data.contactNum,
+            email : props.data.email,
         }
     }
 
@@ -56,7 +57,6 @@ export default class AddContact extends React.PureComponent<Props> {
                 transparent={true}
             >
                 <TouchableOpacity onPress={onClose} style={styles.mainContainer}>
-                    
                     <TouchableOpacity onPress={null} style={{width : '80%', backgroundColor : 'white', padding : 30}}>
                         <Image
                             source={require('../../../assets/images/contact.png')}
@@ -68,7 +68,7 @@ export default class AddContact extends React.PureComponent<Props> {
                     
                         <View style={{flexDirection  : 'row',justifyContent:'space-between'}}>
                             <Button
-                                title="ADD"
+                                title="EDIT"
                                 onPress={() => onSubmit({...this.state})}
                                 style={{
                                     backgroundColor : colors.seculacer.main,

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text, TouchableOpacity, View, ScrollView, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, View, ScrollView, StyleSheet,Image } from 'react-native';
 import { Text as TextSMS } from 'react-native-openanything';
 import { connect } from 'react-redux';
 import { getUser } from '../selectors/user.selector';
+import { getCurrentPath } from '../selectors/system.selector';
 import { colors } from '../constants/colors';
 import UserActions from '../reducers/user/user.action';
+import SystemActions from '../reducers/system/system.action';
 
 type Props = {
   navigation: {
@@ -32,6 +34,10 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
         fontSize : 15,
         color : colors.fontColor,
     },
+    activeLink : {
+        backgroundColor : colors.fontColor,
+        color : colors[userType].mainHeader
+    }
 });
 const drawerLinks = {
     seculacer : [
@@ -64,22 +70,46 @@ class DrawerMenu extends React.Component<Props> {
         navigation.navigate('Login');
     }
     render() {
-        const { navigation, user } = this.props;
+        const { navigation, user, setCurrentPath, currentPath } = this.props;
         if(!user) return null;
-        const currentPath = navigation.getParam('currentPath', null);
         const userType = user.type;
         const styles = _styles(userType || 'seculacer');
         const userLinks = drawerLinks[userType];
 
         return (
             <View style={styles.mainContainer}>
-                <View style={{backgroundColor : colors[userType].mainHeader,width:'100%',height : 100}} />
+                <View style={{
+                    backgroundColor : colors[userType].mainHeader,
+                    width:'100%',
+                    height : 100,
+                    alignItems : 'center',
+                    flexDirection:"row",
+                    paddingLeft : 15,
+                }}>
+                    <Image
+                        style={{
+                            width : 50,
+                            height : 50,
+                        }}
+                        source={require('../assets/images/user.png')}
+                    />
+                    <View>
+                        <Text style={{color : colors.fontColor, fontSize : 17,paddingLeft : 5}}>{userType}</Text>
+                        <Text style={{color : colors.fontColor, fontSize : 12,paddingLeft : 5}}>someone</Text>
+                    </View>
+                </View>
                 <ScrollView>
                     {userLinks.map(userLink => (
                         <TouchableOpacity
-                            onPress={userLink.onPress || (() => navigation.navigate(userLink.path))}
+                            onPress={userLink.onPress || (() => {
+                                setCurrentPath(userLink.path);
+                                navigation.navigate(userLink.path);
+                            })}
                         >
-                            <Text style={styles.navLink}>{userLink.label}</Text>
+                            <Text style={[
+                                styles.navLink,
+                                currentPath === userLink.path && styles.activeLink
+                                ]}>{userLink.label}</Text>
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
@@ -95,10 +125,12 @@ class DrawerMenu extends React.Component<Props> {
 }
 
 const mapStateToProps = store => ({
+    currentPath : getCurrentPath(store),
     user : getUser(store),
 });
 const mapDispatchProps = dispatch => ({
     logout : () => dispatch(UserActions.setNewUser(null)),
+    setCurrentPath : (path) => dispatch(SystemActions.setCurrentPath(path)),
 });
 
 export default connect(

@@ -2,7 +2,16 @@ import React from 'react';
 import Text from 'react-native';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import InitialRoute from './InitialRoute';
-import { ControlDevice, Contacts, Messages, Notifications, VIP, WhitePane, EDM } from '../containers/home';
+import {
+    ControlDevice,
+    Contacts,
+    Messages,
+    Notifications,
+    VIP,
+    WhitePane,
+    EDM,
+    IncidentReport,
+} from '../containers/home';
 import Login from '../containers/authentication/login';
 import Registration from '../containers/authentication/registration';
 import DrawerMenu from './drawer.menu';
@@ -61,6 +70,13 @@ const MainStack = createStackNavigator({
             title : 'SECULACE'
         }
     },
+    IncidentReport : {
+        screen: IncidentReport,
+        navigationOptions : {
+            title : 'SECULACE'
+        }
+    },
+    
 },
 
 {

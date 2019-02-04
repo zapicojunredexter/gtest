@@ -18,6 +18,7 @@ const _styles = StyleSheet.create({
     textInput : {
         backgroundColor : '#79ACC9',
         paddingLeft : 10,
+        color : colors.fontColor
     },
     textInputWrapper : {
         marginBottom : 5,

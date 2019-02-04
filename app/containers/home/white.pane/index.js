@@ -57,6 +57,7 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
     headerComponentsWrapper : {
         flex : 1,
         margin : 30,
+        flexDirection : "row"
     },
     edmWrapper : {
         margin : 20,
@@ -306,9 +307,23 @@ class WhitePane extends React.PureComponent<Props> {
                         source={require('../../../assets/images/googlemapsbg.jpg')}
                     />
                     <View style={styles.headerComponentsWrapper}>
-                        <TextInput placeholder="LOCATION" style={{backgroundColor : 'rgba(122, 122, 214, 0.5)'}}/>
-                        <Button onPress={() => this.setState({isMapShown : !isMapShown})}><Text style={{textAlign : 'right'}}>Toggle map</Text></Button>
+                        
+                        <Image
+                            style={{
+                                width: 40,
+                                height: 40,
+                                backgroundColor : 'white'
+                            }}
+                            source={require('../../../assets/images/whitepane.jpg')}
+                        />
+                        <TextInput placeholder="LOCATION" style={{
+                            backgroundColor : 'rgba(122, 122, 214, 0.5)',
+                            backgroundColor : `${colors.seculacer.mainHeader}50`,
+                            width : '80%'
+                        }}/>
                     </View>
+
+                    <Button onPress={() => this.setState({isMapShown : !isMapShown})}><Text style={{textAlign : 'right'}}>Toggle map</Text></Button>
                 </View>
                 { isMapShown ? this.renderEDMBody() : this.renderMapBody() }
             </View>

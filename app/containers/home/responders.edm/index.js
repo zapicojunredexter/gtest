@@ -133,6 +133,13 @@ class EDM extends React.PureComponent<Props> {
         }
     }
 
+    onSelectItem = (data) => {
+        // alert(JSON.stringify(data));
+        const { navigation } = this.props;
+        console.log('WOOOOT', data);
+        navigation.navigate('IncidentReport', {...data});
+    }
+
     renderTabHeaders = () => {
         const styles = _styles('responder');
         const { currentPage } = this.state;
@@ -159,8 +166,8 @@ class EDM extends React.PureComponent<Props> {
                         <Text style={styles.txtName}>{item.name}</Text>
                         <Text style={styles.txtContNo}>{`${item.contact}        ${item.email}`}</Text>
                         <View style={styles.buttonWrapper}>
-                            <Button onPress={() => TextSMS('+639569006808', 'MY smessage').catch(err => console.error(err))} titleStyle={styles.msgTitleButton} style={[styles.button,styles.msgButton]} title="MESSAGE" />
-                            <Button onPress={() => Call('+639569006808').catch(err => console.error(err))} titleStyle={styles.callTitleButton} style={[styles.button,styles.callButton]} title="CALL" />
+                            <Button onPress={() => TextSMS(item.contact, '').catch(err => console.error(err))} titleStyle={styles.msgTitleButton} style={[styles.button,styles.msgButton]} title="MESSAGE" />
+                            <Button onPress={() => Call(item.contact).catch(err => console.error(err))} titleStyle={styles.callTitleButton} style={[styles.button,styles.callButton]} title="CALL" />
                         </View>
                     </View>
                     <Text>ARROW</Text>
@@ -174,22 +181,22 @@ class EDM extends React.PureComponent<Props> {
         const sampleData = [
             {
                 name : 'person 1',
-                contact : 'contact 1',
+                contact : '1weq2',
                 email : 'email 1',
             },
             {
                 name : 'person 2',
-                contact : 'contact 2',
+                contact : '1234',
                 email : 'email 2',
             },
             {
                 name : 'person 3',
-                contact : 'contact 3',
+                contact : '1234',
                 email : 'email 3',
             },
             {
-                name : 'person 4',
-                contact : 'contact 4',
+                name : 'junre sapico',
+                contact : '09569006808',
                 email : 'email 4',
             }
         ];
