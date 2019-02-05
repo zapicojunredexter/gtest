@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/release/drawable-v21/abc_edit_text_material.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/drawable-v21/abc_edit_text_material.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/release/drawable-v21/abc_btn_colored_material.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/release/drawable-v21/notification_action_background.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/4a37c39ed77784c93b1730689c05ff67/res/drawable-v21/notification_action_background.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/release/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/drawable-v21/abc_action_bar_item_background_material.xml"
+    }
+]
