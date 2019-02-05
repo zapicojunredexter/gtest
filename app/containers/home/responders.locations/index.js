@@ -6,7 +6,8 @@ import {
     StyleSheet
 } from 'react-native';
 import { colors } from '../../../constants/colors';
-
+import { getLocations } from '../../../selectors/responder.locations.selector';
+import ResponderLocationsService from '../../../services/responders.locations.service';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 
 type Props = {
@@ -22,23 +23,15 @@ class UserLocations extends React.PureComponent<Props> {
             },
         });
     }
+    constructor(props){
+        super(props);
+        const { fetchSeculacersLocation } = props;
+        fetchSeculacersLocation();
+    }
 
     render() {
-        const sampleMarkerLocations = [
-            {
-                location:{
-                    latitude: 10.2997468,
-                    longitude: 123.9031766,
-                }
-            },
-            {
-                location:{
-                    latitude: 10.2997468+0.0003,
-                    longitude: 123.9031766+0.0003,
-                }
-            }
-        ];
-        const markers = sampleMarkerLocations;
+        const markers = this.props.seculacers;
+        console.log('HEEEY', markers);
         return (
             <View style={{flex:1, margin : 20 }}>
                 <MapView
@@ -75,8 +68,10 @@ class UserLocations extends React.PureComponent<Props> {
     }
 }
 const mapStateToProps = store => ({
+    seculacers : getLocations(store),
 });
 const mapDispatchToProps = dispatch => ({
+    fetchSeculacersLocation : () => dispatch(ResponderLocationsService.fetchLocations()),
 });
 
 export default connect(

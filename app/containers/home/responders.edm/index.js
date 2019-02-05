@@ -14,6 +14,8 @@ import { colors } from '../../../constants/colors';
 import HeaderRight from '../../../components/header/header.right';
 import HeaderLeft from '../../../components/header/header.left';
 import Button from '../../../components/button';
+import responderEdmsService from '../../../services/responder.edms.service';
+import { getEDMs } from '../../../selectors/responder.edms.selector';
 type Props = {
 };
 
@@ -50,6 +52,7 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
         backgroundColor : colors.fieldSetBg,
         flexDirection : 'row',
         padding : 10,
+        alignItems : 'center',
     },
     userProfilePic : {
         width : null,
@@ -125,9 +128,9 @@ class EDM extends React.PureComponent<Props> {
 
     constructor(props) {
         super(props);
-        const { navigation } = props;
+        const { navigation, fetchEDMs } = props;
         navigation.setParams({ user : { ...props.user }});
-
+        fetchEDMs();
         this.state = {
             currentPage : 0,
         }
@@ -135,9 +138,13 @@ class EDM extends React.PureComponent<Props> {
 
     onSelectItem = (data) => {
         // alert(JSON.stringify(data));
-        const { navigation } = this.props;
-        console.log('WOOOOT', data);
-        navigation.navigate('IncidentReport', {...data});
+        const { navigation, updateEDMs } = this.props;
+        if(data.type < 2){
+            updateEDMs({...data, type : data.type + 1});
+        }else{
+            alert('TOBE SUBMITTED');
+        }
+        // navigation.navigate('IncidentReport', {...data});
     }
 
     renderTabHeaders = () => {
@@ -152,11 +159,20 @@ class EDM extends React.PureComponent<Props> {
         );
     }
 
+    onPressSMS = (contNumber, message) => {
+        TextSMS(contNumber, message).catch(err => console.error(err));
+    }
+
+
+    onPressCall = (contNumber) => {
+        Call(contNumber).catch(err => console.error(err))
+    }
+
     renderEDMRow = ({item}) => {
         const { user } = this.props;
         const styles = _styles('responder');
         return (
-            <TouchableOpacity onPress={() => this.onSelectItem(item)} style={styles.rowWrapper}>
+            <View style={styles.rowWrapper}>
                 <View style={styles.rowLeft}>
                     <Image
                         source={require('../../../assets/images/user.png')}
@@ -166,46 +182,33 @@ class EDM extends React.PureComponent<Props> {
                         <Text style={styles.txtName}>{item.name}</Text>
                         <Text style={styles.txtContNo}>{`${item.contact}        ${item.email}`}</Text>
                         <View style={styles.buttonWrapper}>
-                            <Button onPress={() => TextSMS(item.contact, '').catch(err => console.error(err))} titleStyle={styles.msgTitleButton} style={[styles.button,styles.msgButton]} title="MESSAGE" />
-                            <Button onPress={() => Call(item.contact).catch(err => console.error(err))} titleStyle={styles.callTitleButton} style={[styles.button,styles.callButton]} title="CALL" />
+                            <Button onPress={() => this.onPressSMS(item.contact, '')} titleStyle={styles.msgTitleButton} style={[styles.button,styles.msgButton]} title="MESSAGE" />
+                            <Button onPress={() => this.onPressCall(item.contact)} titleStyle={styles.callTitleButton} style={[styles.button,styles.callButton]} title="CALL" />
                         </View>
                     </View>
-                    <Text>ARROW</Text>
+                    <TouchableOpacity onPress={() => this.onSelectItem(item)}>
+                        <Image
+                            source={require('../../../assets/images/red-right.png')}
+                            style={{height : 20, width : 20}}
+                        />
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
+            </View>
         );
     }
 
     render() {
         const styles = _styles();
-        const sampleData = [
-            {
-                name : 'person 1',
-                contact : '1weq2',
-                email : 'email 1',
-            },
-            {
-                name : 'person 2',
-                contact : '1234',
-                email : 'email 2',
-            },
-            {
-                name : 'person 3',
-                contact : '1234',
-                email : 'email 3',
-            },
-            {
-                name : 'junre sapico',
-                contact : '09569006808',
-                email : 'email 4',
-            }
-        ];
-
+        const { edms } = this.props;
+        const { currentPage } = this.state;
+        const edmsData = edms.filter(edm => {
+            return (edm.type === currentPage);
+        });
         return (
             <View style={styles.mainContainer}>
                 {this.renderTabHeaders()}
                 <FlatList
-                    data={sampleData}
+                    data={edmsData}
                     renderItem={this.renderEDMRow}
                 />
             </View>
@@ -214,8 +217,11 @@ class EDM extends React.PureComponent<Props> {
 }
 const mapStateToProps = store => ({
     user : getUser(store),
+    edms : getEDMs(store),
 });
 const mapDispatchToProps = dispatch => ({
+    fetchEDMs : () => dispatch(responderEdmsService.fetchEDMs()),
+    updateEDMs : (newEDM) => dispatch(responderEdmsService.updateEDMs(newEDM)),
 });
 
 export default connect(

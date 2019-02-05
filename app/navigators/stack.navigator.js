@@ -14,6 +14,7 @@ import {
     RespondersReview,
     UserLocations,
     RespondersAccount,
+    RespondersWatchlist
 } from '../containers/home';
 import Login from '../containers/authentication/login';
 import Registration from '../containers/authentication/registration';
@@ -96,6 +97,12 @@ const MainStack = createStackNavigator({
         navigationOptions : {
             title : 'SECULACE'
         }
+    },
+    RespondersWatchlist : {
+        screen: RespondersWatchlist,
+        navigationOptions : {
+            title : 'SECULACE'
+        }
     }
 },
 
@@ -108,7 +115,7 @@ const MainStack = createStackNavigator({
                 marginLeft : 50,
             },
             headerRight : <HeaderRight navigation={navigation} />,
-            headerLeft : <HeaderLeft />
+            headerLeft : <HeaderLeft navigation={navigation} />
         });
     },
   }

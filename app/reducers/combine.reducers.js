@@ -3,6 +3,8 @@ import SystemReducer from './system/system.reducer';
 import UserReducer from './user/user.reducer';
 import ContactsReducer from './contacts/contacts.reducer';
 import WhitePaneReducer from './white.pane/white.pane.reducer';
+import ResponderLocationReducer from './responder.locations/responder.location.reducer';
+import ResponderEDMsReducer from './responder.edms/responder.edms.reducer';
 
 export const immutableRecords = [];
 
@@ -13,5 +15,7 @@ export default {
   system: SystemReducer.reducer,
   navigation: NavigationReducer.reducer,
   contacts: ContactsReducer.reducer,
-  whitepane: WhitePaneReducer.reducer
+  whitepane: WhitePaneReducer.reducer,
+  responderlocation: ResponderLocationReducer.reducer,
+  responderedms: ResponderEDMsReducer.reducer
 };

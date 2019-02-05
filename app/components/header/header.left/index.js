@@ -20,7 +20,7 @@ class HeaderLeft extends React.PureComponent<> {
         return (
             <View style={{flexDirection : "row"}}>
                 {userType === 'responder' && (
-                    <TouchableOpacity {...this.props}>
+                    <TouchableOpacity onPress={() => navigation.navigate('RespondersWatchlist')} {...this.props}>
                         <Image
                             style={{
                                 width: 30,

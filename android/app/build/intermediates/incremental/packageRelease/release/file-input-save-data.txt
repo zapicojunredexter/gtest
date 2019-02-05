@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Feb 05 16:53:13 PHT 2019
+#Tue Feb 05 17:11:36 PHT 2019
 17.baseType=DIRECTORY
 4.path=lib/x86/libimagepipeline.so
 25.base=/Users/banana2/Desktop/seculace/android/app/build/intermediates/transforms/mergeJniLibs/release/0

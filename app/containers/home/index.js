@@ -9,6 +9,7 @@ import IncidentReport from './incident.report';
 import RespondersReview from './responders.review';
 import UserLocations from './responders.locations';
 import RespondersAccount from './responders.account';
+import RespondersWatchlist from './responders.watchlist';
 
 export {
     ControlDevice,
@@ -21,5 +22,6 @@ export {
     IncidentReport,
     RespondersReview,
     UserLocations,
-    RespondersAccount
+    RespondersAccount,
+    RespondersWatchlist
 };
