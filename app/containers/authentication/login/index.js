@@ -61,10 +61,6 @@ class Login extends React.PureComponent<Props> {
 
     render() {
         const {
-            setNewUser,
-            login,
-        } = this.props;
-        const {
             username,
             password
         } = this.state;
@@ -130,7 +126,6 @@ const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
     login : credentials => dispatch(UserService.login(credentials)),
-    setNewUser : (newUser) => dispatch(UserAction.setNewUser(newUser)),
     setCurrentPath : (path) => dispatch(SystemActions.setCurrentPath(path)),
 });
 

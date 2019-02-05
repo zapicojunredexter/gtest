@@ -19,7 +19,7 @@ class NavigationReducer {
     );
   };
 
-  reducer = (state: {} = this.initialNavState, action: {}) => {
+  reducer = (state = this.initialNavState, action = {}) => {
     if (!state) {
       throw new Error(errorMessages.uninitializedClass);
     }

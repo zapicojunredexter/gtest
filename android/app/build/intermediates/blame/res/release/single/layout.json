@@ -64,12 +64,12 @@
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/4a37c39ed77784c93b1730689c05ff67/res/layout/notification_template_part_chronometer.xml"
     },
     {
-        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/release/layout/notification_template_lines_media.xml",
-        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/ce322e21836003680fce8efc3615292f/res/layout/notification_template_lines_media.xml"
-    },
-    {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/release/layout/notification_template_big_media_custom.xml",
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/ce322e21836003680fce8efc3615292f/res/layout/notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/release/layout/notification_template_lines_media.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/ce322e21836003680fce8efc3615292f/res/layout/notification_template_lines_media.xml"
     },
     {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/release/layout/redbox_item_frame.xml",

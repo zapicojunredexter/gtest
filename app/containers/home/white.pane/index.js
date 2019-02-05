@@ -6,6 +6,7 @@ import {
     Image,
     Slider,
     StyleSheet,
+    PermissionsAndroid
 } from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
@@ -138,44 +139,82 @@ class WhitePane extends React.PureComponent<Props> {
     }
 
     onPressEmergencySend = async () => {
-        const { edmPreferred, favContacts, templateMessage } = this.props;
-        const array = favContacts.map(contact => contact.contactNum);
-        
-        if(edmPreferred === 'contacts'){
-            if(favContacts.length > 0){        
-                array.forEach((arr,index) => {
-                    SendSMS.send(
-                        index,
-                        arr,
-                        templateMessage,
-                        (msg) => alert('Messsages have been sent')
-                    );
-                });
-            }else{
-                alert('No contacts have been set')
-            }
-        }
-        if(edmPreferred === 'responders'){
-            alert('TODO : SEND MESSAGE EDM RESPONDER');
-        }
-        // 09672046590 ekong
-        // 
 
+        try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.SEND_SMS,
+              {
+                title: 'Seculace SMS Permission',
+                message:
+                  'Seculace App needs access to your camera ' +
+                  'so you can make emergency test messages.',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+              },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                const { edmPreferred, favContacts, templateMessage } = this.props;
+                const array = favContacts.map(contact => contact.contactNum);
+                
+                if(edmPreferred === 'contacts'){
+                    if(favContacts.length > 0){        
+                        array.forEach((arr,index) => {
+                            SendSMS.send(
+                                index,
+                                arr,
+                                templateMessage,
+                                (msg) => alert('Messsages have been sent')
+                            );
+                        });
+                    }else{
+                        alert('No contacts have been set')
+                    }
+                }
+                if(edmPreferred === 'responders'){
+                    alert('TODO : SEND MESSAGE EDM RESPONDER');
+                }
+            } else {
+                alert('Call permission denied');
+            }
+        } catch (err) {
+          alert(err);
+        }
     }
 
-    onTriggerCall = () => {
-        // RNImmediatePhoneCall.immediatePhoneCall('09672046590');
-        const { edmPreferred, favContacts } = this.props;
-        if(edmPreferred === 'contacts'){
-            if(favContacts.length > 0){
-                const callNumber = favContacts[0].contactNum;
-                RNImmediatePhoneCall.immediatePhoneCall(callNumber);
-            }else{
-                alert('No contacts have been set')
+    onTriggerCall = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.CALL_PHONE,
+              {
+                title: 'Seculace Call Permission',
+                message:
+                  'Seculace App needs access to your camera ' +
+                  'so you can make emergency calls.',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+              },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+              // RNImmediatePhoneCall.immediatePhoneCall('09672046590');
+                const { edmPreferred, favContacts } = this.props;
+                if(edmPreferred === 'contacts'){
+                    if(favContacts.length > 0){
+                        const callNumber = favContacts[0].contactNum;
+                        RNImmediatePhoneCall.immediatePhoneCall(callNumber).catch(error => alert(error.message));
+                    }else{
+                        alert('No contacts have been set')
+                    }
+                }
+                if(edmPreferred === 'responders'){
+                    alert('TODO : CALL EDM RESPONDER');
+                }
+            } else {
+                alert('Call permission denied');
             }
-        }
-        if(edmPreferred === 'responders'){
-            alert('TODO : CALL EDM RESPONDER');
+        } catch (err) {
+            alert(err);
         }
     }
 
