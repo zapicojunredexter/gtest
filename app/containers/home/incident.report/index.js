@@ -38,11 +38,11 @@ class IncidentReport extends React.PureComponent<Props> {
     }
 
     render() {
-        const {
-            contact,
-            email,
-            name,
-        } = this.props.navigation.state.params;
+        // const {
+        //     contact,
+        //     email,
+        //     name,
+        // } = this.props.navigation.state.params;
         const styles = _styles();
         return (
             <View style={{flex : 1,margin : 15}}>

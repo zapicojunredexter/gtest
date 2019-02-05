@@ -6,6 +6,9 @@ import VIP from './vip';
 import WhitePane from './white.pane';
 import EDM from './responders.edm';
 import IncidentReport from './incident.report';
+import RespondersReview from './responders.review';
+import UserLocations from './responders.locations';
+import RespondersAccount from './responders.account';
 
 export {
     ControlDevice,
@@ -15,5 +18,8 @@ export {
     VIP,
     WhitePane,
     EDM,
-    IncidentReport
+    IncidentReport,
+    RespondersReview,
+    UserLocations,
+    RespondersAccount
 };

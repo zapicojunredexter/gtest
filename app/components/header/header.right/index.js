@@ -14,11 +14,12 @@ const _style = StyleSheet.create({
 
 class HeaderRight extends React.PureComponent<> {
     render() {
-        console.log('U HAVE PROPS HEREz', this.props);
-        const { navigation } = this.props;
+        const { navigation, user } = this.props;
+        if(!user) return null;
+        const userType = user.type;
         return (
             <View style={{flexDirection : "row"}}>
-                <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
+                <TouchableOpacity onPress={() => navigation.navigate(userType === 'seculacer' ? 'Notifications' : 'EDM')}>
                     <Image
                         style={{
                             width: 30,
@@ -28,6 +29,19 @@ class HeaderRight extends React.PureComponent<> {
                         source={require('../../../assets/images/notification.png')}
                     />
                 </TouchableOpacity>
+
+                {userType === 'responder' && (
+                    <TouchableOpacity onPress={() => navigation.navigate('IncidentReport')}>
+                        <Image
+                            style={{
+                                width: 30,
+                                height: 30,
+                                marginRight : 10,
+                            }}
+                            source={require('../../../assets/images/document.png')}
+                        />
+                    </TouchableOpacity>
+                )}
                 <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
                     <Image
                         style={{

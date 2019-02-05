@@ -53,7 +53,12 @@ const drawerLinks = {
         {label : 'CONTACTS', path : 'Contacts'},
         {label : 'VIP', path : 'VIP'},
     ],
-    responder : [],
+    responder : [
+        {label : 'ACCOUNT', path : 'RespondersAccount'},
+        {label : 'VIEW USER REVIEWS', path : 'RespondersReview'},
+        // {label : 'SECULACERS', path : 'EDM'},
+        {label : 'VIEW USER LOCATION', path : 'UserLocations'},
+    ],
 };
 
 

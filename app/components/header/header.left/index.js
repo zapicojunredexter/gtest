@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Image
+  Image,
+  View
 } from 'react-native';
 import { getUser } from '../../../selectors/user.selector';
 
@@ -13,18 +14,34 @@ const _style = StyleSheet.create({
 
 class HeaderLeft extends React.PureComponent<> {
     render() {
-        const { } = this.props;
+        const { navigation, user } = this.props;
+        if(!user)return null;
+        const userType = user.type;
         return (
-            <TouchableOpacity {...this.props}>
-                <Image
-                    style={{
-                        width: 30,
-                        height: 30,
-                        marginLeft : 10,
-                    }}
-                    source={require('../../../assets/images/user.png')}
-                />
-            </TouchableOpacity>
+            <View style={{flexDirection : "row"}}>
+                {userType === 'responder' && (
+                    <TouchableOpacity {...this.props}>
+                        <Image
+                            style={{
+                                width: 30,
+                                height: 30,
+                                marginLeft : 10,
+                            }}
+                            source={require('../../../assets/images/eye.png')}
+                        />
+                    </TouchableOpacity>
+                )}
+                <TouchableOpacity {...this.props}>
+                    <Image
+                        style={{
+                            width: 30,
+                            height: 30,
+                            marginLeft : 10,
+                        }}
+                        source={require('../../../assets/images/user.png')}
+                    />
+                </TouchableOpacity>
+            </View>
         );
     }
 }

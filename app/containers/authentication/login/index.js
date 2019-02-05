@@ -6,6 +6,7 @@ import {
   Image,
 } from 'react-native';
 import UserAction from '../../../reducers/user/user.action';
+import SystemActions from '../../../reducers/system/system.action';
 import UserService from '../../../services/user.service';
 import { getUser } from '../../../selectors/user.selector';
 
@@ -46,14 +47,16 @@ class Login extends React.PureComponent<Props> {
     }
 
     onPressSignIn = () => {
-        const { login, navigation } = this.props;
+        const { login, navigation, setCurrentPath } = this.props;
 
         const newUser = {
             username : this.state.username.value,
             type : this.state.username.value == 1 ? 'responder' : 'seculacer'
         }
         login(newUser);
-        navigation.navigate(newUser.type === 'seculacer' ? 'ControlDevice' : 'EDM');
+        const goTo = newUser.type === 'seculacer' ? 'ControlDevice' : 'EDM';
+        navigation.navigate(goTo);
+        setCurrentPath(goTo);
     }
 
     render() {
@@ -128,6 +131,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     login : credentials => dispatch(UserService.login(credentials)),
     setNewUser : (newUser) => dispatch(UserAction.setNewUser(newUser)),
+    setCurrentPath : (path) => dispatch(SystemActions.setCurrentPath(path)),
 });
 
 export default connect(

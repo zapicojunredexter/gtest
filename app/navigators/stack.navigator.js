@@ -11,6 +11,9 @@ import {
     WhitePane,
     EDM,
     IncidentReport,
+    RespondersReview,
+    UserLocations,
+    RespondersAccount,
 } from '../containers/home';
 import Login from '../containers/authentication/login';
 import Registration from '../containers/authentication/registration';
@@ -76,7 +79,24 @@ const MainStack = createStackNavigator({
             title : 'SECULACE'
         }
     },
-    
+    RespondersReview : {
+        screen: RespondersReview,
+        navigationOptions : {
+            title : 'SECULACE'
+        }
+    },
+    UserLocations : {
+        screen: UserLocations,
+        navigationOptions : {
+            title : 'SECULACE'
+        }
+    },
+    RespondersAccount : {
+        screen: RespondersAccount,
+        navigationOptions : {
+            title : 'SECULACE'
+        }
+    }
 },
 
 {
@@ -85,6 +105,7 @@ const MainStack = createStackNavigator({
         return ({
             headerTitleStyle : {
                 color : colors.fontColor,
+                marginLeft : 50,
             },
             headerRight : <HeaderRight navigation={navigation} />,
             headerLeft : <HeaderLeft />

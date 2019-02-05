@@ -159,7 +159,7 @@ class EDM extends React.PureComponent<Props> {
             <TouchableOpacity onPress={() => this.onSelectItem(item)} style={styles.rowWrapper}>
                 <View style={styles.rowLeft}>
                     <Image
-                        source={require('../../../assets/images/googlemapsbg.jpg')}
+                        source={require('../../../assets/images/user.png')}
                         style={styles.userProfilePic}
                     />
                     <View style={styles.txtWrapper}>
