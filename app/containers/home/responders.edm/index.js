@@ -7,6 +7,7 @@ import {
     StyleSheet,
     FlatList,
     Image,
+    Alert
 } from 'react-native';
 import { Call, Text as TextSMS } from 'react-native-openanything';
 import { getUser } from '../../../selectors/user.selector';
@@ -138,12 +139,30 @@ class EDM extends React.PureComponent<Props> {
 
     onSelectItem = (data) => {
         // alert(JSON.stringify(data));
-        const { navigation, updateEDMs } = this.props;
-        if(data.type < 2){
-            updateEDMs({...data, type : data.type + 1});
-        }else{
-            alert('TOBE SUBMITTED');
-        }
+
+        Alert.alert(
+            'Confirm Transaction',
+            'Are you sure you want to proceed?',
+            [
+                {
+                    text: 'Yes',
+                    onPress: () => {
+                        const { navigation, updateEDMs } = this.props;
+                        if(data.type < 2){
+                            updateEDMs({...data, type : data.type + 1});
+                        }else{
+                            alert('TOBE SUBMITTED');
+                        }
+                    },
+                },
+                {
+                    text: 'Cancel',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+            ],
+            {cancelable: false},
+        );
         // navigation.navigate('IncidentReport', {...data});
     }
 

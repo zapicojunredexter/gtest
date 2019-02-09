@@ -122,12 +122,29 @@ class EDM extends React.PureComponent<Props> {
     }
 
     onSelectItem = (data) => {
-        const { navigation, updateWatchlist } = this.props;
-        if(data.status < 2){
-            updateWatchlist({...data, status : data.status + 1});
-        }else{
-            updateWatchlist({...data, status : data.status - 1});
-        }
+        Alert.alert(
+            'Confirm Transaction',
+            'Are you sure you want to proceed?',
+            [
+                {
+                    text: 'Yes',
+                    onPress: () => {   
+                        const { navigation, updateWatchlist } = this.props;
+                        if(data.status < 2){
+                            updateWatchlist({...data, status : data.status + 1});
+                        }else{
+                            updateWatchlist({...data, status : data.status - 1});
+                        }
+                    },
+                },
+                {
+                    text: 'Cancel',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+            ],
+            {cancelable: false},
+        );
         // navigation.navigate('IncidentReport', {...data});
     }
 

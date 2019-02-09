@@ -19,7 +19,7 @@ class HeaderRight extends React.PureComponent<> {
         const userType = user.type;
         return (
             <View style={{flexDirection : "row"}}>
-                <TouchableOpacity onPress={() => navigation.navigate(userType === 'seculacer' ? 'Notifications' : 'EDM')}>
+                <TouchableOpacity onPress={() => navigation.navigate(userType === 'seculacer' ? 'WhitePane' : 'EDM')}>
                     <Image
                         style={{
                             width: 30,

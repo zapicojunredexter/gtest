@@ -10,7 +10,7 @@ import {
     Alert,
     TextInput
 } from 'react-native';
-
+import sms from 'react-native-sms-linking';
 import { Email } from 'react-native-openanything';
 
 import { getUser } from '../../../selectors/user.selector';
@@ -219,8 +219,8 @@ class Contacts extends React.PureComponent<Props> {
                         titleStyle={styles.addButtonTitle}
                         title="Add"
                         onPress={() => {
-                            Email('');
-                            // this.setState({ isAddModalOpen : true });
+                            // Email('');
+                            this.setState({ isAddModalOpen : true });
                         }}
                     />
                     <TextInput

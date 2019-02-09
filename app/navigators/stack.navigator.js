@@ -113,6 +113,8 @@ const MainStack = createStackNavigator({
             headerTitleStyle : {
                 color : colors.fontColor,
                 marginLeft : 50,
+                // textAlign : 'center',
+                flex : 1
             },
             headerRight : <HeaderRight navigation={navigation} />,
             headerLeft : <HeaderLeft navigation={navigation} />

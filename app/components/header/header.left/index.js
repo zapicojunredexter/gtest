@@ -31,7 +31,7 @@ class HeaderLeft extends React.PureComponent<> {
                         />
                     </TouchableOpacity>
                 )}
-                <TouchableOpacity {...this.props}>
+                <View>
                     <Image
                         style={{
                             width: 30,
@@ -40,7 +40,7 @@ class HeaderLeft extends React.PureComponent<> {
                         }}
                         source={require('../../../assets/images/user.png')}
                     />
-                </TouchableOpacity>
+                </View>
             </View>
         );
     }

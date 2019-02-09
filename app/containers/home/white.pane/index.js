@@ -101,41 +101,63 @@ class WhitePane extends React.PureComponent<Props> {
             },
         });
     }
-    // static navigationOptions = ({ navigation }) => {
-    //     const colorSets = colors[navigation.state.params && navigation.state.params.user.type || 'seculacer'];
-    //     return ({
-    //         title : 'WHITE PANE',
-    //         headerTitleStyle : {
-    //             color : colors.fontColor,
-    //         },
-    //         headerStyle : {
-    //             backgroundColor : colorSets && colorSets.mainHeader,
-    //         },
-    //         headerRight : <HeaderRight />,
-    //         headerLeft : <HeaderLeft />
-    //     });
-    // };
 
     constructor(props) {
         super(props);
         this.state = {
             isMapShown : true,
+            isPassCoded : false,
             templateMessage : props.templateMessage,
             currentLocation:{
-                latitude: 10.2997468,
-                longitude: 123.9031766,
+                // latitude: 10.2997468,
+                // longitude: 123.9031766,
             }
         };
-        setInterval(() => this.setState({
-            currentLocation:{
-                latitude: this.state.currentLocation.latitude + 0.0001,
-                longitude: this.state.currentLocation.longitude + 0.0001,
-            }
-        }), 1000);
+        this.initializeLocationFetcher();
+        // this.setState({
+        //     currentLocation:{
+        //         latitude: this.state.currentLocation.latitude + 0.0001,
+        //         longitude: this.state.currentLocation.longitude + 0.0001,
+        //     }
+        // });
+    }
 
-        // const { navigation } = props;
-        // navigation.setParams({ user : { ...props.user }});
-        // Map([10.30963,123.90400]);
+    initializeLocationFetcher = async () => {
+
+        try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                title: 'Seculace Location Permission',
+                message:
+                  'Seculace App needs access to your location ' +
+                  'so you can make emergency messages.',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+              },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+
+                setInterval(this.setCurrentLocation, 1000);
+            } else {
+                alert('Call permission denied');
+            }
+        } catch (err) {
+          alert(err);
+        }
+    }
+
+    setCurrentLocation = () => {
+        navigator.geolocation.getCurrentPosition((params) => {
+            const {
+                latitude,
+                longitude
+            } = params.coords;
+            this.setState({ currentLocation : {
+                latitude, longitude
+            }});
+        });
     }
 
     onPressEmergencySend = async () => {
@@ -218,12 +240,23 @@ class WhitePane extends React.PureComponent<Props> {
         }
     }
 
+    checkPinCode = (text) => {
+        if(text == 123){
+            this.setState({isPassCoded : true})
+        }
+    }
+
+
     renderEnterPassCode = () => {
         const styles = _styles();
         return (
             <View style={styles.digitPassCodeContainer}>
                 <Text style={styles.digitPassCodeTitle}>ENTER 4 DIGIT PASS CODE</Text>
-                <TextInput placeholder="_ _ _ _" style={styles.txtFieldCode}/>
+                <TextInput
+                    placeholder="_ _ _ _"
+                    style={styles.txtFieldCode}
+                    onChangeText={this.checkPinCode}
+                />
             </View>
         );
     }
@@ -283,26 +316,18 @@ class WhitePane extends React.PureComponent<Props> {
     }
 
     renderMapBody = () => {
+        const { currentLocation } = this.state;
         return (
             <View style={{flex:1, margin : 20 }}>
-                {/*
-                <WebView
-                    javaScriptEnabled={true}
-                    domStorageEnabled={true}
-                    startInLoadingState={true}
-                    source={{uri: 'https://www.google.com/maps/place/Cebu+City,+Cebu/@10.3901115,123.75039,11.44z/data=!4m5!3m4!1s0x33a999258dcd2dfd:0x4c34030cdbd33507!8m2!3d10.3156992!4d123.8854366'}}
-                    style={{flex : 1,margin : 15}}
-                />
-                */}
-
                 <MapView
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                     style={{
                         ...StyleSheet.absoluteFillObject,
                     }}
                     initialRegion={{
-                        latitude: 10.2997468,
-                        longitude: 123.9031766,
+                        // latitude: 10.2997468,
+                        // longitude: 123.9031766,
+                        ...currentLocation,
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                     }}
@@ -312,6 +337,17 @@ class WhitePane extends React.PureComponent<Props> {
                     followsUserLocation={true}   
                     showsUserLocation       
                 >
+                {/*
+                <Marker.Animated
+                    coordinate={currentLocation}
+                    title={"title"}
+                    description={"descr"}
+                    identifier={"123"}
+                    key={"123"}
+                />
+                */} 
+                {/*
+
                 <Marker.Animated
                     coordinate={this.state.currentLocation}
                     title={"title"}
@@ -319,15 +355,15 @@ class WhitePane extends React.PureComponent<Props> {
                     identifier={"123"}
                     key={"123"}
                 />
+                */}
                 </MapView>
             </View>
         );
     }
 
     render() {
-        const isPassCoded = true;
         const styles = _styles();
-        const { isMapShown } = this.state;
+        const { isMapShown, isPassCoded } = this.state;
 
         if( !isPassCoded ) {
             return this.renderEnterPassCode();

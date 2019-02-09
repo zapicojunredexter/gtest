@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, View, ScrollView, StyleSheet,Image } from 'react-native';
 import { Text as TextSMS } from 'react-native-openanything';
+import sms from 'react-native-sms-linking';
 import { connect } from 'react-redux';
 import { getUser } from '../selectors/user.selector';
 import { getCurrentPath } from '../selectors/system.selector';
@@ -48,7 +49,7 @@ const drawerLinks = {
             label : 'MESSAGES',
             path : 'Messages',
             onPress : () => TextSMS('09771634283'),
-            onPress : () => TextSMS('09569006808', 'zxc'),
+            onPress : () => sms().catch(() => console.error),
         },
         {label : 'CONTACTS', path : 'Contacts'},
         {label : 'VIP', path : 'VIP'},
