@@ -9,6 +9,7 @@ import {
 
 import TextInput from '../../../../components/text.input';
 import Picker from '../../../../components/picker';
+import DatePicker from '../../../../components/date.picker';
 import { colors } from '../../../../constants/colors';
 const _styles = StyleSheet.create({
     createAccountContainer : {
@@ -74,6 +75,16 @@ export default class AdditionalInfo extends React.PureComponent<Props> {
 
         return (
             <View style={_styles.createAccountContainer}>
+                <DatePicker
+                    placeholder="Birthdate"
+                    style={_styles.textInput}
+                    error={birthdate.errorMessage}
+                    selectedValue={birthdate.value}
+                    wrapperStyle={_styles.textInputWrapper}
+                    onValueChange={(value) => this.setFields('birthdate', value)}
+                    value={birthdate.value}
+                />
+                {/*
                 <Picker
                     placeholder="Birthdate"
                     style={_styles.textInput}
@@ -86,6 +97,7 @@ export default class AdditionalInfo extends React.PureComponent<Props> {
                         {label : 'Birthday 2', value : 'female'}
                     ]}
                 />
+                */}
                 <Picker
                     placeholder="Select Gender"
                     style={_styles.textInput}

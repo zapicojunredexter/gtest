@@ -5,6 +5,7 @@ import {
   View,
   Picker,
   StyleSheet,
+  DatePickerAndroid
 } from 'react-native';
 
 import { colors } from '../../constants/colors';
@@ -23,6 +24,10 @@ const _style = StyleSheet.create({
 });
 
 export default class CustomPicker extends React.PureComponent<> {
+    constructor(props){
+        super(props);
+    }
+
     render() {
         const { style, choices, error, wrapperStyle, placeholder } = this.props;
         return (
