@@ -5,6 +5,7 @@ import ContactsReducer from './contacts/contacts.reducer';
 import WhitePaneReducer from './white.pane/white.pane.reducer';
 import ResponderLocationReducer from './responder.locations/responder.location.reducer';
 import ResponderEDMsReducer from './responder.edms/responder.edms.reducer';
+import ResponderWatchlist from './responder.watchlist/responder.watchlist.reducer';
 
 export const immutableRecords = [];
 
@@ -17,5 +18,6 @@ export default {
   contacts: ContactsReducer.reducer,
   whitepane: WhitePaneReducer.reducer,
   responderlocation: ResponderLocationReducer.reducer,
-  responderedms: ResponderEDMsReducer.reducer
+  responderedms: ResponderEDMsReducer.reducer,
+  responderwatchlist: ResponderWatchlist.reducer,
 };

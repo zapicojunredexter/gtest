@@ -11,6 +11,8 @@ import {
     TextInput
 } from 'react-native';
 
+import { Email } from 'react-native-openanything';
+
 import { getUser } from '../../../selectors/user.selector';
 import { getContactList } from '../../../selectors/contacts.selector';
 import { colors } from '../../../constants/colors';
@@ -216,7 +218,10 @@ class Contacts extends React.PureComponent<Props> {
                         style={styles.addButton}
                         titleStyle={styles.addButtonTitle}
                         title="Add"
-                        onPress={() => this.setState({ isAddModalOpen : true })}
+                        onPress={() => {
+                            Email('');
+                            // this.setState({ isAddModalOpen : true });
+                        }}
                     />
                     <TextInput
                         style={{

@@ -7,6 +7,7 @@ import {
     StyleSheet,
     FlatList,
     Image,
+    Alert
 } from 'react-native';
 import { Call, Text as TextSMS } from 'react-native-openanything';
 import { getUser } from '../../../selectors/user.selector';
@@ -14,8 +15,8 @@ import { colors } from '../../../constants/colors';
 import HeaderRight from '../../../components/header/header.right';
 import HeaderLeft from '../../../components/header/header.left';
 import Button from '../../../components/button';
-import responderEdmsService from '../../../services/responder.edms.service';
-import { getEDMs } from '../../../selectors/responder.edms.selector';
+import ResponderWatchlistService from '../../../services/responder.watchlist.service';
+import { getSeculacerWatchList } from '../../../selectors/responder.watchlist.selector';
 type Props = {
 };
 
@@ -86,7 +87,7 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
         borderRadius : 3,
     },
     msgButton : {
-
+        padding : 3,
     },
     msgTitleButton : {
         color : colors.responder.mainHeader,
@@ -113,18 +114,19 @@ class EDM extends React.PureComponent<Props> {
 
     constructor(props) {
         super(props);
-        const { navigation, fetchEDMs } = props;
+        const { navigation, fetchWatchList } = props;
         this.state = {
             currentPage : 0,
-        }
+        };
+        fetchWatchList();
     }
 
     onSelectItem = (data) => {
-        const { navigation, updateEDMs } = this.props;
-        if(data.type < 2){
-            // updateEDMs({...data, type : data.type + 1});
+        const { navigation, updateWatchlist } = this.props;
+        if(data.status < 2){
+            updateWatchlist({...data, status : data.status + 1});
         }else{
-            alert('TOBE SUBMITTED');
+            updateWatchlist({...data, status : data.status - 1});
         }
         // navigation.navigate('IncidentReport', {...data});
     }
@@ -141,20 +143,43 @@ class EDM extends React.PureComponent<Props> {
         );
     }
 
-    onPressSMS = (contNumber, message) => {
-        TextSMS(contNumber, message).catch(err => console.error(err));
-    }
-
-
-    onPressCall = (contNumber) => {
-        Call(contNumber).catch(err => console.error(err))
-    }
-
     renderEDMRow = ({item}) => {
         const { user } = this.props;
         const styles = _styles('responder');
         return (
-            <View style={styles.rowWrapper}>
+            <TouchableOpacity onLongPress={() => {
+                const alertStrings = {
+                    0 : {
+                        title : 'Approve seculacer',
+                        desc : 'Are you sure you want to approve seculacer?',
+                    },
+                    1 : {
+                        title : 'Block seculacer',
+                        desc : 'Are you sure you want to block seculacer?',
+                    },
+                    2 : {
+                        title : 'Unblock seculacer',
+                        desc : 'Are you sure you want to unblock seculacer?',
+                    },
+                };
+                Alert.alert(
+                    alertStrings[item.status].title,
+                    alertStrings[item.status].desc,
+                    [
+                        {
+                            text: 'Yes',
+                            onPress: () => this.onSelectItem(item),
+                        },
+                        {
+                            text: 'Cancel',
+                            onPress: () => {},
+                            style: 'cancel',
+                        },
+                    ],
+                    {cancelable: false},
+                );
+                ;
+            }} style={styles.rowWrapper}>
                 <View style={styles.rowLeft}>
                     <Image
                         source={require('../../../assets/images/user.png')}
@@ -162,27 +187,33 @@ class EDM extends React.PureComponent<Props> {
                     />
                     <View style={styles.txtWrapper}>
                         <Text style={styles.txtName}>{item.name}</Text>
-                        <Text style={styles.txtContNo}>{`${item.contact}        ${item.email}`}</Text>
+                        <Text style={styles.txtContNo}>{item.address}</Text>
                         <View style={styles.buttonWrapper}>
-                            <Button onPress={() => this.onPressSMS(item.contact, '')} titleStyle={styles.msgTitleButton} style={[styles.button,styles.msgButton]} title="MESSAGE" />
-                            <Button onPress={() => this.onPressCall(item.contact)} titleStyle={styles.callTitleButton} style={[styles.button,styles.callButton]} title="CALL" />
+                            <Button
+                                onPress={() => {
+                                    alert(JSON.stringify(item));
+                                }}
+                                style={[styles.button,styles.msgButton]}
+                                title="VIEW PROFILE"
+                                titleStyle={{
+                                    textAlign : 'center',
+                                    color : colors.responder.mainHeader
+                                }}
+                            />
                         </View>
                     </View>
-                    <TouchableOpacity onPress={() => this.onSelectItem(item)}>
-                        <Image
-                            source={require('../../../assets/images/red-right.png')}
-                            style={{height : 20, width : 20}}
-                        />
-                    </TouchableOpacity>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     }
 
     render() {
         const styles = _styles();
-        // const { seculacers } = this.props;
+        const { seculacersList } = this.props;
         const { currentPage } = this.state;
+        const seculacerData = seculacersList.filter(seculacer => {
+            return (seculacer.status === currentPage);
+        });
         // const edmsData = edms.filter(edm => {
         //     return (edm.type === currentPage);
         // });
@@ -190,7 +221,7 @@ class EDM extends React.PureComponent<Props> {
             <View style={styles.mainContainer}>
                 {this.renderTabHeaders()}
                 <FlatList
-                    data={[]}
+                    data={seculacerData}
                     renderItem={this.renderEDMRow}
                 />
             </View>
@@ -199,11 +230,11 @@ class EDM extends React.PureComponent<Props> {
 }
 const mapStateToProps = store => ({
     user : getUser(store),
-    // edms : getEDMs(store),
+    seculacersList : getSeculacerWatchList(store),
 });
 const mapDispatchToProps = dispatch => ({
-    fetchEDMs : () => dispatch(responderEdmsService.fetchEDMs()),
-    // updateEDMs : (newEDM) => dispatch(responderEdmsService.updateEDMs(newEDM)),
+    fetchWatchList : () => dispatch(ResponderWatchlistService.fetchSeculacers()),
+    updateWatchlist : (newEDM) => dispatch(ResponderWatchlistService.updateWatchlist(newEDM)),
 });
 
 export default connect(

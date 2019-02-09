@@ -160,12 +160,11 @@ class EDM extends React.PureComponent<Props> {
     }
 
     onPressSMS = (contNumber, message) => {
-        TextSMS(contNumber, message).catch(err => console.error(err));
+        TextSMS(contNumber, message).catch(err => alert(err.message));
     }
 
-
     onPressCall = (contNumber) => {
-        Call(contNumber).catch(err => console.error(err))
+        Call(contNumber).catch(err => alert(err.message));
     }
 
     renderEDMRow = ({item}) => {
