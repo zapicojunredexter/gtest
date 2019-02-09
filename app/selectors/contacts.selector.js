@@ -1,5 +1,3 @@
-getContactList
-
 import { createSelector } from 'reselect';
 
 const contactsRecord = store => store.contacts;

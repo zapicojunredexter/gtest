@@ -1,15 +1,15 @@
-import ControlDevice from './control.device';
-import Contacts from './contacts';
+import ControlDevice from './seculacer.control.device';
+import Contacts from './seculacer.contacts';
 import Messages from './messages';
-import Notifications from './notifications';
-import VIP from './vip';
-import WhitePane from './white.pane';
-import EDM from './responders.edm';
-import IncidentReport from './incident.report';
-import RespondersReview from './responders.review';
-import UserLocations from './responders.locations';
-import RespondersAccount from './responders.account';
-import RespondersWatchlist from './responders.watchlist';
+import Notifications from './seculacer.notifications';
+import VIP from './seculacer.vip';
+import WhitePane from './seculacer.white.pane';
+import EDM from './responder.edm';
+import IncidentReport from './responder.incident.report';
+import RespondersReview from './responder.review';
+import UserLocations from './responder.locations';
+import RespondersAccount from './responder.account';
+import RespondersWatchlist from './responder.watchlist';
 
 export {
     ControlDevice,
