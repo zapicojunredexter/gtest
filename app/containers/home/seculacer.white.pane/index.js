@@ -109,6 +109,8 @@ class WhitePane extends React.PureComponent<Props> {
             isPassCoded : false,
             templateMessage : props.templateMessage,
             currentLocation:{
+                latitude : null,
+                longitude : null,
                 // latitude: 10.2997468,
                 // longitude: 123.9031766,
             }
@@ -121,6 +123,8 @@ class WhitePane extends React.PureComponent<Props> {
         //     }
         // });
     }
+
+    fetchingInterval = null;
 
     initializeLocationFetcher = async () => {
 
@@ -139,7 +143,8 @@ class WhitePane extends React.PureComponent<Props> {
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
 
-                setInterval(this.setCurrentLocation, 1000);
+                
+                this.fetchingInterval = setInterval(this.setCurrentLocation, 5000);
             } else {
                 alert('Call permission denied');
             }
@@ -149,15 +154,27 @@ class WhitePane extends React.PureComponent<Props> {
     }
 
     setCurrentLocation = () => {
-        navigator.geolocation.getCurrentPosition((params) => {
-            const {
-                latitude,
-                longitude
-            } = params.coords;
-            this.setState({ currentLocation : {
-                latitude, longitude
-            }});
-        });
+        navigator.geolocation.getCurrentPosition(
+            (params) => {
+                const {
+                    latitude,
+                    longitude
+                } = params.coords;
+                this.setState({ currentLocation : {
+                    latitude, longitude
+                }});
+            },
+            (error) => {
+                alert(error.message);
+                setTimeout(this.initializeLocationFetcher, 15000)
+                clearInterval( this.fetchingInterval );
+            },
+            {
+                enableHighAccuracy: false,
+                timeout: 20000,
+                maximumAge: 1000,
+            },
+        );
     }
 
     onPressEmergencySend = async () => {
@@ -317,26 +334,38 @@ class WhitePane extends React.PureComponent<Props> {
 
     renderMapBody = () => {
         const { currentLocation } = this.state;
+        const {
+            latitude,
+            longitude
+        } = currentLocation;
+        const hasLocation = (latitude && longitude );
         return (
             <View style={{flex:1, margin : 20 }}>
-                <MapView
+
+                    <MapView
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                     style={{
                         ...StyleSheet.absoluteFillObject,
                     }}
-                    initialRegion={{
-                        // latitude: 10.2997468,
-                        // longitude: 123.9031766,
-                        ...currentLocation,
+                    initialRegion={hasLocation && {
+                        latitude,
+                        longitude,
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                     }}
+                    // initialRegion={{
+                        // latitude: 10.2997468,
+                        // longitude: 123.9031766,
+                        // ...currentLocation,
+                        // latitudeDelta: 0.015,
+                        // longitudeDelta: 0.0121,
+                    // }}
                     moveOnMarkerPress={false}
-                    showsUserLocation
                     showsPointsOfInterest={false}
                     followsUserLocation={true}   
                     showsUserLocation       
-                >
+                    >
+                    </MapView>
                 {/*
                 <Marker.Animated
                     coordinate={currentLocation}
@@ -356,7 +385,6 @@ class WhitePane extends React.PureComponent<Props> {
                     key={"123"}
                 />
                 */}
-                </MapView>
             </View>
         );
     }
