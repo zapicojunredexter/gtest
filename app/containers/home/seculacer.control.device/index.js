@@ -104,7 +104,7 @@ class ControlDevice extends React.PureComponent<Props> {
                         <Text style={styles.settingsTitle}>{title}</Text>
                         <Text style={styles.settingsDesc}>{description}</Text>
                     </View>
-                    <Switch value={value} />
+                    <Switch />
                 </View>
                 {hasSettings && (
                     <View style={styles.rowRight}>
