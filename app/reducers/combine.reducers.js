@@ -13,7 +13,7 @@ import DeviceReducer from './seculacer.control.device/seculacer.control.device.r
 
 export const immutableRecords = [];
 
-export const persistedList = ['system','user','contacts','whitepane'];
+export const persistedList = ['system','user','contacts','whitepane','device'];
 
 export default {
   user: UserReducer.reducer,
