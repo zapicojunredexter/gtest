@@ -8,6 +8,9 @@ import ResponderEDMsReducer from './responder.edms/responder.edms.reducer';
 import ResponderWatchlistReducer from './responder.watchlist/responder.watchlist.reducer';
 import NotificationsReducer from './notifications/notifications.reducer';
 import ReviewReducer from './responder.review/responder.review.reducer';
+import DeviceReducer from './seculacer.control.device/seculacer.control.device.reducer';
+
+
 export const immutableRecords = [];
 
 export const persistedList = ['system','user','contacts','whitepane'];
@@ -23,4 +26,5 @@ export default {
   responderedms: ResponderEDMsReducer.reducer,
   responderwatchlist: ResponderWatchlistReducer.reducer,
   reviews : ReviewReducer.reducer,
+  device : DeviceReducer.reducer,
 };

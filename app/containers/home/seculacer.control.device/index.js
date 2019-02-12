@@ -13,7 +13,8 @@ import HeaderRight from '../../../components/header/header.right';
 import HeaderLeft from '../../../components/header/header.left';
 import Switch from '../../../components/switch';
 import ModalWrapper from '../../../components/modal.wrapper';
-
+import ControlDeviceService from '../../../services/seculacer.control.device.service';
+import { getDeviceSettings } from '../../../selectors/seculacer.control.device.selector';
 type Props = {
 };
 
@@ -94,9 +95,14 @@ class ControlDevice extends React.PureComponent<Props> {
         }
     }
 
+    handleChangeSwitch = (key, value) => {
+        const { updateDeviceSettings } = this.props;
+        updateDeviceSettings({[key] : !value});
+    }
+
     renderRow = (rowDetails, hasSettings) => {
         const styles = _styles('seculacer');
-        const { title, description, value } = rowDetails;
+        const { title, description, value, key } = rowDetails;
         return (
             <View style={styles.rowWrapper}>
                 <View style={styles.rowLeft}>
@@ -104,7 +110,10 @@ class ControlDevice extends React.PureComponent<Props> {
                         <Text style={styles.settingsTitle}>{title}</Text>
                         <Text style={styles.settingsDesc}>{description}</Text>
                     </View>
-                    <Switch />
+                    <Switch
+                        onValueChange={() => this.handleChangeSwitch(key, value)}
+                        value={value}
+                    />
                 </View>
                 {hasSettings && (
                     <View style={styles.rowRight}>
@@ -115,8 +124,15 @@ class ControlDevice extends React.PureComponent<Props> {
         );
     }
     render() {
-        const { user } = this.props;
+        const { user, device } = this.props;
+        console.log("HEEEEE",device);
         if(!user) return null;
+        const {
+            pairDevice,
+            sensor,
+            gpsLocation,
+            makeVisible,
+        } = device;
         // const userType = this.props.user.type;
         const styles = _styles('seculacer');
           
@@ -126,24 +142,28 @@ class ControlDevice extends React.PureComponent<Props> {
                 {this.renderRow({
                     title : 'Pair Device',
                     description : 'Always pair device',
-                    value : true,
+                    key : 'pairDevice',
+                    value : pairDevice,
                 },true)}
                 {this.renderRow({
                     title : 'Sensor',
                     description : 'Receive notification',
-                    value : true,
+                    key : 'sensor',
+                    value : sensor,
                 },true)}
                 {this.renderRow({
                     title : 'GPS Location',
                     description : 'Auto ON always',
-                    value : true,
+                    key : 'gpsLocation',
+                    value : gpsLocation,
                 },true)}
 
 
                 {this.renderRow({
                     title : 'Make location visible',
                     description : 'Allow others to see your location',
-                    value : true,
+                    key : 'makeVisible',
+                    value : makeVisible,
                 },false)}
 
                 <View style={styles.instructionsContainer} />
@@ -154,8 +174,10 @@ class ControlDevice extends React.PureComponent<Props> {
 }
 const mapStateToProps = store => ({
     user : getUser(store),
+    device : getDeviceSettings(store),
 });
 const mapDispatchToProps = dispatch => ({
+    updateDeviceSettings : (settings) => dispatch(ControlDeviceService.updateDeviceSettings(settings))
 });
 
 export default connect(

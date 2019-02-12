@@ -105,6 +105,7 @@ class WhitePane extends React.PureComponent<Props> {
     constructor(props) {
         super(props);
         this.state = {
+            pinCode : null,
             isMapShown : true,
             isPassCoded : false,
             templateMessage : props.templateMessage,
@@ -122,6 +123,10 @@ class WhitePane extends React.PureComponent<Props> {
         //         longitude: this.state.currentLocation.longitude + 0.0001,
         //     }
         // });
+    }
+
+    componentWillUnmount(){
+        clearInterval( this.fetchingInterval );
     }
 
     fetchingInterval = null;
@@ -257,9 +262,13 @@ class WhitePane extends React.PureComponent<Props> {
         }
     }
 
-    checkPinCode = (text) => {
-        if(text == 123){
+    checkPinCode = () => {
+        const { pinCode } = this.state;
+
+        if(pinCode == 123){
             this.setState({isPassCoded : true})
+        } else {
+            alert("Incorrect pin code");
         }
     }
 
@@ -272,7 +281,20 @@ class WhitePane extends React.PureComponent<Props> {
                 <TextInput
                     placeholder="_ _ _ _"
                     style={styles.txtFieldCode}
-                    onChangeText={this.checkPinCode}
+                    onChangeText={(text) => this.setState({ pinCode : text })}
+                />
+                <Button
+                    title="SUBMIT"
+                    onPress={this.checkPinCode}
+                    style={{
+                        backgroundColor : colors.seculacer.main,
+                        padding : 10,
+                        borderRadius : 3,
+                    }}
+                    titleStyle={{
+                        color : 'white',
+                        fontSize : 20,
+                    }}
                 />
             </View>
         );
