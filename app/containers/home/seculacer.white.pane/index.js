@@ -168,6 +168,8 @@ class WhitePane extends React.PureComponent<Props> {
                 this.setState({ currentLocation : {
                     latitude, longitude
                 }});
+                const { setUserLocation, user } = this.props;
+                setUserLocation({...params.coords,...user});
             },
             (error) => {
                 alert(error.message);
@@ -177,7 +179,7 @@ class WhitePane extends React.PureComponent<Props> {
             {
                 enableHighAccuracy: false,
                 timeout: 20000,
-                maximumAge: 1000,
+                // maximumAge: 1000,
             },
         );
     }
@@ -363,31 +365,44 @@ class WhitePane extends React.PureComponent<Props> {
         const hasLocation = (latitude && longitude );
         return (
             <View style={{flex:1, margin : 20 }}>
-
+                    {hasLocation ? (
                     <MapView
-                    provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                    style={{
-                        ...StyleSheet.absoluteFillObject,
-                    }}
-                    initialRegion={hasLocation && {
-                        latitude,
-                        longitude,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
-                    }}
-                    // initialRegion={{
-                        // latitude: 10.2997468,
-                        // longitude: 123.9031766,
-                        // ...currentLocation,
-                        // latitudeDelta: 0.015,
-                        // longitudeDelta: 0.0121,
-                    // }}
-                    moveOnMarkerPress={false}
-                    showsPointsOfInterest={false}
-                    followsUserLocation={true}   
-                    showsUserLocation       
+                        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                        style={{
+                            ...StyleSheet.absoluteFillObject,
+                        }}
+                        initialRegion={hasLocation && {
+                            latitude,
+                            longitude,
+                            latitudeDelta: 0.015,
+                            longitudeDelta: 0.0121,
+                        }}
+                        // initialRegion={{
+                            // latitude: 10.2997468,
+                            // longitude: 123.9031766,
+                            // ...currentLocation,
+                            // latitudeDelta: 0.015,
+                            // longitudeDelta: 0.0121,
+                        // }}
+                        moveOnMarkerPress={false}
+                        showsPointsOfInterest={false}
+                        followsUserLocation={true}   
+                        showsUserLocation       
                     >
                     </MapView>
+                    ): (
+                    <Image
+                        style={{
+                            flex: 1,
+                            resizeMode : 'cover',
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%',
+                            ...StyleSheet.absoluteFillObject,
+                        }}
+                        source={require('../../../assets/images/map-unavailable.jpg')}
+                    />
+                    )}
                 {/*
                 <Marker.Animated
                     coordinate={currentLocation}
@@ -462,6 +477,7 @@ const mapStateToProps = store => ({
     templateMessage : getTemplateMessage(store),
 });
 const mapDispatchToProps = dispatch => ({
+    setUserLocation : params => dispatch(WhitePaneService.setUserLocation(params)),
     setEDMPreferred : edmPreferred => dispatch(WhitePaneService.setEDMPreferred(edmPreferred)),
     editTemplate : templateMessage => dispatch(WhitePaneService.editTemplate(templateMessage)),
 });

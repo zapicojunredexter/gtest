@@ -10,8 +10,8 @@ class WhitePaneService {
         // TODO send to back end
         dispatch(WhitePaneAction.setTemplateMessage(templateMessage));
     }
-    function = () => dispatch => {
-        
+    setUserLocation = (params) => dispatch => {
+        // alert(JSON.stringify(params));
         // dispatch(WhitePaneAction.());
     }
 
