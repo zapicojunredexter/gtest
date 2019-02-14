@@ -9,6 +9,7 @@ import ResponderWatchlistReducer from './responder.watchlist/responder.watchlist
 import NotificationsReducer from './notifications/notifications.reducer';
 import ReviewReducer from './responder.review/responder.review.reducer';
 import DeviceReducer from './seculacer.control.device/seculacer.control.device.reducer';
+import AgencyReducer from './seculacer.agencies/seculacer.agencies.reducer';
 
 
 export const immutableRecords = [];
@@ -27,4 +28,5 @@ export default {
   responderwatchlist: ResponderWatchlistReducer.reducer,
   reviews : ReviewReducer.reducer,
   device : DeviceReducer.reducer,
+  agencies : AgencyReducer.reducer,
 };
