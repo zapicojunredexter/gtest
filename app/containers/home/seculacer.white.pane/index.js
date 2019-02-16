@@ -115,7 +115,8 @@ class WhitePane extends React.PureComponent<Props> {
                 longitude : null,
                 // latitude: 10.2997468,
                 // longitude: 123.9031766,
-            }
+            },
+            currentReadableAddress : 'asdas',
         };
         // this.initializeLocationFetcher();
         // this.setState({
@@ -124,6 +125,7 @@ class WhitePane extends React.PureComponent<Props> {
         //         longitude: this.state.currentLocation.longitude + 0.0001,
         //     }
         // });
+
     }
 
     componentWillUnmount(){
@@ -157,6 +159,16 @@ class WhitePane extends React.PureComponent<Props> {
         } catch (err) {
           alert(err);
         }
+    }
+
+    shouldComponentUpdate(nextProps){
+        console.log('NEW SET OF PROPS',nextProps);
+        const currentLatLng = this.props.currentLocation;
+        const newLatLng = nextProps.currentLocation;
+        if(currentLatLng && newLatLng && currentLatLng.latitude !== newLatLng.latitude && currentLatLng.longitude !== newLatLng.longitude){
+            this.getReadableAddress();
+        }
+        return true;
     }
 
     setCurrentLocation = () => {
@@ -275,6 +287,17 @@ class WhitePane extends React.PureComponent<Props> {
             this.setState({isPassCoded : true})
         } else {
             alert("Incorrect pin code");
+        }
+    }
+
+    getReadableAddress = async () => {
+        const {fetchReverseGeocodedAddress} = this.props;
+        try{
+            
+            const address = await fetchReverseGeocodedAddress();
+            this.setState({currentReadableAddress : address });
+        } catch (error ) {
+            this.setState({currentReadableAddress : error.message });
         }
     }
 
@@ -464,7 +487,9 @@ class WhitePane extends React.PureComponent<Props> {
                             backgroundColor : 'rgba(122, 122, 214, 0.5)',
                             backgroundColor : `${colors.seculacer.mainHeader}50`,
                             width : '80%'
-                        }}/>
+                        }}
+                        value={this.state.currentReadableAddress}
+                        />
                     </View>
 
                     <Button onPress={() => this.setState({isMapShown : !isMapShown})}><Text style={{textAlign : 'right'}}>Toggle map</Text></Button>
@@ -485,6 +510,7 @@ const mapDispatchToProps = dispatch => ({
     setUserLocation : params => dispatch(WhitePaneService.setUserLocation(params)),
     setEDMPreferred : edmPreferred => dispatch(WhitePaneService.setEDMPreferred(edmPreferred)),
     editTemplate : templateMessage => dispatch(WhitePaneService.editTemplate(templateMessage)),
+    fetchReverseGeocodedAddress : () => dispatch(WhitePaneService.fetchReverseGeocodedAddress()),
 });
 
 export default connect(
