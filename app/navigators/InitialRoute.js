@@ -13,10 +13,15 @@ type Props = {
 class InitialRoute extends React.Component<Props> {
     constructor(props){
         super(props);
-        const { navigation, user, setCurrentPath } = props;
+        const { navigation, user, setCurrentPath, setCurrentLocation } = props;
         const goTo = user ? user.type ==='seculacer' ? 'ControlDevice' : 'EDM' : 'Login';
         navigation.navigate(goTo);
         setCurrentPath(goTo);
+
+        setCurrentLocation({
+            latitude : 123,
+            longitude : 123,
+        })
     }
   render() {
     return (
@@ -29,6 +34,7 @@ const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
     setCurrentPath : (path) => dispatch(SystemActions.setCurrentPath(path)),
+    setCurrentLocation : location => dispatch(SystemActions.setCurrentLocation(location)),
 });
 
 export default connect(
