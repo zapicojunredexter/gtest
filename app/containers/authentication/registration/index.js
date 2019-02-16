@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   Text,
   View,
+  Alert
 } from 'react-native';
 import styles from './styles';
 
@@ -40,8 +41,25 @@ class Registration extends React.Component<Props> {
     onPressNext = () => {
         const { currentStep } = this.state;
         if( currentStep === 1 ) {
-            alert('SUBMIT');
-            console.log("GEEEET", this.state);
+            Alert.alert(
+                'Terms & Conditions',
+                '...',
+                [
+                    {
+                        text: 'I agree',
+                        onPress: () => {
+                            alert('TO REGISTER');
+                            this.props.navigation.navigate('Login');
+                        },
+                    },
+                    {
+                        text: 'Cancel',
+                        onPress: () => {},
+                        style: 'cancel',
+                    },
+                ],
+                {cancelable: false},
+            );
         } else {
             this.setState({currentStep : this.state.currentStep + 1});
         }

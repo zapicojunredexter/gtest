@@ -14,8 +14,13 @@ import {
     RespondersReview,
     UserLocations,
     RespondersAccount,
-    RespondersWatchlist
+    RespondersWatchlist,
+    Help,
+    About,
+    Settings
 } from '../containers/home';
+import SeculacerProfile from '../containers/home/personal.profile/seculacer.profile';
+import ResponderProfile from '../containers/home/personal.profile/responder.profile';
 import Login from '../containers/authentication/login';
 import Registration from '../containers/authentication/registration';
 import DrawerMenu from './drawer.menu';
@@ -103,7 +108,37 @@ const MainStack = createStackNavigator({
         navigationOptions : {
             title : 'SECULACE'
         }
-    }
+    },
+    Help : {
+        screen: Help,
+        navigationOptions : {
+            title : 'HELP'
+        }
+    },
+    About : {
+        screen: About,
+        navigationOptions : {
+            title : 'ABOUT'
+        }
+    },
+    Settings : {
+        screen: Settings,
+        navigationOptions : {
+            title : 'SETTINGS'
+        }
+    },
+    SeculacerProfile : {
+        screen: SeculacerProfile,
+        navigationOptions : {
+            title : 'PROFILE'
+        }
+    },
+    ResponderProfile : {
+        screen: ResponderProfile,
+        navigationOptions : {
+            title : 'PROFILE'
+        }
+    },
 },
 
 {
@@ -113,7 +148,7 @@ const MainStack = createStackNavigator({
             headerTitleStyle : {
                 color : colors.fontColor,
                 marginLeft : 50,
-                // textAlign : 'center',
+                textAlign : 'right',
                 flex : 1
             },
             headerRight : <HeaderRight navigation={navigation} />,

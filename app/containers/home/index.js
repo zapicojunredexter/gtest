@@ -10,6 +10,9 @@ import RespondersReview from './responder.review';
 import UserLocations from './responder.locations';
 import RespondersAccount from './responder.account';
 import RespondersWatchlist from './responder.watchlist';
+import Help from './help';
+import About from './about';
+import Settings from './settings';
 
 export {
     ControlDevice,
@@ -23,5 +26,8 @@ export {
     RespondersReview,
     UserLocations,
     RespondersAccount,
-    RespondersWatchlist
+    RespondersWatchlist,
+    Help,
+    About,
+    Settings
 };

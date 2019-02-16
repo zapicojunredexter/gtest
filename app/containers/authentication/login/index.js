@@ -31,7 +31,7 @@ class Login extends React.PureComponent<Props> {
         super(props);
         this.state = {
             username : {
-                value : '',
+                value : '1',
                 errorMessage : '',
             },
             password : {

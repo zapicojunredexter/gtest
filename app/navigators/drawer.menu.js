@@ -28,6 +28,8 @@ const _styles = (userType = 'seculacer') => StyleSheet.create({
     },
     subOptionTxt : {
         color : colors.fontColor,
+        paddingLeft : 15,
+        paddingBottom : 5,
     },
     navLink : {
         padding : 10,
@@ -81,17 +83,22 @@ class DrawerMenu extends React.Component<Props> {
         const userType = user.type;
         const styles = _styles(userType || 'seculacer');
         const userLinks = drawerLinks[userType];
+        const name = `${user.fname} ${user.lname}`;
 
         return (
             <View style={styles.mainContainer}>
-                <View style={{
+                <TouchableOpacity style={{
                     backgroundColor : colors[userType].mainHeader,
                     width:'100%',
                     height : 100,
                     alignItems : 'center',
                     flexDirection:"row",
                     paddingLeft : 15,
-                }}>
+                }}
+                onPress={() => {
+                    navigation.navigate(userType === 'seculacer'? 'SeculacerProfile' : 'ResponderProfile');
+                }}
+                >
                     <Image
                         style={{
                             width : 50,
@@ -101,9 +108,9 @@ class DrawerMenu extends React.Component<Props> {
                     />
                     <View>
                         <Text style={{color : colors.fontColor, fontSize : 17,paddingLeft : 5}}>{userType}</Text>
-                        <Text style={{color : colors.fontColor, fontSize : 12,paddingLeft : 5}}>someone</Text>
+                        <Text style={{color : colors.fontColor, fontSize : 12,paddingLeft : 5}}>{name}</Text>
                     </View>
-                </View>
+                </TouchableOpacity>
                 <ScrollView>
                     {userLinks.map(userLink => (
                         <TouchableOpacity
@@ -121,9 +128,9 @@ class DrawerMenu extends React.Component<Props> {
                 </ScrollView>
                 <View style={styles.subOptions}>
                     <Text onPress={this.onPressLogout} style={styles.subOptionTxt}>Logout</Text>
-                    <Text style={styles.subOptionTxt}>Help</Text>
-                    <Text style={styles.subOptionTxt}>Settings</Text>
-                    <Text style={styles.subOptionTxt}>About</Text>
+                    <Text onPress={() => navigation.navigate('Help')} style={styles.subOptionTxt}>Help</Text>
+                    <Text onPress={() => navigation.navigate('Settings')} style={styles.subOptionTxt}>Settings</Text>
+                    <Text onPress={() => navigation.navigate('About')} style={styles.subOptionTxt}>About</Text>
                 </View>
             </View>
         );
