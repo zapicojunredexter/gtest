@@ -204,12 +204,14 @@ class EDM extends React.PureComponent<Props> {
                             <Button onPress={() => this.onPressCall(item.contact)} titleStyle={styles.callTitleButton} style={[styles.button,styles.callButton]} title="CALL" />
                         </View>
                     </View>
-                    <TouchableOpacity onPress={() => this.onSelectItem(item)}>
+                    {item.type < 2 && (
+                        <TouchableOpacity onPress={() => this.onSelectItem(item)}>
                         <Image
                             source={require('../../../assets/images/red-right.png')}
                             style={{height : 20, width : 20}}
                         />
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    )}
                 </View>
             </View>
         );

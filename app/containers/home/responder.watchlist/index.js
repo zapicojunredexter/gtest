@@ -122,29 +122,36 @@ class EDM extends React.PureComponent<Props> {
     }
 
     onSelectItem = (data) => {
-        Alert.alert(
-            'Confirm Transaction',
-            'Are you sure you want to proceed?',
-            [
-                {
-                    text: 'Yes',
-                    onPress: () => {   
-                        const { navigation, updateWatchlist } = this.props;
-                        if(data.status < 2){
-                            updateWatchlist({...data, status : data.status + 1});
-                        }else{
-                            updateWatchlist({...data, status : data.status - 1});
-                        }
-                    },
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => {},
-                    style: 'cancel',
-                },
-            ],
-            {cancelable: false},
-        );
+        const { navigation, updateWatchlist } = this.props;
+        if(data.status < 2){
+            updateWatchlist({...data, status : data.status + 1});
+        }else{
+            updateWatchlist({...data, status : data.status - 1});
+        }
+        // const { currentPage } = this.state;
+        // Alert.alert(
+        //     'Confirm Transaction',
+        //     'Are you sure you want to proceed?',
+        //     [
+        //         {
+        //             text: 'Yes',
+        //             onPress: () => {   
+        //                 const { navigation, updateWatchlist } = this.props;
+        //                 if(data.status < 2){
+        //                     updateWatchlist({...data, status : data.status + 1});
+        //                 }else{
+        //                     updateWatchlist({...data, status : data.status - 1});
+        //                 }
+        //             },
+        //         },
+        //         {
+        //             text: 'Cancel',
+        //             onPress: () => {},
+        //             style: 'cancel',
+        //         },
+        //     ],
+        //     {cancelable: false},
+        // );
         // navigation.navigate('IncidentReport', {...data});
     }
 
@@ -164,39 +171,7 @@ class EDM extends React.PureComponent<Props> {
         const { user } = this.props;
         const styles = _styles('responder');
         return (
-            <TouchableOpacity onLongPress={() => {
-                const alertStrings = {
-                    0 : {
-                        title : 'Approve seculacer',
-                        desc : 'Are you sure you want to approve seculacer?',
-                    },
-                    1 : {
-                        title : 'Block seculacer',
-                        desc : 'Are you sure you want to block seculacer?',
-                    },
-                    2 : {
-                        title : 'Unblock seculacer',
-                        desc : 'Are you sure you want to unblock seculacer?',
-                    },
-                };
-                Alert.alert(
-                    alertStrings[item.status].title,
-                    alertStrings[item.status].desc,
-                    [
-                        {
-                            text: 'Yes',
-                            onPress: () => this.onSelectItem(item),
-                        },
-                        {
-                            text: 'Cancel',
-                            onPress: () => {},
-                            style: 'cancel',
-                        },
-                    ],
-                    {cancelable: false},
-                );
-                ;
-            }} style={styles.rowWrapper}>
+            <View style={styles.rowWrapper}>
                 <View style={styles.rowLeft}>
                     <Image
                         source={require('../../../assets/images/user.png')}
@@ -219,8 +194,48 @@ class EDM extends React.PureComponent<Props> {
                             />
                         </View>
                     </View>
+                        {item.status < 2 && (
+                            <TouchableOpacity onPress={() => {
+                                const alertStrings = {
+                                    0 : {
+                                        title : 'Approve seculacer',
+                                        desc : 'Are you sure you want to approve seculacer?',
+                                    },
+                                    1 : {
+                                        title : 'Block seculacer',
+                                        desc : 'Are you sure you want to block seculacer?',
+                                    },
+                                    2 : {
+                                        title : 'Unblock seculacer',
+                                        desc : 'Are you sure you want to unblock seculacer?',
+                                    },
+                                };
+                                Alert.alert(
+                                    alertStrings[item.status].title,
+                                    alertStrings[item.status].desc,
+                                    [
+                                        {
+                                            text: 'Yes',
+                                            onPress: () => this.onSelectItem(item),
+                                        },
+                                        {
+                                            text: 'Cancel',
+                                            onPress: () => {},
+                                            style: 'cancel',
+                                        },
+                                    ],
+                                    {cancelable: false},
+                                );
+                                ;
+                            }}>
+                                <Image
+                                    source={require('../../../assets/images/red-right.png')}
+                                    style={{height : 20, width : 20}}
+                                />
+                            </TouchableOpacity>
+                        )}
                 </View>
-            </TouchableOpacity>
+            </View>
         );
     }
 

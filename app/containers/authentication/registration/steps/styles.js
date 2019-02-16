@@ -25,12 +25,12 @@ export default (userType = 'seculacer') => StyleSheet.create({
         backgroundColor : colors.fontColor,
         height : 4,
         borderRadius : 3,
-        width : '30%'
+        width : '47%'
     },
     inactive : {
         backgroundColor : colors.fontColor,
         height : 2,
         borderRadius : 3,
-        width : '30%'
+        width : '47%'
     }
 });

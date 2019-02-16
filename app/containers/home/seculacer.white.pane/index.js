@@ -254,7 +254,7 @@ class WhitePane extends React.PureComponent<Props> {
                     }
                 }
                 if(edmPreferred === 'responders'){
-                    alert('TODO : CALL EDM RESPONDER');
+                    RNImmediatePhoneCall.immediatePhoneCall('911').catch(error => alert(error.message));
                 }
             } else {
                 alert('Call permission denied');
