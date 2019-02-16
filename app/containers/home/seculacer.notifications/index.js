@@ -33,7 +33,18 @@ class Notifications extends React.PureComponent<Props> {
             isFetching : false,
         }
 
-        this.fetchNotifications();
+        this.notificationsInterval = setTimeout(this.autoFetchingNotifications, 3000);
+    }
+
+    notificationsInterval;
+
+    componentWillUnmount() {
+        clearTimeout(this.notificationsInterval);
+    }
+
+    autoFetchingNotifications = () => {
+        const { fetchNotifications } = this.props;
+        fetchNotifications();
     }
 
     renderNotificationRow = ({item, index}) => {
