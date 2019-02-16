@@ -7,3 +7,9 @@ export const getCurrentPath = createSelector(
   [systemRecord],
   system => system.path,
 );
+
+export const getCurrentLocation = createSelector(
+    [systemRecord],
+    system => system.currentLocation,
+  );
+  

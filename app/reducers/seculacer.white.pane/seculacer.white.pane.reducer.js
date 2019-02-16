@@ -2,7 +2,7 @@ import { SET_EDM_PREFERRED, SET_TEMPLATE_MESSAGE } from './seculacer.white.pane.
 
 const initialState = {
     edmPreferred : 'responders',
-    templateMessage : '',
+    templateMessage : 'Please send help',
 };
 class WhitePaneReducer {
   reducer = (state = initialState, action) => {

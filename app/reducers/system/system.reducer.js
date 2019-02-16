@@ -23,7 +23,7 @@ class SystemReducer {
         return {...state, path : action.path};
       }
       case SET_CURRENT_LOCATION: {
-        return {...state, path : action.path};
+        return {...state, currentLocation : action.location};
       }
       default: {
         return state;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
+    PermissionsAndroid,
   View,
 } from 'react-native';
 import { getUser } from '../selectors/user.selector';
@@ -17,11 +18,54 @@ class InitialRoute extends React.Component<Props> {
         const goTo = user ? user.type ==='seculacer' ? 'ControlDevice' : 'EDM' : 'Login';
         navigation.navigate(goTo);
         setCurrentPath(goTo);
+        this.initializeFetchLocation();
+    }
 
-        setCurrentLocation({
-            latitude : 123,
-            longitude : 123,
-        })
+    initializeFetchLocation = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                title: 'Seculace Location Permission',
+                message:
+                  'Seculace App needs access to your location ' +
+                  'so you can make emergency messages.',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+              },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                this.fetchLocationListener();
+            }
+        } catch (err) {
+          alert(err.message);
+        }
+    }
+
+    fetchLocationListener = () => {
+        
+        const watcherId = navigator.geolocation.watchPosition((par) => {
+            const { setCurrentLocation } = this.props;
+            setCurrentLocation({
+                latitude : par.coords.latitude,
+                longitude : par.coords.longitude,
+            });
+
+        },
+        (error) => {
+            const { setCurrentLocation } = this.props;
+            setCurrentLocation({
+                latitude : null,
+                longitude : null,
+            });
+            navigator.geolocation.stopObserving(watcherId);
+            setTimeout(this.fetchLocationListener, 5000);
+        },{
+            timeout: 20000,
+            enableHighAccuracy : true,
+            distanceFilter : 5,
+        });
     }
   render() {
     return (

@@ -24,6 +24,7 @@ import { getFavContacts } from '../../../selectors/contacts.selector';
 import { getEdmPreferred, getTemplateMessage } from '../../../selectors/white.pane.selector';
 import WhitePaneActions from '../../../reducers/seculacer.white.pane/seculacer.white.pane.action';
 import WhitePaneService from '../../../services/seculacer.white.pane.service';
+import { getCurrentLocation } from '../../../selectors/system.selector';
 type Props = {
 };
 
@@ -116,7 +117,7 @@ class WhitePane extends React.PureComponent<Props> {
                 // longitude: 123.9031766,
             }
         };
-        this.initializeLocationFetcher();
+        // this.initializeLocationFetcher();
         // this.setState({
         //     currentLocation:{
         //         latitude: this.state.currentLocation.latitude + 0.0001,
@@ -159,29 +160,29 @@ class WhitePane extends React.PureComponent<Props> {
     }
 
     setCurrentLocation = () => {
-        navigator.geolocation.getCurrentPosition(
-            (params) => {
-                const {
-                    latitude,
-                    longitude
-                } = params.coords;
-                this.setState({ currentLocation : {
-                    latitude, longitude
-                }});
-                const { setUserLocation, user } = this.props;
-                setUserLocation({...params.coords,...user});
-            },
-            (error) => {
-                // alert(error.message);
-                setTimeout(this.initializeLocationFetcher, 15000)
-                clearInterval( this.fetchingInterval );
-            },
-            {
-                enableHighAccuracy: false,
-                timeout: 20000,
-                // maximumAge: 1000,
-            },
-        );
+        // navigator.geolocation.getCurrentPosition(
+        //     (params) => {
+        //         const {
+        //             latitude,
+        //             longitude
+        //         } = params.coords;
+        //         this.setState({ currentLocation : {
+        //             latitude, longitude
+        //         }});
+        //         const { setUserLocation, user } = this.props;
+        //         setUserLocation({...params.coords,...user});
+        //     },
+        //     (error) => {
+        //         // alert(error.message);
+        //         setTimeout(this.initializeLocationFetcher, 15000)
+        //         clearInterval( this.fetchingInterval );
+        //     },
+        //     {
+        //         enableHighAccuracy: false,
+        //         timeout: 20000,
+        //         // maximumAge: 1000,
+        //     },
+        // );
     }
 
     onPressEmergencySend = async () => {
@@ -200,18 +201,19 @@ class WhitePane extends React.PureComponent<Props> {
               },
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                const { edmPreferred, favContacts, templateMessage } = this.props;
+                const { edmPreferred, favContacts, templateMessage, currentLocation } = this.props;
                 const array = favContacts.map(contact => contact.contactNum);
                 
                 if(edmPreferred === 'contacts'){
                     if(favContacts.length > 0){ 
                         const namesArray = favContacts.map(cont => cont.name);
                         const namesString = namesArray.join(', ');    
+                        const locationString = currentLocation.latitude && currentLocation.longitude ? `. Sent from Latitude : ${currentLocation.latitude} Longitude : ${currentLocation.longitude}`: '. Sent from unknown Location' ;
                         array.forEach((arr,index) => {
                             SendSMS.send(
                                 index,
                                 arr,
-                                templateMessage,
+                                `${templateMessage}${locationString}`,
                                 (msg) => alert('Messsages have been sent to ' + namesString)
                             );
                         });
@@ -359,7 +361,7 @@ class WhitePane extends React.PureComponent<Props> {
     }
 
     renderMapBody = () => {
-        const { currentLocation } = this.state;
+        const { currentLocation } = this.props;
         const {
             latitude,
             longitude
@@ -477,6 +479,7 @@ const mapStateToProps = store => ({
     favContacts : getFavContacts(store),
     edmPreferred : getEdmPreferred(store),
     templateMessage : getTemplateMessage(store),
+    currentLocation : getCurrentLocation(store),
 });
 const mapDispatchToProps = dispatch => ({
     setUserLocation : params => dispatch(WhitePaneService.setUserLocation(params)),
