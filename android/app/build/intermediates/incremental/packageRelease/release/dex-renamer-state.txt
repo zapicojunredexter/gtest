@@ -1,4 +1,4 @@
-#Mon Feb 11 21:13:48 PHT 2019
+#Thu Feb 14 21:02:27 PHT 2019
 base.0=/Users/banana2/Desktop/seculace/android/app/build/intermediates/transforms/dex/release/0
 path.0=classes.dex
 renamed.0=classes.dex

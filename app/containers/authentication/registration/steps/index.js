@@ -23,11 +23,13 @@ export default class RegistrationSteps extends React.PureComponent<Props> {
 
         switch(currentStep) {
             case  0:
-                return <CreateAccount />;
+                return <CreateAccount onChangeFields={this.props.onChangeFields}/>;
             case 1:
-                return <AdditionalInfo />;
-            case 2:
-                return <SetupAccount />;
+                return <SetupAccount onChangeFields={this.props.onChangeFields}/>;
+            // case 1:
+            //     return <AdditionalInfo />;
+            // case 2:
+            //     return <SetupAccount />;
             default:
                 return null;
         }
@@ -37,7 +39,8 @@ export default class RegistrationSteps extends React.PureComponent<Props> {
         const _styles = styles('seculacer');
 
         const { currentStep = 0 } = this.props;
-        const steps = ['Create Account', 'Additional Info', 'Setup Account'];
+        // const steps = ['Create Account', 'Additional Info', 'Setup Account'];
+        const steps = ['Create Account', 'Setup Account'];
 
         return (
             <ScrollView contentContainerStyle={_styles.mainContainer}>

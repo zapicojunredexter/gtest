@@ -9,7 +9,7 @@ const _styles = StyleSheet.create({
 
 export default class RadioButton extends Component {
     render() {
-        const { style, selected, onPress } = this.props;
+        const { style, selected, onPress, checkboxColor } = this.props;
         return (
             <TouchableOpacity
                 style={[{
@@ -17,7 +17,7 @@ export default class RadioButton extends Component {
                     width: 24,
                     borderRadius: 12,
                     borderWidth: 2,
-                    borderColor: colors.responder.mainHeader,
+                    borderColor: checkboxColor || colors.responder.mainHeader,
                     alignItems: 'center',
                     justifyContent: 'center',
                 }, style]}
@@ -30,7 +30,7 @@ export default class RadioButton extends Component {
                             height: 12,
                             width: 12,
                             borderRadius: 6,
-                            backgroundColor: colors.responder.mainHeader,
+                            backgroundColor: checkboxColor || colors.responder.mainHeader,
                         }}
                     />
                     : null

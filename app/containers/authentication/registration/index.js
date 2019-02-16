@@ -39,11 +39,19 @@ class Registration extends React.Component<Props> {
 
     onPressNext = () => {
         const { currentStep } = this.state;
-        if( currentStep === 2 ) {
-            alert('SUBMIT')
+        if( currentStep === 1 ) {
+            alert('SUBMIT');
+            console.log("GEEEET", this.state);
         } else {
             this.setState({currentStep : this.state.currentStep + 1});
         }
+    }
+
+    onChangeFields = (newKeyPairs) => {
+        this.setState({
+            ...this.state,
+            ...newKeyPairs,
+        });
     }
 
     render() {
@@ -53,7 +61,7 @@ class Registration extends React.Component<Props> {
         return (
             <View style={_styles.mainContainer}>
                 <View style={_styles.controlsWrapper}>
-                    <RegistrationSteps currentStep={currentStep} />
+                    <RegistrationSteps onChangeFields={this.onChangeFields} currentStep={currentStep} />
                 </View>
                 <View style={_styles.buttonsWrapper}>
                     <Button

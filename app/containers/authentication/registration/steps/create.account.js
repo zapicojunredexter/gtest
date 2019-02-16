@@ -5,9 +5,11 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
+import RadioButton from '../../../../components/radio.button';
 
 import TextInput from '../../../../components/text.input';
-
+import DatePicker from '../../../../components/date.picker';
+import { colors } from '../../../../constants/colors';
 const _styles = StyleSheet.create({
     createAccountContainer : {
         width : '100%',
@@ -34,12 +36,18 @@ export default class CreateAccount extends React.PureComponent<Props> {
             lname : { value : '', errorMessage : ''},
             phone : { value : '', errorMessage : ''},
             email : { value : '', errorMessage : ''},
+
+
+            address : { value : '', errorMessage : ''},
+            birthdate : { value : '', errorMessage : ''},
+            gender : { value : 'male', errorMessage : ''},
         }
     }
 
     setFields = (key, value) => {
         const currentKeyState = this.state[key];
         this.setState({[key] : { ...currentKeyState, value }});
+        this.props.onChangeFields({[key] : value});
     }
 
     render() {
@@ -48,7 +56,10 @@ export default class CreateAccount extends React.PureComponent<Props> {
             mname,
             lname,
             phone,
-            email
+            email,
+            address,
+            birthdate,
+            gender
         } = this.state;
         return (
             <View style={_styles.createAccountContainer}>
@@ -59,7 +70,7 @@ export default class CreateAccount extends React.PureComponent<Props> {
                     error={fname.errorMessage}
                     placeholderTextColor="#FFF"
                     wrapperStyle={_styles.textInputWrapper}
-                    onChange={(value) => this.setFields('fname', value)}
+                    onChangeText={(value) => this.setFields('fname', value)}
                 />
                 <TextInput
                     value={mname.value}
@@ -68,7 +79,7 @@ export default class CreateAccount extends React.PureComponent<Props> {
                     //error={mname.errorMessage}
                     placeholderTextColor="#FFF"
                     wrapperStyle={_styles.textInputWrapper}
-                    onChange={(value) => this.setFields('mname', value)}
+                    onChangeText={(value) => this.setFields('mname', value)}
                 />
                 <TextInput
                     value={lname.value}
@@ -77,7 +88,7 @@ export default class CreateAccount extends React.PureComponent<Props> {
                     //error={lname.errorMessage}
                     placeholderTextColor="#FFF"
                     wrapperStyle={_styles.textInputWrapper}
-                    onChange={(value) => this.setFields('lname', value)}
+                    onChangeText={(value) => this.setFields('lname', value)}
                 />
                 <TextInput
                     value={phone.value}
@@ -86,7 +97,7 @@ export default class CreateAccount extends React.PureComponent<Props> {
                     //error={phone.errorMessage}
                     placeholderTextColor="#FFF"
                     wrapperStyle={_styles.textInputWrapper}
-                    onChange={(value) => this.setFields('phone', value)}
+                    onChangeText={(value) => this.setFields('phone', value)}
                 />
                 <TextInput
                     value={email.value}
@@ -95,8 +106,43 @@ export default class CreateAccount extends React.PureComponent<Props> {
                     error={email.errorMessage}
                     placeholderTextColor="#FFF"
                     wrapperStyle={_styles.textInputWrapper}
-                    onChange={(value) => this.setFields('email', value)}
+                    onChangeText={(value) => this.setFields('email', value)}
                 />
+                <TextInput
+                    value={address.value}
+                    placeholder="Address"
+                    style={_styles.textInput}
+                    error={address.errorMessage}
+                    placeholderTextColor="#FFF"
+                    wrapperStyle={_styles.textInputWrapper}
+                    onChangeText={(value) => this.setFields('address', value)}
+                />
+                <DatePicker
+                    placeholder="Birthdate"
+                    style={_styles.textInput}
+                    error={birthdate.errorMessage}
+                    selectedValue={birthdate.value}
+                    wrapperStyle={_styles.textInputWrapper}
+                    onValueChange={(value) => this.setFields('birthdate', value)}
+                    value={birthdate.value}
+                />
+                <View>
+                    <View style={{marginLeft:10,marginRight:10,flexDirection:'row',justifyContent:'space-between'}}>
+                        <Text style={{color:colors.fontColor}}>Male</Text>
+                        <RadioButton
+                            checkboxColor="silver"
+                            onPress={() => this.setFields('gender', 'male')}
+                            selected={gender.value === 'male'}
+                        />
+                        <Text style={{color:colors.fontColor}}>Female</Text>
+                        <RadioButton
+                            checkboxColor="silver"
+                            onPress={() => this.setFields('gender', 'female')}
+                            selected={gender.value === 'female'}
+                        />
+                    </View>
+                    
+                </View>
             </View>
         );
     }

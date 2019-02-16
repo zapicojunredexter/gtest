@@ -65,6 +65,7 @@ export default class SetupAccount extends React.PureComponent<Props> {
     setFields = (key, value) => {
         const currentKeyState = this.state[key];
         this.setState({[key] : { ...currentKeyState, value }});
+        this.props.onChangeFields({[key] : value});
     }
 
     render() {
@@ -82,7 +83,7 @@ export default class SetupAccount extends React.PureComponent<Props> {
                     error={username.errorMessage}
                     placeholderTextColor="#FFF"
                     wrapperStyle={_styles.textInputWrapper}
-                    onChange={(value) => this.setFields('username', value)}
+                    onChangeText={(value) => this.setFields('username', value)}
                 />
                 <TextInput
                     value={password.value}
@@ -91,7 +92,7 @@ export default class SetupAccount extends React.PureComponent<Props> {
                     error={password.errorMessage}
                     placeholderTextColor="#FFF"
                     wrapperStyle={_styles.textInputWrapper}
-                    onChange={(value) => this.setFields('password', value)}
+                    onChangeText={(value) => this.setFields('password', value)}
                 />
                 <TextInput
                     value={password2.value}
@@ -100,7 +101,7 @@ export default class SetupAccount extends React.PureComponent<Props> {
                     error={password2.errorMessage}
                     placeholderTextColor="#FFF"
                     wrapperStyle={_styles.textInputWrapper}
-                    onChange={(value) => this.setFields('password2', value)}
+                    onChangeText={(value) => this.setFields('password2', value)}
                 />
 
                 <View style={_styles.fieldSet}>
@@ -112,7 +113,7 @@ export default class SetupAccount extends React.PureComponent<Props> {
                         error={password2.errorMessage}
                         placeholderTextColor="#FFF"
                         wrapperStyle={_styles.codeTxtInputWrapper}
-                        onChange={(value) => this.setFields('password2', value)}
+                        onChangeText={(value) => this.setFields('password2', value)}
                     />
                     <Text style={_styles.label}>Confirm code</Text>
                     <TextInput
@@ -122,7 +123,7 @@ export default class SetupAccount extends React.PureComponent<Props> {
                         error={password2.errorMessage}
                         placeholderTextColor="#FFF"
                         wrapperStyle={_styles.codeTxtInputWrapper}
-                        onChange={(value) => this.setFields('password2', value)}
+                        onChangeText={(value) => this.setFields('password2', value)}
                     />
                 </View>
 
