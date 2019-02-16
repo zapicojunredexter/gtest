@@ -20,14 +20,25 @@ class HeaderRight extends React.PureComponent<> {
         return (
             <View style={{flexDirection : "row"}}>
                 <TouchableOpacity onPress={() => navigation.navigate(userType === 'seculacer' ? 'WhitePane' : 'EDM')}>
-                    <Image
-                        style={{
-                            width: 30,
-                            height: 30,
-                            marginRight : 10,
-                        }}
-                        source={require('../../../assets/images/notification.png')}
-                    />
+                    {userType === 'responder' ? (
+                        <Image
+                            style={{
+                                width: 30,
+                                height: 30,
+                                marginRight : 10,
+                            }}
+                            source={require('../../../assets/images/user.png')}
+                        />
+                    ) : (
+                        <Image
+                            style={{
+                                width: 30,
+                                height: 30,
+                                marginRight : 10,
+                            }}
+                            source={require('../../../assets/images/notification.png')}
+                        />
+                    )}
                 </TouchableOpacity>
 
                 {userType === 'responder' && (

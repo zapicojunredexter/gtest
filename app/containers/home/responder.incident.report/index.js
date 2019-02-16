@@ -6,14 +6,17 @@ import {
     Image,
     TextInput,
     StyleSheet,
-    ScrollView
+    FlatList
 } from 'react-native';
 import { colors } from '../../../constants/colors';
 import Button from '../../../components/button';
 import IncidentReportsService from '../../../services/responder.incident.report.service';
 
+import AddIncidentReportDialog from './add.incident.report.modal';
+
 type Props = {
 };
+
 
 
 const _styles = (userType = 'responder') => StyleSheet.create({
@@ -38,6 +41,55 @@ class IncidentReport extends React.PureComponent<Props> {
         });
     }
 
+    state = {
+        isModalOpen : false,
+        isFetching : false,
+        reports : [],
+    }
+
+    componentDidMount() {
+        this.fetchReports();
+    }
+
+    onSubmitReport = async (values) => {
+        const report = {
+            name : name.value,
+            userId : userId.value,
+            reportNo : reportNo.value,
+            location : location.value,
+            time : time.value,
+            date : date.value,
+            sex : sex.value,
+            status : status.value,
+            description : description.value,
+            remarks : remarks.value,
+        };
+        await this.props.submitIncidentReport(report);
+        this.setState({ isFetching : true });
+
+        const reports = await this.props.fetchReports().catch(error => alert(error.message));
+
+        this.setState({ isFetching : false, reports });
+    }
+
+    fetchReports = async () => {
+        this.setState({ isFetching : true });
+
+        const reports = await this.props.fetchReports().catch(error => alert(error.message));
+
+        this.setState({ isFetching : false, reports });
+    }
+
+    renderRow = ({ item }) => {
+        return (
+            <View style={{backgroundColor : colors.fieldSetBg, padding : 15,marginBottom : 10}}>
+                <Text style={{fontSize : 18}}>{item.name}</Text>
+                <Text style={{fontSize : 14}}>{item.date}</Text>
+                <Text style={{fontSize : 14}}>{item.address}</Text>
+            </View>
+        );
+    }
+
     render() {
         // const {
         //     contact,
@@ -45,55 +97,38 @@ class IncidentReport extends React.PureComponent<Props> {
         //     name,
         // } = this.props.navigation.state.params;
         const styles = _styles();
+
         return (
-            <View style={{flex : 1,margin : 15}}>
-                <Text style={{fontSize : 15, color : colors.responder.mainHeader}}>Incident Report</Text>
-                <View style={{flexDirection : 'row'}}>
-                    <Image
-                        style={{width : 50,height:50}}
-                        source={require('../../../assets/images/user.png')}
+            <View style={{flex : 1,margin : 15}}>                
+                <AddIncidentReportDialog
+                    visible={this.state.isModalOpen}
+                    onClose={() => this.setState({ isModalOpen : false })}
+                    onSubmitReport={this.onSubmitReport}
+                />
+                <Button
+                    title="ADD"
+                    onPress={() => this.setState({ isModalOpen : true })}
+                    style={{
+                        padding : 10,
+                        borderRadius : 3,
+                        backgroundColor : colors.responder.mainHeader,
+                        width : 100,
+                        right : 0,
+                        margin : 10,
+                        alignItems : 'center',
+                        justifyContent : 'center',
+                    }}
+                    titleStyle={{                
+                        color : colors.fontColor,
+                    }}
+                />
+
+                    <FlatList
+                        data={this.state.reports}
+                        renderItem={this.renderRow}
+                        onRefresh={this.fetchReports}
+                        refreshing={this.state.isFetching}
                     />
-                    <ScrollView style={{marginBottom : 20}}>
-                        <TextInput style={styles.textInput} placeholder="Victim's Name" />
-                        <TextInput style={styles.textInput} placeholder="User ID" />
-                        <TextInput style={styles.textInput} placeholder="Report Number" />
-                        <TextInput style={styles.textInput} placeholder="Location" />
-                        <TextInput style={styles.textInput} placeholder="Time" />
-                        <TextInput style={styles.textInput} placeholder="Date" />
-                        <TextInput style={styles.textInput} placeholder="Sex" />
-                        <TextInput style={styles.textInput} placeholder="Incident Status" />
-                        <TextInput style={styles.textInput} placeholder="Incident Description" />
-                        <TextInput style={styles.textInput} placeholder="Remarks" />
-
-
-
-                        <View style={{flexDirection  : 'row',justifyContent:'space-between'}}>
-                            <Button
-                                title="SUBMIT"
-                                onPress={() => alert("SUBMIT")}
-                                style={{
-                                    backgroundColor : colors.responder.main,
-                                    width : '47%',
-                                    borderRadius : 3,
-                                    padding : 10,
-                                }}
-                                titleStyle={{textAlign : 'center',color : colors.fontColor}}
-                            />
-                            <Button
-                                title="CANCEL"
-                                onPress={() => this.props.navigation.goBack()}
-                                style={{
-                                    backgroundColor : 'gray',
-                                    width : '47%',
-                                    borderRadius : 3,
-                                    padding : 10,
-                                }}
-                                titleStyle={{textAlign : 'center',color : colors.fontColor}}
-                            />
-                        </View>
-                    </ScrollView>
-                </View>
-                
             </View>
         );
     }
@@ -101,6 +136,7 @@ class IncidentReport extends React.PureComponent<Props> {
 const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
+    fetchReports : () => dispatch(IncidentReportsService.fetchReports()),
     submitIncidentReport : (report) => dispatch(IncidentReportsService.submitReport(report)),
 });
 

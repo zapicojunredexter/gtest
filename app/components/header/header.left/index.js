@@ -31,16 +31,6 @@ class HeaderLeft extends React.PureComponent<> {
                         />
                     </TouchableOpacity>
                 )}
-                <View>
-                    <Image
-                        style={{
-                            width: 30,
-                            height: 30,
-                            marginLeft : 10,
-                        }}
-                        source={require('../../../assets/images/user.png')}
-                    />
-                </View>
             </View>
         );
     }

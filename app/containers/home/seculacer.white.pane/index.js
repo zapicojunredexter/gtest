@@ -172,7 +172,7 @@ class WhitePane extends React.PureComponent<Props> {
                 setUserLocation({...params.coords,...user});
             },
             (error) => {
-                alert(error.message);
+                // alert(error.message);
                 setTimeout(this.initializeLocationFetcher, 15000)
                 clearInterval( this.fetchingInterval );
             },
@@ -204,13 +204,15 @@ class WhitePane extends React.PureComponent<Props> {
                 const array = favContacts.map(contact => contact.contactNum);
                 
                 if(edmPreferred === 'contacts'){
-                    if(favContacts.length > 0){        
+                    if(favContacts.length > 0){ 
+                        const namesArray = favContacts.map(cont => cont.name);
+                        const namesString = namesArray.join(', ');    
                         array.forEach((arr,index) => {
                             SendSMS.send(
                                 index,
                                 arr,
                                 templateMessage,
-                                (msg) => alert('Messsages have been sent')
+                                (msg) => alert('Messsages have been sent to ' + namesString)
                             );
                         });
                     }else{
