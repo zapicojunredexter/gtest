@@ -1,7 +1,11 @@
 import UserAction from '../reducers/user/user.action';
 
 class UserService {
-    login = (newUser) => (dispatch) => {
+    login = (newUser) => (dispatch, getState) => {
+        const state = getState();
+        // console.log('HOOOOY', user);
+        const { api } = state.system;
+        
         const loggedInUser = {
 
             ...newUser,
@@ -16,6 +20,7 @@ class UserService {
             birthdate : '01-01-01',
             gender : 'male',
         }
+
         dispatch(UserAction.setNewUser(loggedInUser));
     };
 

@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+  Alert
 } from 'react-native';
 import UserAction from '../../../reducers/user/user.action';
 import SystemActions from '../../../reducers/system/system.action';
@@ -108,6 +109,26 @@ class Login extends React.PureComponent<Props> {
                             style={_styles.buttons}
                             onPress={this.onPressSignIn}
                             titleStyle={_styles.titleStyle}
+                            // onLongPress={() => {
+                            //     Alert.alert(
+                            //         'Change API',
+                            //         '...',
+                            //         [
+                            //             {
+                            //                 text: 'OK',
+                            //                 onPress: () => {
+                            //                     this.props.navigation.navigate('Login');
+                            //                 },
+                            //             },
+                            //             {
+                            //                 text: 'Cancel',
+                            //                 onPress: () => {},
+                            //                 style: 'cancel',
+                            //             },
+                            //         ],
+                            //         {cancelable: false},
+                            //     );
+                            // }}
                         />
                         <Button
                             title="Sign up"
@@ -127,6 +148,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     login : credentials => dispatch(UserService.login(credentials)),
     setCurrentPath : (path) => dispatch(SystemActions.setCurrentPath(path)),
+    setApi : (api) => dispatch(SystemActions.setAPI(api)),
 });
 
 export default connect(
