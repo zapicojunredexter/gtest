@@ -6,6 +6,7 @@ import {
   Alert
 } from 'react-native';
 import styles from './styles';
+import AuthService from '../../../services/user.service';
 
 import Button from '../../../components/button';
 
@@ -48,7 +49,7 @@ class Registration extends React.Component<Props> {
                     {
                         text: 'I agree',
                         onPress: () => {
-                            alert('TO REGISTER');
+                            this.props.toRegister({...this.state});
                             this.props.navigation.navigate('Login');
                         },
                     },
@@ -102,6 +103,7 @@ class Registration extends React.Component<Props> {
 const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
+    toRegister : (params) => dispatch(AuthService.register(params))
 });
 
 export default connect(

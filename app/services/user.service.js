@@ -24,6 +24,10 @@ class UserService {
         dispatch(UserAction.setNewUser(loggedInUser));
     };
 
+    register = (params) => dispatch => {
+        alert('ara sha o' + JSON.stringify(params));
+    }
+
     updateUser = (params) => dispatch => {
         alert(JSON.stringify(params));
     }

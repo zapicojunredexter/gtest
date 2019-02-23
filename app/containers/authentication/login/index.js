@@ -98,6 +98,8 @@ class Login extends React.PureComponent<Props> {
                         baseColor="#FFF"
                         label="Passwords"
                         value={password.value}
+                        secureTextEntry={true}
+                        type="password"
                         error={password.error}
                         style={_styles.textFields}
                         onChangeText={text => this.setCredentials('password', text)}
