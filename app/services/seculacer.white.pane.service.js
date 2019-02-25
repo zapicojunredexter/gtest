@@ -54,7 +54,6 @@ class WhitePaneService {
         }).catch(error => { throw error});
         const responseText = await response.text().catch(error => { throw error });
         
-        console.log('HOY',responseText);
         try {
             const data = JSON.parse(responseText);
             console.log('HOY',data);

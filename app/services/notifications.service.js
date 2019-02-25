@@ -20,17 +20,25 @@ class NotificationsService {
         //         description : "sample notification body 3"
         //     },
         // ];
-        const url = `${api}/apis/fetch_notifications.php?userId=${user.userId}`;
+        console.log('STARING');
+        const response = await fetch(`${api}/fetchNotification.php`,{
+            method : 'get',
+        }).catch(error => { throw error});
+        
+        try {
+            const notifications = await response.json().catch(error => { throw error });
+            if(notifications.Message) { return Promise.reject(new Error(data.Message)) }
+            const mappedNotifs = notifications.map(notif => ({
+                ...notif,
+                title : '',
+                description : notif.notif_mess,
+            }));
+            
+            dispatch(NotificationsActions.setNotifications(mappedNotifs));
+        } catch(err) {
+            throw new Error('Invalid response format');
+        }
 
-        const response = await fetch(url).catch(error => { throw error });
-        const notifications = await response.json().catch(error => { throw error });
-        const mappedNotifs = notifications.map(notif => ({
-            ...notif,
-            title : '',
-            description : notif.notif_mess,
-        }));
-
-        dispatch(NotificationsActions.setNotifications(mappedNotifs));
     };
 }
 

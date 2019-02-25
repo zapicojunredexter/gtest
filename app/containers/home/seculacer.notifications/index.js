@@ -32,8 +32,8 @@ class Notifications extends React.PureComponent<Props> {
             isDeleting : false,
             isFetching : false,
         }
-
-        this.notificationsInterval = setTimeout(this.autoFetchingNotifications, 3000);
+        this.fetchNotifications()
+        this.notificationsInterval = setTimeout(this.autoFetchingNotifications, 5000);
     }
 
     notificationsInterval;
