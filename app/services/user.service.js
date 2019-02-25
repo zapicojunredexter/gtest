@@ -68,17 +68,13 @@ class UserService {
         formData.append('digit_code', params['pinCode'] || '');
         formData.append('confirm_code', params['pinCode'] || '');
 
-        console.log('HOY',params);
         const response = await fetch(`${api}/register.php`,{
             method : 'post',
             body : formData,
         }).catch(error => { throw error});
         const responseText = await response.text().catch(error => { throw error });
-        
-        console.log('HOY',responseText);
         try {
             const data = JSON.parse(responseText);
-            console.log('HOY',data);
             
             if(data.Message) { return Promise.reject(new Error(data.Message)) }
             return Promise.resolve(data);

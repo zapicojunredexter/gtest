@@ -220,15 +220,27 @@ class WhitePane extends React.PureComponent<Props> {
                     if(favContacts.length > 0){ 
                         const namesArray = favContacts.map(cont => cont.name);
                         const namesString = namesArray.join(', ');    
-                        const locationString = currentLocation.latitude && currentLocation.longitude ? `. Sent from Latitude : ${currentLocation.latitude} Longitude : ${currentLocation.longitude}`: '. Sent from unknown Location' ;
-                        array.forEach((arr,index) => {
+                        const locationString = currentLocation.latitude && currentLocation.longitude ? `. Sent from Latitude : ${currentLocation.latitude} Longitude : ${currentLocation.longitude}`: '. Unknown Location' ;
+                        await array.forEach(async (arr,index) => {
                             SendSMS.send(
                                 index,
                                 arr,
                                 `${templateMessage}${locationString}`,
                                 (msg) => alert('Messsages have been sent to ' + namesString)
                             );
+                            const edm = {
+                                sec_id : this.props.user.sec_id,
+                                res_id : null,
+                                guardian_id : null,
+                                edm_date_time : new Date(),
+                                edm_content : `${templateMessage}${locationString}`,
+                                edm_loc : locationString,
+                                edm_stat : null,
+                            }
+                            await this.props.submitEDM(edm).catch(error => alert(error.message));
+                            console.log('MANAAAA');
                         });
+                        console.log('MANA TANAN');
                     }else{
                         alert('No contacts have been set')
                     }
@@ -510,6 +522,7 @@ const mapStateToProps = store => ({
     currentLocation : getCurrentLocation(store),
 });
 const mapDispatchToProps = dispatch => ({
+    submitEDM : params => dispatch(WhitePaneService.submitEDM(params)),
     setUserLocation : params => dispatch(WhitePaneService.setUserLocation(params)),
     setEDMPreferred : edmPreferred => dispatch(WhitePaneService.setEDMPreferred(edmPreferred)),
     editTemplate : templateMessage => dispatch(WhitePaneService.editTemplate(templateMessage)),
