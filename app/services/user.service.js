@@ -49,8 +49,42 @@ class UserService {
         }
     };
 
-    register = (params) => dispatch => {
-        alert('ara sha o' + JSON.stringify(params));
+    register = (params) => async (dispatch, getState) => {
+        const state = getState();
+        const { api } = state.system;
+        const formData = new FormData();
+        
+        formData.append('fname', params['fname'] || '');
+        formData.append('lname', params['lname'] || '');
+        formData.append('sec_mname', params['mname'] || '');
+        formData.append('birthdate', params['birthdate'] || '');
+        formData.append('sec_gender', params['gender'] || '');
+        formData.append('phone', params['phone'] || '');
+        formData.append('address', params['address'] || '');
+        formData.append('sec_email', params['email'] || '');
+        formData.append('sec_username', params['username'] || '');
+        formData.append('sec_password', params['password'] || '');
+        formData.append('sec_cpassword', params['password'] || '');
+        formData.append('digit_code', params['pinCode'] || '');
+        formData.append('confirm_code', params['pinCode'] || '');
+
+        console.log('HOY',params);
+        const response = await fetch(`${api}/register.php`,{
+            method : 'post',
+            body : formData,
+        }).catch(error => { throw error});
+        const responseText = await response.text().catch(error => { throw error });
+        
+        console.log('HOY',responseText);
+        try {
+            const data = JSON.parse(responseText);
+            console.log('HOY',data);
+            
+            if(data.Message) { return Promise.reject(new Error(data.Message)) }
+            return Promise.resolve(data);
+        } catch(err) {
+            throw new Error('Invalid response format');
+        }
     }
 
     updateUser = (params) => dispatch => {

@@ -41,7 +41,10 @@ export default class CustomPicker extends React.PureComponent<> {
             });
             if(action === 'dateSetAction'){
                 const { onValueChange } = this.props;
-                onValueChange(`${month}-${day}-${year}`);
+                const monthString = `0${month + 1}`.slice(-2);
+                const dayString = `0${day}`.slice(-2);
+                const yearString  = `0${year}`.slice(-4);
+                onValueChange(`${monthString}-${dayString}-${yearString}`);
             }
         } catch ({code, message}) {
             console.warn('Cannot open date picker', message);

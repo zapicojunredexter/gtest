@@ -59,6 +59,7 @@ export default class SetupAccount extends React.PureComponent<Props> {
             username : { value : '', errorMessage : ''},
             password : { value : '', errorMessage : ''},
             password2 : { value : '', errorMessage : ''},
+            pinCode : { value : '', errorMessage : ''},
         }
     }
 
@@ -73,6 +74,7 @@ export default class SetupAccount extends React.PureComponent<Props> {
             username,
             password,
             password2,
+            pinCode
         } = this.state;
         return (
             <View style={_styles.createAccountContainer}>
@@ -107,23 +109,23 @@ export default class SetupAccount extends React.PureComponent<Props> {
                 <View style={_styles.fieldSet}>
                     <Text style={_styles.label}>Enter 4 digit code</Text>
                     <TextInput
-                        value={password2.value}
+                        value={pinCode.value}
                         placeholder="••••"
                         style={_styles.codeTxtInput}
-                        error={password2.errorMessage}
+                        error={pinCode.errorMessage}
                         placeholderTextColor="#FFF"
                         wrapperStyle={_styles.codeTxtInputWrapper}
-                        onChangeText={(value) => this.setFields('password2', value)}
+                        onChangeText={(value) => this.setFields('pinCode', value)}
                     />
                     <Text style={_styles.label}>Confirm code</Text>
                     <TextInput
-                        value={password2.value}
+                        // value={password2.value}
                         placeholder="••••"
                         style={_styles.codeTxtInput}
                         error={password2.errorMessage}
                         placeholderTextColor="#FFF"
                         wrapperStyle={_styles.codeTxtInputWrapper}
-                        onChangeText={(value) => this.setFields('password2', value)}
+                        // onChangeText={(value) => this.setFields('password2', value)}
                     />
                 </View>
 

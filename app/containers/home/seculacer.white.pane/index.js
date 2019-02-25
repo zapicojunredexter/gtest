@@ -282,8 +282,11 @@ class WhitePane extends React.PureComponent<Props> {
 
     checkPinCode = () => {
         const { pinCode } = this.state;
-
-        if(pinCode == 123){
+        const { user } = this.props;
+        if(!user){
+            return;
+        }
+        if(pinCode == user.digit_code){
             this.setState({isPassCoded : true})
         } else {
             alert("Incorrect pin code");
