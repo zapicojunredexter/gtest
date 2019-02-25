@@ -83,7 +83,7 @@ class DrawerMenu extends React.Component<Props> {
         const userType = user.type;
         const styles = _styles(userType || 'seculacer');
         const userLinks = drawerLinks[userType];
-        const name = `${user.fname} ${user.lname}`;
+        const name = `${user.sec_fname} ${user.sec_lname}`;
 
         return (
             <View style={styles.mainContainer}>

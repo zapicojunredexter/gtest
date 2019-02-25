@@ -51,13 +51,18 @@ class Login extends React.PureComponent<Props> {
         const { login, navigation, setCurrentPath } = this.props;
 
         const newUser = {
-            username : this.state.username.value,
-            type : this.state.username.value == 1 ? 'responder' : 'seculacer'
+            sec_username : this.state.username.value,
+            sec_password : this.state.password.value,
         }
-        login(newUser);
-        const goTo = newUser.type === 'seculacer' ? 'ControlDevice' : 'EDM';
-        navigation.navigate(goTo);
-        setCurrentPath(goTo);
+        login(newUser)
+            .then((result) => {
+                const goTo = result.type === 'seculacer' ? 'ControlDevice' : 'EDM';
+                navigation.navigate(goTo);
+                setCurrentPath(goTo);
+            })
+            .catch((error) => {
+                alert(error.message);
+            });
     }
 
     render() {

@@ -7,13 +7,13 @@ import {
 } from './system.action';
 
 const initialState = {
+    api : 'http://192.168.254.101/mobile_seculace',
     timestampOffset: 0,
     path : '',
     currentLocation : {
         latitude : null,
         longitude : null
     },
-    api : 'http://192.168.254.108:3000',
 };
 class SystemReducer {
   reducer = (state = initialState, action ) => {
