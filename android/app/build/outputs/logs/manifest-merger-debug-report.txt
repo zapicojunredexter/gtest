@@ -5,8 +5,6 @@ INJECTED from /Users/banana2/Desktop/seculace/android/app/src/main/AndroidManife
 INJECTED from /Users/banana2/Desktop/seculace/android/app/src/main/AndroidManifest.xml:1:1-32:12
 INJECTED from /Users/banana2/Desktop/seculace/android/app/src/main/AndroidManifest.xml:1:1-32:12
 MERGED from [:react-native-maps] /Users/banana2/Desktop/seculace/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-12:12
-MERGED from [:react-native-immediate-phone-call] /Users/banana2/Desktop/seculace/node_modules/react-native-immediate-phone-call/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-sms-x] /Users/banana2/Desktop/seculace/node_modules/react-native-sms-x/android/app/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [com.facebook.react:react-native:0.55.4] /Users/banana2/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/fa4ab4a0926018337f4a517e00e77d52/AndroidManifest.xml:2:1-15:12
 MERGED from [com.android.support:appcompat-v7:27.0.2] /Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.gms:play-services-maps:16.0.0] /Users/banana2/.gradle/caches/transforms-1/files-1.1/play-services-maps-16.0.0.aar/6402ffc6b58f3617fa697a1641b61cd6/AndroidManifest.xml:17:1-32:12
@@ -143,10 +141,6 @@ INJECTED from /Users/banana2/Desktop/seculace/android/app/src/main/AndroidManife
 INJECTED from /Users/banana2/Desktop/seculace/android/app/src/main/AndroidManifest.xml
 MERGED from [:react-native-maps] /Users/banana2/Desktop/seculace/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-maps] /Users/banana2/Desktop/seculace/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-immediate-phone-call] /Users/banana2/Desktop/seculace/node_modules/react-native-immediate-phone-call/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-immediate-phone-call] /Users/banana2/Desktop/seculace/node_modules/react-native-immediate-phone-call/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-sms-x] /Users/banana2/Desktop/seculace/node_modules/react-native-sms-x/android/app/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-sms-x] /Users/banana2/Desktop/seculace/node_modules/react-native-sms-x/android/app/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.55.4] /Users/banana2/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/fa4ab4a0926018337f4a517e00e77d52/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.55.4] /Users/banana2/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/fa4ab4a0926018337f4a517e00e77d52/AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:appcompat-v7:27.0.2] /Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/AndroidManifest.xml:20:5-44

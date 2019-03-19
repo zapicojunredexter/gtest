@@ -4,12 +4,10 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.maps.MapsPackage;
-import com.github.wumke.RNImmediatePhoneCall.RNImmediatePhoneCallPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import com.facebook.soloader.SoLoader;
-import com.someone.sendsms.SendSMSPackage; // <--- add here!
+import com.facebook.soloader.SoLoader; // <--- add here!
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,9 +24,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new MapsPackage(),
-            new RNImmediatePhoneCallPackage(),
-          new SendSMSPackage()     // <--- add here!
+            new MapsPackage()
       );
     }
 
