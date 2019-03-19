@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.seculace"
+        applicationId "com.gtest"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1

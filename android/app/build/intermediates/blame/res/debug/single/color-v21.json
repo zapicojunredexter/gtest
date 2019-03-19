@@ -1,9 +1,5 @@
 [
     {
-        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/color-v21/abc_btn_colored_borderless_text_material.xml",
-        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v21/abc_btn_colored_borderless_text_material.xml"
-    },
-    {
         "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v21/abc_btn_colored_borderless_text_material.xml",
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v21/abc_btn_colored_borderless_text_material.xml"
     }

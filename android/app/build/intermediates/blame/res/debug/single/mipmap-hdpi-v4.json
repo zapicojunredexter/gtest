@@ -1,9 +1,5 @@
 [
     {
-        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/mipmap-hdpi-v4/ic_launcher.png",
-        "source": "/Users/banana2/Desktop/seculace/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
-    },
-    {
         "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/mipmap-hdpi-v4/ic_launcher.png",
         "source": "/Users/banana2/Desktop/seculaceinkaso/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
     }

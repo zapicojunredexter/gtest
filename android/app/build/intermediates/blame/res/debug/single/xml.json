@@ -1,9 +1,5 @@
 [
     {
-        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
-        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/fa4ab4a0926018337f4a517e00e77d52/res/xml/preferences.xml"
-    },
-    {
         "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/272b16810e14e67d14f020a650c3db68/res/xml/preferences.xml"
     }

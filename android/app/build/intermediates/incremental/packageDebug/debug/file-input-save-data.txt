@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Mar 19 23:24:15 PHT 2019
+#Tue Mar 19 23:29:46 PHT 2019
 17.baseType=DIRECTORY
 4.path=lib/armeabi-v7a/libfolly_json.so
 25.base=/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
