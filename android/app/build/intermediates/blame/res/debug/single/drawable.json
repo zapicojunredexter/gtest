@@ -12,12 +12,12 @@
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/d57a992f84065df0395da827fe51f707/res/drawable/common_google_signin_btn_icon_light_normal.xml"
     },
     {
-        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/drawable/abc_btn_borderless_material.xml",
-        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/drawable/abc_btn_borderless_material.xml"
-    },
-    {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_icon_dark_focused.xml",
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/d57a992f84065df0395da827fe51f707/res/drawable/common_google_signin_btn_icon_dark_focused.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/drawable/abc_btn_borderless_material.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/drawable/abc_btn_borderless_material.xml"
     },
     {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_text_dark.xml",
@@ -28,12 +28,12 @@
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/drawable/abc_btn_colored_material.xml"
     },
     {
-        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/drawable/abc_ratingbar_material.xml",
-        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/drawable/abc_ratingbar_material.xml"
-    },
-    {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/drawable/abc_ratingbar_small_material.xml",
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/drawable/abc_ratingbar_small_material.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/drawable/abc_ratingbar_material.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/drawable/abc_ratingbar_material.xml"
     },
     {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_text_light_normal.xml",
