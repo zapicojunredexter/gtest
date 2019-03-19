@@ -2,7 +2,7 @@ import React from 'react';
 import View from 'react-native';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import InitialRoute from './InitialRoute';
-import Home from '../containers/home/seculacer.white.pane';
+import Home from '../containers/home/main';
 import Login from '../containers/authentication/login';
 import Registration from '../containers/authentication/registration';
 
