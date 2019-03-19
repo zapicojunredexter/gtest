@@ -1,5 +1,21 @@
 [
     {
+        "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_default.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_default.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_borderless_text_material.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_track.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_switch_track.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_edittext.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_edittext.xml"
+    },
+    {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_seek_thumb.xml",
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_seek_thumb.xml"
     },
@@ -20,8 +36,16 @@
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_default.xml"
     },
     {
+        "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_text_material.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_btn_colored_text_material.xml"
+    },
+    {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_btn_checkable.xml",
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_seek_thumb.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_seek_thumb.xml"
     },
     {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_borderless_text_material.xml",
@@ -34,5 +58,17 @@
     {
         "merged": "/Users/banana2/Desktop/seculace/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_spinner.xml",
         "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v23/abc_color_highlight_material.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_color_highlight_material.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_spinner.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "/Users/banana2/Desktop/seculaceinkaso/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_btn_checkable.xml",
+        "source": "/Users/banana2/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/c0479cec7e7e1ff84b1d8e384f6c6df4/res/color-v23/abc_tint_btn_checkable.xml"
     }
 ]
