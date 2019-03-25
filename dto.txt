@@ -53,4 +53,5 @@ BookingDetails {
     BookingFee : '',
     Commuter : {},
     ScheduledTrip : {}
+    z
 }
