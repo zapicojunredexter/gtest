@@ -13,16 +13,14 @@
   },
   "dependencies": {
     "@mapbox/react-native-mapbox-gl": "^6.0.2",
+    "@turf/along": "^5.1.5",
     "core-js": "^2.5.7",
     "immutable": "^3.8.2",
     "mapbox": "^1.0.0-beta10",
-    "url": "^0.11.0",
-    "@turf/along": "^5.1.5",
     "react": "16.3.1",
     "react-devtools": "^3.2.3",
     "react-native": "0.55.4",
     "react-native-console-time-polyfill": "0.0.6",
-    "react-native-maps": "0.23.0",
     "react-navigation": "2.2.5",
     "react-navigation-redux-helpers": "^1.1.2",
     "react-redux": "^5.0.7",
@@ -32,7 +30,8 @@
     "redux-persist-transform-immutable": "^5.0.0",
     "redux-thunk": "^2.3.0",
     "remote-redux-devtools": "^0.5.12",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
