@@ -1,4 +1,5 @@
-/* import React from 'react';
+// /*
+import React from 'react';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import {View, StyleSheet} from 'react-native';
 import {lineString as makeLineString} from '@turf/helpers';
@@ -57,6 +58,11 @@ class DriveTheLine extends React.Component {
 
     this.state = {
       route: null,
+      route:[
+        [-122.400129,37.788975],
+        [-122.400129,57.788975],
+        [-112.400129,87.788975]
+        ],
       currentPoint: null,
       routeSimulator: null,
     };
@@ -72,24 +78,88 @@ class DriveTheLine extends React.Component {
   }
 
   componentDidMount() {
-    // this.getDirections();
+    this.getDirections();
   }
 
   async getDirections() {
-    const res = await MapboxClient.getDirections(
-      [
-        {
-          latitude: SF_OFFICE_COORDINATE[1],
-          longitude: SF_OFFICE_COORDINATE[0],
-        },
-        {latitude: SF_ZOO_COORDINATE[1], longitude: SF_ZOO_COORDINATE[0]},
-      ],
-      {profile: 'walking', geometry: 'polyline'},
-    );
-
+    // const res = await MapboxClient.getDirections(
+    //   [
+    //     {
+    //       latitude: SF_OFFICE_COORDINATE[1],
+    //       longitude: SF_OFFICE_COORDINATE[0],
+    //     },
+    //     {latitude: SF_ZOO_COORDINATE[1], longitude: SF_ZOO_COORDINATE[0]},
+    //   ],
+    //   {profile: 'walking', geometry: 'polyline'},
+    // );
+    const res = await fetch("https://api.mapbox.com/directions/v5/mapbox/driving/-122.400021%2C37.789085%3B-122.505412%2C37.737463.json?access_token=pk.eyJ1IjoiemFwaWNvanVucmVkZXh0ZXIiLCJhIjoiY2p0aDlsZHN5MG5xaDN5cDhtbGdrN3hkeSJ9.UOC5ygISBssSgsyXp7rruQ");
+    const json = await res.json();
+    console.log("ARA AY", json, makeLineString(json.routes[0].geometry));
     this.setState({
-      route: makeLineString(res.entity.routes[0].geometry.coordinates),
+      route: makeLineString({
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+        "type": "LineString",
+        "coordinates": [
+        [-122.48369693756104, 37.83381888486939],
+        [-122.48348236083984, 37.83317489144141],
+        [-122.48339653015138, 37.83270036637107],
+        [-122.48356819152832, 37.832056363179625],
+        [-122.48404026031496, 37.83114119107971],
+        [-122.48404026031496, 37.83049717427869],
+        [-122.48348236083984, 37.829920943955045],
+        [-122.48356819152832, 37.82954808664175],
+        [-122.48507022857666, 37.82944639795659],
+        [-122.48610019683838, 37.82880236636284],
+        [-122.48695850372314, 37.82931081282506],
+        [-122.48700141906738, 37.83080223556934],
+        [-122.48751640319824, 37.83168351665737],
+        [-122.48803138732912, 37.832158048267786],
+        [-122.48888969421387, 37.83297152392784],
+        [-122.48987674713133, 37.83263257682617],
+        [-122.49043464660643, 37.832937629287755],
+        [-122.49125003814696, 37.832429207817725],
+        [-122.49163627624512, 37.832564787218985],
+        [-122.49223709106445, 37.83337825839438],
+        [-122.49378204345702, 37.83368330777276]
+        ]
+        }
+      }),
+      route : {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+        "type": "LineString",
+        "coordinates": [
+        [-122.48369693756104, 37.83381888486939],
+        [-122.48348236083984, 37.83317489144141],
+        [-122.48339653015138, 37.83270036637107],
+        [-122.48356819152832, 37.832056363179625],
+        [-122.48404026031496, 37.83114119107971],
+        [-122.48404026031496, 37.83049717427869],
+        [-122.48348236083984, 37.829920943955045],
+        [-122.48356819152832, 37.82954808664175],
+        [-122.48507022857666, 37.82944639795659],
+        [-122.48610019683838, 37.82880236636284],
+        [-122.48695850372314, 37.82931081282506],
+        [-122.48700141906738, 37.83080223556934],
+        [-122.48751640319824, 37.83168351665737],
+        [-122.48803138732912, 37.832158048267786],
+        [-122.48888969421387, 37.83297152392784],
+        [-122.48987674713133, 37.83263257682617],
+        [-122.49043464660643, 37.832937629287755],
+        [-122.49125003814696, 37.832429207817725],
+        [-122.49163627624512, 37.832564787218985],
+        [-122.49223709106445, 37.83337825839438],
+        [-122.49378204345702, 37.83368330777276]
+        ]
+        }
+      }
     });
+    // this.setState({
+    //   route: makeLineString(res.entity.routes[0].geometry.coordinates),
+    // });
   }
 
   componentWillUnmount() {
@@ -104,7 +174,7 @@ class DriveTheLine extends React.Component {
     }
 
     return (
-      <MapboxGL.ShapeSource id="routeSource" shape={route}>
+      <MapboxGL.ShapeSource id="routeSource" shape={this.state.route}>
         <MapboxGL.LineLayer
           id="routeFill"
           style={layerStyles.route}
@@ -179,6 +249,7 @@ class DriveTheLine extends React.Component {
           zoomLevel={11}
           ref={c => (this._map = c)}
           centerCoordinate={[-122.452652, 37.762963]}
+          centerCoordinate={[-122.486052, 37.830348]}
           style={{flex : 1}}
           styleURL={MapboxGL.StyleURL.Dark}
         >
@@ -203,7 +274,7 @@ class DriveTheLine extends React.Component {
 }
 
 export default DriveTheLine;
-*/
+// */
 /*
 import React from 'react';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
@@ -398,7 +469,7 @@ class ShowPointAnnotation extends React.Component {
 
 export default ShowPointAnnotation;
 */
-///*
+/*
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
