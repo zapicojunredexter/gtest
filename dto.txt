@@ -1,0 +1,56 @@
+Admin {
+
+}
+
+ScheduledTrip {
+    TripId : null,
+    TripInfo : '',
+    TripDate : null,
+    StartPoint : null,
+    Destination : null,
+    DepartureTime : null,
+    EstimatedTimeTravel : null,
+
+    Driver : {},
+    Admin : null,
+}
+
+Driver {
+    DriverId : null,
+    DriverFName : '',
+    DriverLName : '',
+    Address : '',
+    ContactNo : '',
+    Username : '',
+    Password : '',
+}
+
+Commuter {
+    CommuterId : null,
+    CommuterFName : '',
+    CommuterLName : '',
+    Address : ''
+    ContactNo : '',
+    Username : '',
+    Password : '',
+    Balance : 0,
+}
+
+Feedback {
+    FeedbackId : null,
+    Feedback : '',
+    Rating : 0,
+    Commuter : null,
+}
+
+BookingDetails {
+    BookId : null,
+    BookInfo : '',
+    BookDate : '',
+    BookTime : '',
+    AvailableSeat : '',
+    Status : '',
+    BookingFee : '',
+    Commuter : {},
+    ScheduledTrip : {}
+}
