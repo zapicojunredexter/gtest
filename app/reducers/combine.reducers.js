@@ -2,7 +2,7 @@ import NavigationReducer from '../modules/navigation.with.redux/navigation.reduc
 import SystemRecord from './system/system.record';
 import SystemReducer from './system/system.reducer';
 
-export const immutableRecords = [SystemRecord];
+export const immutableRecords = [];
 
 export const persistedList = ['system'];
 

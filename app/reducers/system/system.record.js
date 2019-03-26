@@ -1,10 +1,8 @@
-import { Record } from 'immutable';
-
-const System = Record(
-  {
-    timestampOffset: 0,
-  },
-  'System',
-);
+const System = {
+    hasInternet : false,
+    timestampOffset : null,
+    currentLocation : null,
+    api : '',
+}
 
 export default System;

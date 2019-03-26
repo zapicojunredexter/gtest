@@ -35,163 +35,165 @@ const layerStyles = MapboxGL.StyleSheet.create({
 });
 
 class DriveTheLine extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      route: null,
-    //   route:[
-    //     [-122.400129,37.788975],
-    //     [-122.400129,57.788975],
-    //     [-112.400129,87.788975]
-    //     ],
-    route : null,
-      currentPoint: null,
-      routeSimulator: null,
+    static navigationOptions = {
+        title : 'ASDAS'
     };
+    constructor(props) {
+        super(props);
 
-    this.onStart = this.onStart.bind(this);
-    // setTimeout(() => {this.onStart(); alert(31231);}, 5000);
-    // setTimeout()
-  }
+        this.state = {
+        route: null,
+        //   route:[
+        //     [-122.400129,37.788975],
+        //     [-122.400129,57.788975],
+        //     [-112.400129,87.788975]
+        //     ],
+        route : null,
+        currentPoint: null,
+        routeSimulator: null,
+        };
 
-  onStart() {
-    const routeSimulator = new RouteSimulator(this.state.route);
-    routeSimulator.addListener(currentPoint => this.setState({currentPoint}));
-    routeSimulator.start();
-    this.setState({routeSimulator});
-  }
-
-  componentDidMount() {
-    this.getDirections();
-  }
-
-  async getDirections() {
-    const res = await MapboxClient.getDirections(
-        [
-          {
-            latitude: PARIAN_COORDINATES[1],
-            longitude: PARIAN_COORDINATES[0],
-          },
-          {
-              latitude: UC_COORDINATES[1],
-              longitude: UC_COORDINATES[0]
-        },
-        ],
-        {profile: 'walking', geometry: 'polyline'},
-      );
-      console.log("HOOOOY",res);
-    this.setState({
-      route: makeLineString(res.entity.routes[0].geometry.coordinates),
-    });
-  }
-
-  componentWillUnmount() {
-    // if (this.state.routeSimulator) {
-    //   this.state.routeSimulator.stop();
-    // }
-  }
-
-  renderRoute() {
-    if (!this.state.route) {
-      return null;
+        this.onStart = this.onStart.bind(this);
+        // setTimeout(() => {this.onStart(); alert(31231);}, 5000);
     }
 
-    return (
-      <MapboxGL.ShapeSource id="routeSource" shape={this.state.route}>
-        <MapboxGL.LineLayer
-          id="routeFill"
-          style={layerStyles.route}
-          belowLayerID="originInnerCircle"
-        />
-      </MapboxGL.ShapeSource>
-    );
-  }
-
-  renderCurrentPoint() {
-    if (!this.state.currentPoint) {
-      return;
-    }
-    return (
-      <PulseCircleLayer
-        shape={this.state.currentPoint}
-        aboveLayerID="destinationInnerCircle"
-      />
-    );
-  }
-
-  renderProgressLine() {
-    if (!this.state.currentPoint) {
-      return null;
+    onStart() {
+        const routeSimulator = new RouteSimulator(this.state.route);
+        routeSimulator.addListener(currentPoint => this.setState({currentPoint}));
+        routeSimulator.start();
+        this.setState({routeSimulator});
     }
 
-    const {nearestIndex} = this.state.currentPoint.properties;
-    const coords = this.state.route.geometry.coordinates.filter(
-      (c, i) => i <= nearestIndex,
-    );
-    console.log("HAHA", this.state.currentPoint);
-    coords.push(this.state.currentPoint.geometry.coordinates);
-
-    if (coords.length < 2) {
-      return null;
+    componentDidMount() {
+        this.getDirections();
     }
 
-    const lineString = makeLineString(coords);
-    return (
-      <MapboxGL.Animated.ShapeSource id="progressSource" shape={lineString}>
-        <MapboxGL.Animated.LineLayer
-          id="progressFill"
-          style={layerStyles.progress}
-          aboveLayerID="routeFill"
-        />
-      </MapboxGL.Animated.ShapeSource>
-    );
-  }
-
-  renderOrigin() {
-    let backgroundColor = 'yellow';
-
-    if (this.state.currentPoint) {
-      backgroundColor = '#314ccd';
+    async getDirections() {
+        const res = await MapboxClient.getDirections(
+            [
+            {
+                latitude: PARIAN_COORDINATES[1],
+                longitude: PARIAN_COORDINATES[0],
+            },
+            {
+                latitude: UC_COORDINATES[1],
+                longitude: UC_COORDINATES[0]
+            },
+            ],
+            {profile: 'walking', geometry: 'polyline'},
+        );
+        console.log("HOOOOY",res);
+        this.setState({
+        route: makeLineString(res.entity.routes[0].geometry.coordinates),
+        });
     }
 
-    const style = [layerStyles.origin, {circleColor: backgroundColor}];
+    componentWillUnmount() {
+        // if (this.state.routeSimulator) {
+        //   this.state.routeSimulator.stop();
+        // }
+    }
 
-    return (
-      <MapboxGL.ShapeSource
-        id="origin"
-        shape={MapboxGL.geoUtils.makePoint(PARIAN_COORDINATES)}
-      >
-        <MapboxGL.Animated.CircleLayer id="originInnerCircle" style={style} />
-      </MapboxGL.ShapeSource>
-    );
-  }
+    renderRoute() {
+        if (!this.state.route) {
+        return null;
+        }
+
+        return (
+        <MapboxGL.ShapeSource id="routeSource" shape={this.state.route}>
+            <MapboxGL.LineLayer
+            id="routeFill"
+            style={layerStyles.route}
+            belowLayerID="originInnerCircle"
+            />
+        </MapboxGL.ShapeSource>
+        );
+    }
+
+    renderCurrentPoint() {
+        if (!this.state.currentPoint) {
+            return;
+        }
+        return (
+            <PulseCircleLayer
+                shape={this.state.currentPoint}
+                aboveLayerID="destinationInnerCircle"
+            />
+        );
+    }
+
+    renderProgressLine() {
+        if (!this.state.currentPoint) {
+            return null;
+        }
+
+        const {nearestIndex} = this.state.currentPoint.properties;
+        const coords = this.state.route.geometry.coordinates.filter(
+            (c, i) => i <= nearestIndex,
+        );
+        coords.push(this.state.currentPoint.geometry.coordinates);
+
+        if (coords.length < 2) {
+            return null;
+        }
+
+        const lineString = makeLineString(coords);
+        return (
+            <MapboxGL.Animated.ShapeSource id="progressSource" shape={lineString}>
+                <MapboxGL.Animated.LineLayer
+                    id="progressFill"
+                    style={layerStyles.progress}
+                    aboveLayerID="routeFill"
+                />
+            </MapboxGL.Animated.ShapeSource>
+        );
+    }
+
+    renderOrigin() {
+        let backgroundColor = 'yellow';
+
+        if (this.state.currentPoint) {
+            backgroundColor = '#314ccd';
+        }
+
+        const style = [layerStyles.origin, {circleColor: backgroundColor}];
+
+        return (
+            <MapboxGL.ShapeSource
+                id="origin"
+                shape={MapboxGL.geoUtils.makePoint(PARIAN_COORDINATES)}
+            >
+                <MapboxGL.Animated.CircleLayer id="originInnerCircle" style={style} />
+            </MapboxGL.ShapeSource>
+        );
+    }
 
   render() {
-    return (
+        return (
             <MapboxGL.MapView
-            zoomLevel={13}
-            ref={c => (this._map = c)}
-            centerCoordinate={PARIAN_COORDINATES}
-            style={{flex : 1, margin : 30}}
-            showUserLocation
-            //   styleURL={MapboxGL.StyleURL.Dark}
+                zoomLevel={13}
+                ref={c => (this._map = c)}
+                centerCoordinate={PARIAN_COORDINATES}
+                style={{flex : 1, margin : 30}}
+                showUserLocation
+                //   styleURL={MapboxGL.StyleURL.Dark}
             >
-            {this.renderOrigin()}
+                {this.renderOrigin()}
 
-            {this.renderRoute()}
-            {this.renderCurrentPoint()}
-            {this.renderProgressLine()}
+                {this.renderRoute()}
+                {this.renderCurrentPoint()}
+                {this.renderProgressLine()}
 
-            <MapboxGL.ShapeSource
-                id="destination"
-                shape={MapboxGL.geoUtils.makePoint(UC_COORDINATES)}
-            >
-                <MapboxGL.CircleLayer
-                id="destinationInnerCircle"
-                style={layerStyles.destination}
-                />
-            </MapboxGL.ShapeSource>
+                <MapboxGL.ShapeSource
+                    id="destination"
+                    shape={MapboxGL.geoUtils.makePoint(UC_COORDINATES)}
+                >
+                    <MapboxGL.CircleLayer
+                    id="destinationInnerCircle"
+                    style={layerStyles.destination}
+                    />
+                </MapboxGL.ShapeSource>
             </MapboxGL.MapView>
         );
     }

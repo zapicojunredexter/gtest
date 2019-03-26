@@ -19,21 +19,22 @@ const AuthenticationStack = createStackNavigator({
     }
 });
 
+
 const DrawerStack = createDrawerNavigator({
     Main: {
-        screen: Main,
+        screen: createStackNavigator({Main}),
     },
     Feedbacks : {
-        screen: Feedbacks,
+        screen: createStackNavigator({Feedbacks}),
     },
     History : {
-        screen: History,
+        screen: createStackNavigator({History}),
     },
     MakeBookings : {
-        screen: MakeBookings,
+        screen: createStackNavigator({MakeBookings}),
     },
     ViewTrips : {
-        screen: ViewTrips,
+        screen: createStackNavigator({ViewTrips}),
     },
 });
 
