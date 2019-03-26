@@ -2,9 +2,13 @@ import React from 'react';
 import View from 'react-native';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import InitialRoute from './InitialRoute';
-import Home from '../containers/home/main';
 import Login from '../containers/authentication/login';
 import Registration from '../containers/authentication/registration';
+import Main from '../containers/main/home';
+import Feedbacks from '../containers/main/feedbacks';
+import History from '../containers/main/history';
+import MakeBookings from '../containers/main/make.bookings';
+import ViewTrips from '../containers/main/view.trips';
 
 const AuthenticationStack = createStackNavigator({
     Login : {
@@ -15,10 +19,21 @@ const AuthenticationStack = createStackNavigator({
     }
 });
 
-const HomeStack = createDrawerNavigator({
-    Home: {
-        screen: Home,
-        navigationOptions: () => ({}),
+const DrawerStack = createDrawerNavigator({
+    Main: {
+        screen: Main,
+    },
+    Feedbacks : {
+        screen: Feedbacks,
+    },
+    History : {
+        screen: History,
+    },
+    MakeBookings : {
+        screen: MakeBookings,
+    },
+    ViewTrips : {
+        screen: ViewTrips,
     },
 });
 
@@ -26,7 +41,7 @@ const StackNavigator = createStackNavigator(
   {
     InitialRoute : { screen: InitialRoute },
     Authentication : { screen : AuthenticationStack },
-    Home : { screen : HomeStack }
+    Home : { screen : DrawerStack }
   },
   {
     headerMode: 'none',
