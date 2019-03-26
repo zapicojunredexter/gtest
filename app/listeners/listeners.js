@@ -1,4 +1,3 @@
-// import type { Element } from 'react';
 import React from 'react';
 
 import { AppState, BackHandler, NetInfo } from 'react-native';

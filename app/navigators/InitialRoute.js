@@ -4,7 +4,7 @@ import {
   Text,
   View,
 } from 'react-native';
-
+import Listener from '../listeners/listeners.navigation';
 import SystemActions from '../reducers/system/system.action';
 
 type Props = {
@@ -20,7 +20,7 @@ class InitialRoute extends React.Component<Props> {
   render() {
     return (
       <View>
-        <Text>INITIAL ROUTE</Text>
+          <Listener {...this.props} />
       </View>
     );
   }
