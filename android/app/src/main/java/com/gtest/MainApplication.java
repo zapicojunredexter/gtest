@@ -1,6 +1,7 @@
 package com.gtest;
 
 import android.app.Application;
+import com.wix.RNCameraKit.RNCameraKitPackage;
 
 import com.facebook.react.ReactApplication;
 import com.mapbox.rctmgl.RCTMGLPackage;
@@ -24,7 +25,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RCTMGLPackage()
+            new RCTMGLPackage(),
+            new RNCameraKitPackage()
       );
     }
 
