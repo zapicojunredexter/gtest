@@ -27,7 +27,7 @@ class SystemAction {
 
     setHasInternet = hasInternet => dispatch => 
         dispatch({
-            type : SET_API,
+            type : SET_HAS_INTERNET,
             hasInternet
         });
 

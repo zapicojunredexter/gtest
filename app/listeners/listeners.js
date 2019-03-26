@@ -1,18 +1,9 @@
-// @flow
-
-import type { Element } from 'react';
+// import type { Element } from 'react';
 import React from 'react';
 
 import { AppState, BackHandler, NetInfo } from 'react-native';
 
-type Props = {
-  children: Element<Object>,
-};
-
-type State = {
-  appState: Object,
-};
-class Listeners extends React.Component<Props, State> {
+class Listeners extends React.PureComponent<> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -38,7 +29,7 @@ class Listeners extends React.Component<Props, State> {
 
   handleBackButton = () => true;
 
-  handleAppStateChange = (nextAppState: { match: Function }) => {
+  handleAppStateChange = nextAppState => {
     if (
       this.state.appState.match(/inactive|background/) &&
       nextAppState === 'active'

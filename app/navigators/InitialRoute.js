@@ -5,6 +5,8 @@ import {
   View,
 } from 'react-native';
 
+import SystemActions from '../reducers/system/system.action';
+
 type Props = {
 };
 
@@ -17,8 +19,7 @@ class InitialRoute extends React.Component<Props> {
     }
   render() {
     return (
-      <View
-      >
+      <View>
         <Text>INITIAL ROUTE</Text>
       </View>
     );
@@ -27,6 +28,7 @@ class InitialRoute extends React.Component<Props> {
 const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
+    setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true))
 });
 
 export default connect(

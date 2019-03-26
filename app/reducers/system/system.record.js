@@ -2,7 +2,7 @@ const System = {
     hasInternet : false,
     timestampOffset : null,
     currentLocation : null,
-    api : '',
+    api : 'https://www.google.com/',
 }
 
 export default System;
