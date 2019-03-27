@@ -8,7 +8,6 @@ import Listener from '../listeners/listeners.navigation';
 import SystemActions from '../reducers/system/system.action';
 import firebase from 'react-native-firebase';
 
-
 type Props = {
 };
 
@@ -19,13 +18,28 @@ class InitialRoute extends React.Component<Props> {
         const { navigation } = props;
         navigation.navigate('Login');
 
-        firebase.auth()
-            .signInAnonymously()
-            .then(credential => {
-            if (credential) {
-                console.log('default app user ->', credential.user.toJSON());
-            }
-            }).catch(error => console.log(error));
+        // firebase.auth()
+        //     .signInAnonymously()
+        //     .then(credential => {
+        //     if (credential) {
+        //         console.log('default app user ->', credential.user.toJSON());
+        //     }
+        //     }).catch(error => console.log(error));
+
+
+        this.ref = firebase.firestore().collection('todos');
+        this.ref.add({
+            title: 'test title',
+            complete: false,
+          });
+
+          this.ref.onSnapshot(this.onCollectionUpdate)
+    }
+    onCollectionUpdate = (querySnapshot) => {
+        console.log("HOY", querySnapshot);
+        querySnapshot.forEach((doc) => {
+            console.log("HEREES DOC DATA", doc.data());
+          });
     }
   render() {
     return (
