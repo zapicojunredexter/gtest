@@ -5,16 +5,27 @@ import {
   View,
   Button,
 } from 'react-native';
+import AuthService from '../../../services/auth.service';
 
-type Props = {
-};
-
-
-class Registration extends React.Component<Props> {
+class Registration extends React.Component<> {
   render() {
     return (
       <View>
         <Text>You are in REGISTRATION PAGE</Text>
+        <Button title="REGISTER"
+            onPress={() => {
+                // try{
+
+                    this.props.registerAccount({
+                        username : 'testUsername',
+                        password : 'testPassword',
+                    })
+                    .catch(error => alert(error.message));
+                // }catch(err){
+                //     alert("ZXCs"+err.message);
+                // }
+            }}
+        />
       </View>
     );
   }
@@ -22,6 +33,7 @@ class Registration extends React.Component<Props> {
 const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
+    registerAccount : (params) => dispatch(AuthService.registerAccount(params))
 });
 
 export default connect(
