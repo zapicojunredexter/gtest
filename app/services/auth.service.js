@@ -16,11 +16,13 @@ class AuthService {
         // firebaseRef.read();
 
         // firebaseRef.update(params,'testId');
-        // try{
-            firebaseRef.delete('testId').catch(error => { throw error });
-        // }catch(err){
-        //     alert("ZXC"+err.message);
-        // }
+        console.log("IN");
+        // await firebaseRef.delete('testId').catch(error => { throw error });
+        
+        firebaseRef.listen(data => {
+            console.log("SAMANA",data);
+        });
+        console.log("OUT");
         // const firebaseRef = firebase.firestore().collection('todos');
         // this.ref.add({
         //     title: 'test title',

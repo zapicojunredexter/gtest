@@ -73,12 +73,12 @@ class DatabaseInfrastructure {
         this.checkStore();
 
         const ref = this.getCollection().doc(id);
-        const snapshot = await ref.get();
-
+        const snapshot = await ref.get().catch(error => { throw error });
+        
         this.verifySnapshot(snapshot);
 
         const obj = snapshot.data();
-
+        
         this.verifyData(obj);
 
         const next = {
@@ -91,6 +91,20 @@ class DatabaseInfrastructure {
 
         return true;
     };
+    
+    listen = callback => {
+        this.checkStore();
+
+        const ref = this.getCollection();
+        
+        ref.onSnapshot(querySnapshot => {
+            const data = [];
+            querySnapshot.forEach((doc) => {
+                data.push(doc.data());
+            });
+            callback(data);
+        })
+    }
 
     checkStore = () => {
         if (!this.firebase) {

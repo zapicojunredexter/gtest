@@ -19,8 +19,7 @@ class Registration extends React.Component<> {
                     this.props.registerAccount({
                         username : 'testUsername',
                         password : 'testPassword',
-                    })
-                    .catch(error => alert(error.message));
+                    }).then(res => alert("SUCCESS")).catch(error => alert(error.message));
                 // }catch(err){
                 //     alert("ZXCs"+err.message);
                 // }
