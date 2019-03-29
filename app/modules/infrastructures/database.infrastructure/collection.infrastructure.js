@@ -49,24 +49,39 @@ class DatabaseInfrastructure {
     update = async (obj, id) => {
         this.checkStore();
 
-        const ref = this.getCollection().doc(id);
-        const snapshot = await ref.get();
-
-        this.verifySnapshot(snapshot);
-
-        const prev = snapshot.data();
-
-        this.verifyData(obj);
+        const ref = this.getCollection().doc(obj.id);
 
         const next = {
-            ...prev,
             ...obj,
+            HAHA : "HAHA1",
             updatedAtMs: this.firebase.firestore.FieldValue.serverTimestamp()
         };
 
         await ref.set(next);
 
         return next;
+
+        //IULI NI ONCE TESTED
+        // this.checkStore();
+
+        // const ref = this.getCollection().doc(id);
+        // const snapshot = await ref.get();
+
+        // this.verifySnapshot(snapshot);
+
+        // const prev = snapshot.data();
+
+        // this.verifyData(obj);
+
+        // const next = {
+        //     ...prev,
+        //     ...obj,
+        //     updatedAtMs: this.firebase.firestore.FieldValue.serverTimestamp()
+        // };
+
+        // await ref.set(next);
+
+        // return next;
     };
 
     delete = async (id) => {

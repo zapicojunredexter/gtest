@@ -15,11 +15,11 @@ class Registration extends React.Component<> {
         <Button title="REGISTER"
             onPress={() => {
                 // try{
-
-                    this.props.registerAccount({
-                        username : 'testUsername',
-                        password : 'testPassword',
-                    }).then(res => alert("SUCCESS")).catch(error => alert(error.message));
+                this.props.registerAccount("now@gmail.com","nowgmail",{name : "now", age : 21, gender : "M"}).catch(error => alert(error.message));
+                    // this.props.registerAccount({
+                    //     username : 'testUsername',
+                    //     password : 'testPassword',
+                    // }).then(res => alert("SUCCESS")).catch(error => alert(error.message));
                 // }catch(err){
                 //     alert("ZXCs"+err.message);
                 // }
@@ -32,7 +32,8 @@ class Registration extends React.Component<> {
 const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
-    registerAccount : (params) => dispatch(AuthService.registerAccount(params))
+    login : (params) => dispatch(AuthService.login(params)),
+    registerAccount : (username, password, params) => dispatch(AuthService.registerAccount(username, password, params))
 });
 
 export default connect(
