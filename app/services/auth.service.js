@@ -1,7 +1,6 @@
 import firebase from 'react-native-firebase';
-
+import UserActions from '../reducers/user/user.action';
 import CollectionInfrastructure from '../modules/infrastructures/database.infrastructure/collection.infrastructure';
-
 import AuthInfrastructure from '../modules/infrastructures/auth.infrastructure';
 
 const firebaseRef = new CollectionInfrastructure(firebase,'Users');
@@ -11,6 +10,11 @@ class AuthService {
         // const res = await firebase.auth().signInWithEmailAndPassword(username, password).catch(error => { throw error });
         return await AuthInfrastructure.login(username, password);
     };
+
+    logout = () => async (dispatch, getState) => {
+        await firebase.auth().signOut().catch(error => { throw error });
+        dispatch(UserActions.setUser({}));
+    }
 
     registerAccount = (username, passsword, params) => async (dispatch, getState) => {
         
@@ -49,7 +53,15 @@ class AuthService {
         //     test : "TEST",
         //     test1 : "TEST1"
         // }).catch(error => { throw error });
-        await AuthInfrastructure.registerAccount(username, passsword, params).catch(error => { throw error })
+        await AuthInfrastructure.registerAccount(username, passsword, params).catch(error => { throw error });
+
+        const user  = {
+            username,
+            passsword,
+            ...params
+        };
+
+        dispatch(UserActions.setUser(user));
     }
 
 }

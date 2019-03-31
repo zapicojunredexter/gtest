@@ -4,6 +4,8 @@ import ErrorMessages from '../error.messages';
 class AuthInfrastructure {
     login = async (username, password) => {
         const res = await firebase.auth().signInWithEmailAndPassword(username, password).catch(error => { throw error });
+
+        console.log("ARA SI USER U", res);
         return true;
     }
 

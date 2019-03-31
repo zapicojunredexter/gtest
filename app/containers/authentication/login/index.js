@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  Text,
-  View,
-  Button,
+    Text,
+    View,
+    Button,
+    TextInput
 } from 'react-native';
 import AuthService from '../../../services/auth.service';
 
@@ -12,9 +13,13 @@ type Props = {
 
 
 class Login extends React.Component<Props> {
+    state = {
+        username : 'junre@yah.com',
+        password : 'junrejunre'
+    }
     login = async () => {
         const { login } = this.props;
-        const username = 'testemail@gmail.com', password = 'testpassword';
+        const { username, password } = this.state;
         
         login(username, password)
             .then(res => {
@@ -30,8 +35,19 @@ class Login extends React.Component<Props> {
         <View
         >
             <Text>You are in LOGIN PAGE</Text>
+
+            <TextInput
+                onChangeText={(text) => this.setState({ username : text })}
+                value={this.state.username}
+                style={{width : '100%'}}
+            />
+            <TextInput
+                onChangeText={(text) => this.setState({ password : text })}
+                value={this.state.password}
+                style={{width : '100%'}}
+            />
             <Button title="Registration" onPress={() => this.props.navigation.navigate('Registration')}/>
-            <Button title="Home" onPress={this.login}/>
+            <Button title="LOGIN" onPress={this.login}/>
         </View>
         );
     }

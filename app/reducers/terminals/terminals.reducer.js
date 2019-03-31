@@ -6,7 +6,7 @@ class TerminalsReducer {
     reducer = (state = [], action ) => {
         switch (action.type) {
             case SET_TERMINALS: {
-                return {...state, terminals : action.terminals};
+                return {...state, ...action.terminals};
             }
             default: {
                 return state;
