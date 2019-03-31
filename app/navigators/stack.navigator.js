@@ -1,5 +1,5 @@
 import React from 'react';
-import View from 'react-native';
+import { View, Text } from 'react-native';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import InitialRoute from './InitialRoute';
 import Login from '../containers/authentication/login';
@@ -20,10 +20,19 @@ const AuthenticationStack = createStackNavigator({
     }
 });
 
+const createStackWithNotifIcon = (screens) =>
+    createStackNavigator(screens,
+        {
+            navigationOptions : (({ navigation, screenProps }) => ({
+                headerLeft : <Text onPress={navigation.toggleDrawer}>toggle drawer</Text>,
+                headerRight : <Text>asdas</Text>,
+            })),
+        }
+    );
 
 const DrawerStack = createDrawerNavigator({
     Main: {
-        screen: createStackNavigator({Main}),
+        screen: createStackWithNotifIcon({Main}),
     },
     UserProfile : {
         screen: createStackNavigator({UserProfile}),

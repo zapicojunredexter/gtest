@@ -13,10 +13,11 @@ class Listeners extends React.PureComponent<> {
     AppState.addEventListener('change', this.handleAppStateChange);
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
-
     NetInfo.getConnectionInfo().then((connectionInfo) => {
         props.setHasInternetConnection(connectionInfo.type !== 'none');
       });
+    // this.getCurrentLocation();
+    this.listenCurrentLocation();
   }
 
   componentWillUnmount() {
@@ -26,6 +27,35 @@ class Listeners extends React.PureComponent<> {
       'connectionChange',
       this.handleConnectivityChange,
     );
+  }
+
+    listenCurrentLocation = () => {
+        // not the best method. still needs more research
+        setInterval(this.getCurrentLocation, 5000);
+    }
+
+    getCurrentLocation = () => {
+        const { setCurrentLocation } = this.props;
+        navigator.geolocation.getCurrentPosition(
+            location => {
+                const {
+                    latitude,
+                    longitude
+                } = location.coords;
+                setCurrentLocation({ latitude, longitude });
+            },
+            error => {
+                setCurrentLocation(null);
+            }
+        );
+    }
+
+  listenLocation = () => {
+    navigator.geolocation.watchPosition((location) =>{
+        console.log("LOCATION SUCESS",location);
+    }, (error) => {
+        console.log("LOCATION ERROR",error);
+    });
   }
 
   handleBackButton = () => true;
@@ -64,7 +94,8 @@ class Listeners extends React.PureComponent<> {
 const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
-    setHasInternetConnection : (hasInternet) => dispatch(SystemActions.setHasInternet(hasInternet))
+    setHasInternetConnection : (hasInternet) => dispatch(SystemActions.setHasInternet(hasInternet)),
+    setCurrentLocation : coords => dispatch(SystemActions.setCurrentLocation(coords))
 });
 
 export default connect(

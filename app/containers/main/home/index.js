@@ -178,10 +178,12 @@ class DriveTheLine extends React.Component {
                 zoomLevel={13}
                 ref={c => (this._map = c)}
                 centerCoordinate={PARIAN_COORDINATES}
-                style={{flex : 1, margin : 30}}
+                style={{flex : 1, margin : 10}}
+                // this is not same as the one in global state
                 showUserLocation
                 //   styleURL={MapboxGL.StyleURL.Dark}
             >
+                {/*
                 {this.renderOrigin()}
 
                 {this.renderRoute()}
@@ -196,7 +198,8 @@ class DriveTheLine extends React.Component {
                     id="destinationInnerCircle"
                     style={layerStyles.destination}
                     />
-                </MapboxGL.ShapeSource>
+                </MapboxGL.ShapeSource>*/}
+                
             </MapboxGL.MapView>
         );
     }
