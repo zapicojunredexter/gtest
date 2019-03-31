@@ -7,8 +7,11 @@ const firebaseRef = new CollectionInfrastructure(firebase,'Users');
 
 class AuthService {
     login = (username, password) => async (dispatch, getState) => {
-        // const res = await firebase.auth().signInWithEmailAndPassword(username, password).catch(error => { throw error });
-        return await AuthInfrastructure.login(username, password);
+        const loggedInUser = await AuthInfrastructure.login(username, password);
+        if(!loggedInUser){
+            throw new Error('User does not exists');
+        }
+        dispatch(UserActions.setUser(loggedInUser));
     };
 
     logout = () => async (dispatch, getState) => {

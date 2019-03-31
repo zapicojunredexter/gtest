@@ -16,10 +16,9 @@ class InitialRoute extends React.Component<Props> {
     constructor(props){
         super(props);
         const { navigation } = props;
-        navigation.navigate('Login');
-
-
-        console.log("ZXC",firebase.auth().currentUser);
+        const isLoggedIn = !!firebase.auth().currentUser;
+        console.log("HOOOY", isLoggedIn);
+        navigation.navigate(isLoggedIn ? 'Home' : 'Login');
         // firebase.auth()
         //     .signInAnonymously()
         //     .then(credential => {

@@ -5,8 +5,13 @@ class AuthInfrastructure {
     login = async (username, password) => {
         const res = await firebase.auth().signInWithEmailAndPassword(username, password).catch(error => { throw error });
 
-        console.log("ARA SI USER U", res);
-        return true;
+        const authObject = res.user;
+        const { uid } = authObject;
+    
+        const ref = this.getCollection().doc(uid);
+        const userResponse = await ref.get();
+
+        return userResponse.data();
     }
 
     registerAccount = async (username, password, params) => {

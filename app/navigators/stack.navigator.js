@@ -9,6 +9,7 @@ import Feedbacks from '../containers/main/feedbacks';
 import History from '../containers/main/history';
 import MakeBookings from '../containers/main/make.bookings';
 import ViewTrips from '../containers/main/view.trips';
+import UserProfile from '../containers/main/profile';
 
 const AuthenticationStack = createStackNavigator({
     Login : {
@@ -23,6 +24,9 @@ const AuthenticationStack = createStackNavigator({
 const DrawerStack = createDrawerNavigator({
     Main: {
         screen: createStackNavigator({Main}),
+    },
+    UserProfile : {
+        screen: createStackNavigator({UserProfile}),
     },
     Feedbacks : {
         screen: createStackNavigator({Feedbacks}),
