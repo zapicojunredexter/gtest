@@ -2,6 +2,13 @@ Admin {
 
 }
 
+Terminal {
+    TerminalId : null,
+    TerminalLocation : null,
+    TerminalAddress : '',
+    TerminalContactNumber : '',
+}
+
 ScheduledTrip {
     TripId : null,
     TripInfo : '',
