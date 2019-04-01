@@ -1,9 +1,10 @@
 package com.gtest;
 
 import android.app.Application;
-import com.wix.RNCameraKit.RNCameraKitPackage;
 
 import com.facebook.react.ReactApplication;
+import com.beefe.picker.PickerViewPackage;
+import com.wix.RNCameraKit.RNCameraKitPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
@@ -28,9 +29,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PickerViewPackage(),
+            new RNCameraKitPackage(),
             new RNFirebasePackage(),
             new RCTMGLPackage(),
-            new RNCameraKitPackage(),
             new RNFirebaseAuthPackage(),
             new RNFirebaseFirestorePackage()
       );

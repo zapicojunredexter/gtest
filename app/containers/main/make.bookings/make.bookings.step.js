@@ -51,7 +51,7 @@ class Container extends React.PureComponent<> {
 
     render() {
         return (
-            <View style={{backgroundColor:'red'}}>
+            <View style={{backgroundColor:'red',flex:1}}>
                 {this.renderStep()}
             </View>
         );

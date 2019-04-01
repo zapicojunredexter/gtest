@@ -9,7 +9,7 @@ class Container extends React.PureComponent<> {
 
     render() {
         return (
-            <View>
+            <View style={{flex:1}}>
                 <Text>IN CONTAINER</Text>
                 <Steps />
             </View>

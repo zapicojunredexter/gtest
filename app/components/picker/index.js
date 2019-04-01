@@ -3,46 +3,66 @@ import { connect } from 'react-redux';
 import {
   Text,
   View,
-  Picker,
+  Button,
   StyleSheet,
   DatePickerAndroid
 } from 'react-native';
+import Picker from 'react-native-picker';
 
-import { colors } from '../../constants/colors';
+/*
+let data = [];
+for(var i=0;i<100;i++){
+    data.push(i);
+}
 
-const _style = StyleSheet.create({
-    pickerWrapper : {
-        width : '100%',
+Picker.init({
+    pickerData: data,
+    selectedValue: [59],
+    onPickerConfirm: data => {
+        console.log(data);
     },
-    defaultPicker: {
-        borderWidth : 0,
-        height : 40,
+    onPickerCancel: data => {
+        console.log(data);
     },
-    errorMessage : {
-        color : 'red',
-    },
+    onPickerSelect: data => {
+        console.log(data);
+    }
 });
-
+Picker.show();
+*/
 export default class CustomPicker extends React.PureComponent<> {
     constructor(props){
         super(props);
     }
 
+    mapPropsToChoices = () => {
+
+    }
+
+    openPicker = () => {
+        // { key, value, displayValue }
+        const { choices, selectedValue, onSelect } = this.props;
+
+        Picker.init({
+            pickerData: choices,
+            selectedValue: [selectedValue],
+            onPickerConfirm: data => {
+                onSelect(data[0]);
+            },
+            onPickerCancel: data => {
+            },
+            onPickerSelect: data => {
+            },
+            pickerConfirmBtnText : "Ok",
+            pickerCancelBtnText : "Cancel",
+        });
+        Picker.show();
+    }
+
     render() {
-        const { style, choices, error, wrapperStyle, placeholder } = this.props;
-        return (
-            <View style={[_style.pickerWrapper, wrapperStyle]}>
-                <Picker
-                    {...this.props}
-                    style={[_style.defaultPicker,style]}
-                >
-                    {choices.map(choice => 
-                        <Picker.Item key={choice.value} {...choice} />
-                    )}
-                </Picker>
-                <Text style={_style.errorMessage}>{error}</Text>
-            </View>
-        );
+        const { selectedValue } = this.props;
+        return <Text {...this.props} onPress={this.openPicker}>{selectedValue || '-'}</Text>
+
     }
 }
 

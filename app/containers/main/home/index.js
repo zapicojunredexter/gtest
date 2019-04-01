@@ -4,7 +4,7 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import {View, StyleSheet,Button} from 'react-native';
 import {lineString as makeLineString} from '@turf/helpers';
 import RouteSimulator from './RouteSimulator';
-import MapboxClient from './MapboxClient';
+import MapboxClient from '../../../utils/mapbox.client';
 
 import PulseCircleLayer from './PulseCircleLayer';
 
