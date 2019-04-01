@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { createStackNavigator, createDrawerNavigator, SafeAreaView, DrawerItems } from 'react-navigation';
 import InitialRoute from './InitialRoute';
 import Login from '../containers/authentication/login';
@@ -26,6 +26,15 @@ const createStackWithNotifIcon = (screens) =>
         {
             navigationOptions : (({ navigation, screenProps }) => ({
                 headerLeft : <Text onPress={navigation.toggleDrawer}>toggle drawer</Text>,
+                headerLeft : (
+                    <TouchableOpacity onPress={navigation.toggleDrawer}>
+                        <Image
+                            style={{marginLeft : 15, width: 35, height: 35}}
+                            source={require('../assets/images/burger.png')}
+                        />
+                    </TouchableOpacity>
+                    
+                ),
                 headerRight : <Text>asdas</Text>,
             })),
         }
@@ -38,74 +47,75 @@ const DrawerStack = createDrawerNavigator({
             drawerLabel: 'Home',
             drawerIcon: () => (
                 <Image
-                    style={{width: 50, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    style={{width: 25, height: 25}}
+                    source={require('../assets/images/home.png')}
                 />
             )
         },
     },
     UserProfile : {
-        screen: createStackNavigator({UserProfile}),
+        screen: createStackWithNotifIcon({UserProfile}),
         navigationOptions: {
             drawerLabel: 'User',
             drawerIcon: () => (
                 <Image
-                    style={{width: 50, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    style={{width: 25, height: 25}}
+                    source={require('../assets/images/profile.png')}
                 />
             )
         },
     },
     Feedbacks : {
-        screen: createStackNavigator({Feedbacks}),
+        screen: createStackWithNotifIcon({Feedbacks}),
         navigationOptions: {
             drawerLabel: 'Feedbacks',
             drawerIcon: () => (
                 <Image
-                    style={{width: 50, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    style={{width: 25, height: 25}}
+                    source={require('../assets/images/feedbacks.png')}
                 />
             )
         },
     },
     History : {
-        screen: createStackNavigator({History}),
+        screen: createStackWithNotifIcon({History}),
         navigationOptions: {
             drawerLabel: 'History',
             drawerIcon: () => (
                 <Image
-                    style={{width: 50, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    style={{width: 25, height: 25}}
+                    source={require('../assets/images/history.png')}
                 />
             )
         },
     },
     MakeBookings : {
-        screen: createStackNavigator({MakeBookings}),
+        screen: createStackWithNotifIcon({MakeBookings}),
         navigationOptions: {
             drawerLabel: 'Make Bookings',
             drawerIcon: () => (
                 <Image
-                    style={{width: 50, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    style={{width: 25, height: 25}}
+                    source={require('../assets/images/bookings.png')}
                 />
             )
         },
     },
     ViewTrips : {
-        screen: createStackNavigator({ViewTrips}),
+        screen: createStackWithNotifIcon({ViewTrips}),
         navigationOptions: {
             drawerLabel: 'View Trips',
             drawerIcon: () => (
                 <Image
-                    style={{width: 50, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    style={{width: 25, height: 25}}
+                    source={require('../assets/images/trips.png')}
                 />
             )
         },
     },
 }, {
     contentComponent : DrawerComponent,
+    drawerBackgroundColor : '#0B5173',
 });
 
 const StackNavigator = createStackNavigator(
