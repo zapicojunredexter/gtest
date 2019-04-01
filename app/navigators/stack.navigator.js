@@ -11,6 +11,7 @@ import MakeBookings from '../containers/main/make.bookings';
 import ViewTrips from '../containers/main/view.trips';
 import UserProfile from '../containers/main/profile';
 import DrawerComponent from './drawer.component';
+import NotificationIcon from '../components/notification';
 
 const AuthenticationStack = createStackNavigator({
     Login : {
@@ -35,7 +36,11 @@ const createStackWithNotifIcon = (screens) =>
                     </TouchableOpacity>
                     
                 ),
-                headerRight : <Text>asdas</Text>,
+                headerRight : <NotificationIcon />,
+                headerStyle: {
+                    backgroundColor: '#0B5173',
+                },
+                headerTintColor: '#fff',
             })),
         }
     );
@@ -50,7 +55,7 @@ const DrawerStack = createDrawerNavigator({
                     style={{width: 25, height: 25}}
                     source={require('../assets/images/home.png')}
                 />
-            )
+            ),
         },
     },
     UserProfile : {

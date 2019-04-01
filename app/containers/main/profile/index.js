@@ -4,6 +4,10 @@ import { View, Text, Button } from 'react-native';
 import AuthService from '../../../services/auth.service';
 
 class Container extends React.PureComponent<> {
+    static navigationOptions = {
+        headerTitle : 'PROFILE',
+    };
+
     constructor(props) {
         super(props);
     }

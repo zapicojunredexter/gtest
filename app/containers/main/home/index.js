@@ -37,10 +37,6 @@ const layerStyles = MapboxGL.StyleSheet.create({
 });
 
 class DriveTheLine extends React.Component {
-
-    static navigationOptions = {
-        title : 'ASDAS'
-    };
     constructor(props) {
         super(props);
 
@@ -205,4 +201,10 @@ class DriveTheLine extends React.Component {
     }
 }
 
-export default SystemRestricted(DriveTheLine);
+export default SystemRestricted(
+    DriveTheLine,
+    {
+        navigationOptions : {
+            headerTitle : 'HOME'
+        },
+    });

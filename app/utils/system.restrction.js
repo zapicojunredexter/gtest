@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-export default SystemRestricted = Component => {
+export default SystemRestricted = (Component, options) => {
     class SystemRestrictedClass extends React.PureComponent<>{
+        static navigationOptions = {...options.navigationOptions}
         render() {
             const { hasInternet, hasLocation } = this.props;
             console.log("NAUSAB",hasInternet,hasLocation);
