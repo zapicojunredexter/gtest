@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import firebase from 'react-native-firebase';
 import {
   Text,
   View,
 } from 'react-native';
 import Listener from '../listeners/listeners.navigation';
 import SystemActions from '../reducers/system/system.action';
-import firebase from 'react-native-firebase';
 
 type Props = {
 };
@@ -19,6 +19,7 @@ class InitialRoute extends React.Component<Props> {
         const isLoggedIn = !!firebase.auth().currentUser;
         console.log("HOOOY", isLoggedIn);
         navigation.navigate(isLoggedIn ? 'Home' : 'Login');
+
         // firebase.auth()
         //     .signInAnonymously()
         //     .then(credential => {
@@ -75,7 +76,7 @@ class InitialRoute extends React.Component<Props> {
 const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
-    setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true))
+    setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
 });
 
 export default connect(

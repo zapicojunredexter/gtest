@@ -33,8 +33,8 @@ class Container extends React.PureComponent<> {
     constructor(props) {
         super(props);
         this.state = {
-            from : '',
-            to : '',
+            from : null,
+            to : null,
             route : null,
         }
     }
@@ -45,44 +45,52 @@ class Container extends React.PureComponent<> {
             from,
             to
         } = this.state;
-        const fromLocation = locations.find(location => location.pickupPoint === from);
-        const toLocation = locations.find(location => location.pickupPoint === to);
-        console.log('ARANG LOCS',fromLocation,toLocation)
         const res = await MapboxClient.getDirections(
             [
             {
-                latitude: fromLocation.coordinates[1],
-                longitude: fromLocation.coordinates[0],
+                latitude: from.Coordinates[1],
+                longitude: from.Coordinates[0],
             },
             {
-                latitude: toLocation.coordinates[1],
-                longitude: toLocation.coordinates[0]
+                latitude: to.Coordinates[1],
+                longitude: to.Coordinates[0]
             },
             ],
             {profile: 'walking', geometry: 'polyline'},
         );
-        console.log("ARANG RES", res);
         this.setState({
             route: makeLineString(res.entity.routes[0].geometry.coordinates),
         });
     }
 
     selectFrom = (from) => {
-        this.setState({from, to : ''});
-        this.flyToLocation(from);
+        const { locations } = this.props;
+        const selectedLocation = locations.find(location => location.TerminalAddress === from);
+
+        if(selectedLocation){
+            this.setState({from : selectedLocation, to : null});
+            this.flyToLocation(selectedLocation.Coordinates);
+        } else {
+            alert("Location does not exist");
+        }
     }
 
     selectTo = (to) => {
-        this.setState({to});
-        this.flyToLocation(to);
-        this.getDirections();
+        const { locations } = this.props;
+        const selectedLocation = locations.find(location => location.TerminalAddress === to);
+        
+        if(selectedLocation){
+            this.setState({to : selectedLocation});
+            this.flyToLocation(selectedLocation.Coordinates);
+            this.getDirections();
+        } else {
+            alert("Location does not exist");
+        }
     }
 
-    flyToLocation = flyToLocation => {
-        const { locations } = this.props;
-        const selectedLocation = locations.find(location => location.pickupPoint === flyToLocation);
-        if(selectedLocation && selectedLocation.pickupPoint){
-            this._map.flyTo(selectedLocation.coordinates,3000)
+    flyToLocation = coordinates => {
+        if(coordinates && coordinates.length === 2){
+            this._map.flyTo(coordinates,3000)
         }
     }
 
@@ -109,9 +117,9 @@ class Container extends React.PureComponent<> {
             to
         } = this.state;
         const fromChoices = locations;
-        const selectedLocation = locations.find(location => location.pickupPoint === from);
-        const toChoices = selectedLocation ? locations.filter(location => selectedLocation.dropoffPoints.includes(location.pickupPoint)) : [];
-
+        // const selectedFromLocation = locations.find(location => location.TerminalAddress === from);
+        const toChoices = from ? locations.filter(location => from.dropoffPoints.includes(location.TerminalAddress)) : [];
+        // const selectedToLocation = toChoices.length > 0 ? : null;
         return (
             <View style={{flex:1}}>
                 <Text>IN LOCATION</Text>
@@ -120,16 +128,16 @@ class Container extends React.PureComponent<> {
                     <Picker
                         style={{flex:1}}
                         numberOfLines={1}
-                        choices={fromChoices.map(location => location.pickupPoint)}
-                        selectedValue={from}
+                        choices={fromChoices.map(location => location.TerminalAddress)}
+                        selectedValue={from && from.TerminalAddress}
                         onSelect={this.selectFrom}
                     />
                     <Text style={{flex: 1}}>TO</Text>
                     <Picker
                         style={{flex:1}}
                         numberOfLines={1}
-                        choices={toChoices.map(location => location.pickupPoint)}
-                        selectedValue={to}
+                        choices={toChoices.map(location => location.TerminalAddress)}
+                        selectedValue={to && to.TerminalAddress}
                         onSelect={this.selectTo}
                     />
                 </View>
@@ -156,23 +164,22 @@ Container.defaultProps = {
     locations : [
         {
             id : 'CAPITOL',
-            pickupPoint : 'CAPITOL',
-            coordinates : DEFAULT_COORDINATES,
+            TerminalAddress : 'CAPITOL',
+            Coordinates : [123.8907, 10.3168],
             dropoffPoints : ['FORT SAN PEDRO','CEBU BUSINESS PARK'],
         },
         {
             id : 'FORT SAN PEDRO',
-            pickupPoint : 'FORT SAN PEDRO',
-            coordinates : [123.9056,10.2925],
+            TerminalAddress : 'FORT SAN PEDRO',
+            Coordinates : [123.9056,10.2925],
             dropoffPoints : ['CAPITOL','CEBU BUSINESS PARK'],
         },
         {
             id : 'CEBU BUSINESS PARK',
-            pickupPoint : 'CEBU BUSINESS PARK',
-            coordinates : [123.9060,10.3174],
+            TerminalAddress : 'CEBU BUSINESS PARK',
+            Coordinates : [123.9060,10.3174],
             dropoffPoints : ['CAPITOL','FORT SAN PEDRO'],
         },
-
     ],
 }
 

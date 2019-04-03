@@ -3,7 +3,6 @@ const Terminal = {
     TerminalLocation : null,
     TerminalAddress : '',
     TerminalContactNumber : '',
-    TerminalTrips : [],
 }
 
 export default Terminal;
