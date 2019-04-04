@@ -8,6 +8,7 @@ class SchedulesService {
     listenSchedules = () => async (dispatch, getState) => {
 
         firebaseRef.listen(schedules => {
+            alert("Schedules updated");
             dispatch(ScheduleActions.setSchedules(schedules));
         });
         /*

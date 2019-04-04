@@ -20,15 +20,20 @@ class Container extends React.PureComponent<> {
         return (
             <View style={{flex:1}}>
                 <Text>IN CONTAINER</Text>
-                <Steps />
+                <Steps {...this.props} />
             </View>
         );
     }
 }
 
+Container.defaultProps = {
+    terminals : [],
+    schedules : [],
+};
+
 const mapStateToProps = store => ({
     terminals : store.terminals,
-    schedules : store.schedules
+    schedules : store.schedules.schedules
 });
 const mapDispatchToProps = dispatch => ({
     setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),

@@ -43,6 +43,10 @@ export default class CustomPicker extends React.PureComponent<> {
         // { key, value, displayValue }
         const { choices, selectedValue, onSelect } = this.props;
 
+        if(choices.length === 0){
+            alert("No choices available");
+            return;
+        }
         Picker.init({
             pickerData: choices,
             selectedValue: [selectedValue],

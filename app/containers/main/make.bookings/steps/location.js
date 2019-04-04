@@ -19,8 +19,8 @@ const layerStyles = MapboxGL.StyleSheet.create({
       circleColor: 'blue',
     },
     route: {
-      lineColor: 'orange',
-      lineWidth: 3,
+      lineColor: '#336699',
+      lineWidth: 7,
       lineOpacity: 0.84,
     },
     progress: {
@@ -64,8 +64,8 @@ class Container extends React.PureComponent<> {
     }
 
     selectFrom = (from) => {
-        const { locations } = this.props;
-        const selectedLocation = locations.find(location => location.TerminalAddress === from);
+        const { terminals } = this.props;
+        const selectedLocation = terminals.find(location => location.TerminalAddress === from);
 
         if(selectedLocation){
             this.setState({from : selectedLocation, to : null});
@@ -76,8 +76,8 @@ class Container extends React.PureComponent<> {
     }
 
     selectTo = (to) => {
-        const { locations } = this.props;
-        const selectedLocation = locations.find(location => location.TerminalAddress === to);
+        const { terminals } = this.props;
+        const selectedLocation = terminals.find(location => location.TerminalAddress === to);
         
         if(selectedLocation){
             this.setState({to : selectedLocation});
@@ -93,6 +93,35 @@ class Container extends React.PureComponent<> {
             this._map.flyTo(coordinates,3000)
         }
     }
+
+    createToChoices = () => {
+        const {
+            from,
+            to
+        } = this.state;
+        if (!from) {
+            return [];
+        }
+        const schedulesFromTerminal = this.props.schedules.filter(schedule => schedule.DepartFrom === from.TerminalId);
+        const scheduleToTerminalKeys = schedulesFromTerminal.map(schedule => schedule.DepartTo);
+        const filteredTerminals = this.props.terminals.filter(terminal => scheduleToTerminalKeys.includes(terminal.TerminalId));
+        
+        return  filteredTerminals;
+    }
+
+    handleNext = () => {
+        const { goToNext, setLocationBookingData } = this.props;
+        const {
+            from,
+            to
+        } = this.state;
+        goToNext();
+        setLocationBookingData({
+            from,
+            to,
+        });
+    }
+
 
     renderRoute() {
         if (!this.state.route) {
@@ -116,17 +145,30 @@ class Container extends React.PureComponent<> {
             from,
             to
         } = this.state;
-        const fromChoices = locations;
-        // const selectedFromLocation = locations.find(location => location.TerminalAddress === from);
-        const toChoices = from ? locations.filter(location => from.dropoffPoints.includes(location.TerminalAddress)) : [];
-        // const selectedToLocation = toChoices.length > 0 ? : null;
+        // const fromChoices = locations;
+        const fromChoices = this.props.terminals;
         return (
-            <View style={{flex:1}}>
+            <View style={{backgroundColor:"blue",flex:1}}>
+
+                <Button
+                    title="DETAILS"
+                    onPress={() => this.props.navigation.navigate('Details')}
+                />
+            </View>
+        );
+        // const selectedFromLocation = locations.find(location => location.TerminalAddress === from);
+        // const toChoices = from ? locations.filter(location => from.dropoffPoints.includes(location.TerminalAddress)) : [];
+        // const selectedToLocation = toChoices.length > 0 ? : null;
+        const toChoices = this.createToChoices();
+
+        return (
+            <View style={{flex:1,margin:20}}>
+                <Text>{this.props.terminals.length} terminals and {this.props.schedules.length} scheduels</Text>
                 <Text>IN LOCATION</Text>
                 <View style={{flexDirection:'row'}}>
                     <Text style={{flex: 1}}>FROM</Text>
                     <Picker
-                        style={{flex:1}}
+                        style={{flex:1,backgroundColor : 'orange'}}
                         numberOfLines={1}
                         choices={fromChoices.map(location => location.TerminalAddress)}
                         selectedValue={from && from.TerminalAddress}
@@ -134,7 +176,7 @@ class Container extends React.PureComponent<> {
                     />
                     <Text style={{flex: 1}}>TO</Text>
                     <Picker
-                        style={{flex:1}}
+                        style={{flex:1,backgroundColor : 'orange'}}
                         numberOfLines={1}
                         choices={toChoices.map(location => location.TerminalAddress)}
                         selectedValue={to && to.TerminalAddress}
@@ -153,7 +195,7 @@ class Container extends React.PureComponent<> {
                 </MapboxGL.MapView>
                 <Button
                     title="NEXT"
-                    onPress={goToNext}
+                    onPress={this.handleNext}
                 />
             </View>
         );
@@ -161,6 +203,7 @@ class Container extends React.PureComponent<> {
 }
 
 Container.defaultProps = {
+    /*
     locations : [
         {
             id : 'CAPITOL',
@@ -181,6 +224,7 @@ Container.defaultProps = {
             dropoffPoints : ['CAPITOL','FORT SAN PEDRO'],
         },
     ],
+    */
 }
 
 export default Container;

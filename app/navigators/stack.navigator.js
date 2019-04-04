@@ -13,6 +13,10 @@ import UserProfile from '../containers/main/profile';
 import DrawerComponent from './drawer.component';
 import NotificationIcon from '../components/notification';
 
+import Location from '../containers/main/make.bookings/steps/location';
+import Details from '../containers/main/make.bookings/steps/details';
+import Confirm from '../containers/main/make.bookings/steps/confirm';
+
 const AuthenticationStack = createStackNavigator({
     Login : {
         screen : Login,
@@ -26,7 +30,6 @@ const createStackWithNotifIcon = (screens) =>
     createStackNavigator(screens,
         {
             navigationOptions : (({ navigation, screenProps }) => ({
-                headerLeft : <Text onPress={navigation.toggleDrawer}>toggle drawer</Text>,
                 headerLeft : (
                     <TouchableOpacity onPress={navigation.toggleDrawer}>
                         <Image
@@ -96,6 +99,7 @@ const DrawerStack = createDrawerNavigator({
     },
     MakeBookings : {
         screen: createStackWithNotifIcon({MakeBookings}),
+        // screen: createStackWithNotifIcon({Location,Confirm,Details}),
         navigationOptions: {
             drawerLabel: 'Make Bookings',
             drawerIcon: () => (

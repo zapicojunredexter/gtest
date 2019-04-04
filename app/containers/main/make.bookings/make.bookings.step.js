@@ -21,6 +21,10 @@ class Container extends React.PureComponent<> {
         }
     }
 
+    setLocationBookingData = (data) => {
+        console.log("ARA DATA",data);
+    }
+
     renderStep = () => {
         const { currentStep } = this.state;
         const commonProps = {
@@ -31,12 +35,17 @@ class Container extends React.PureComponent<> {
                 return (
                     <Location
                         {...commonProps}
+                        terminals={this.props.terminals}
+                        schedules={this.props.schedules}
+                        setLocationBookingData={this.setLocationBookingData}
                     />
                 );
             case 1:
                 return (
                     <Details
                         {...commonProps}
+                        //TODO ifilter pa
+                        schedules={this.props.schedules}
                     />
                 );
             case 2:
