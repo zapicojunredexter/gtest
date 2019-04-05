@@ -111,14 +111,25 @@ class DatabaseInfrastructure {
         this.checkStore();
 
         const ref = this.getCollection();
+
+        if(this.listening){
+            this.unListen();
+        }
         
-        ref.onSnapshot(querySnapshot => {
+        this.listening = ref.onSnapshot(querySnapshot => {
             const data = [];
             querySnapshot.forEach((doc) => {
                 data.push(doc.data());
             });
             callback(data);
         })
+    }
+
+    unListen = () => {
+        if(this.listening){
+            this.listening();
+            this.listening = null;
+        }
     }
 
     checkStore = () => {

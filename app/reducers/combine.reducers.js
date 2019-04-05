@@ -3,6 +3,7 @@ import SystemReducer from './system/system.reducer';
 import User from './user/user.reducer';
 import TerminalsReducer from './terminals/terminals.reducer';
 import ScheduleReducer from './schedules/schedule.reducer';
+import BookingsReducer from './bookings/booking.reducer';
 
 export const immutableRecords = [];
 
@@ -14,4 +15,5 @@ export default {
     terminals: TerminalsReducer.reducer,
     schedules: ScheduleReducer.reducer,
     navigation: NavigationReducer.reducer,
+    bookings: BookingsReducer.reducer
 };

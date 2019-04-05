@@ -16,7 +16,6 @@ class Container extends React.PureComponent<> {
     }
 
     render() {
-        console.log("HERE ARE ZE PROPS", this.props);
         return (
             <View style={{flex:1}}>
                 <Text>IN CONTAINER</Text>
@@ -27,16 +26,16 @@ class Container extends React.PureComponent<> {
 }
 
 Container.defaultProps = {
-    terminals : [],
-    schedules : [],
+    // terminals : [],
+    // schedules : [],
 };
 
 const mapStateToProps = store => ({
-    terminals : store.terminals,
-    schedules : store.schedules.schedules
+    // terminals : store.terminals,
+    // schedules : store.schedules.schedules
 });
 const mapDispatchToProps = dispatch => ({
-    setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
+    // setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
     listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
     listenTerminals : () => dispatch(TerminalsService.listenTerminals()),
 });

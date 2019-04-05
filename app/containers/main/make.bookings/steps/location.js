@@ -1,9 +1,13 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
+import { connect } from 'react-redux';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import {lineString as makeLineString} from '@turf/helpers';
 import Picker from '../../../../components/picker';
 import MapboxClient from '../../../../utils/mapbox.client';
+import ScheduleService from '../../../../services/schedules.service';
+import TerminalsService from '../../../../services/terminals.service';
+import BookingsAction from '../../../../reducers/bookings/booking.action';
 
 MapboxGL.setAccessToken("pk.eyJ1IjoiemFwaWNvanVucmVkZXh0ZXIiLCJhIjoiY2p0aDlsZHN5MG5xaDN5cDhtbGdrN3hkeSJ9.UOC5ygISBssSgsyXp7rruQ");
 // capitol cebu
@@ -33,8 +37,6 @@ class Container extends React.PureComponent<> {
     constructor(props) {
         super(props);
         this.state = {
-            from : null,
-            to : null,
             route : null,
         }
     }
@@ -44,7 +46,7 @@ class Container extends React.PureComponent<> {
         const {
             from,
             to
-        } = this.state;
+        } = this.props;
         const res = await MapboxClient.getDirections(
             [
             {
@@ -64,11 +66,15 @@ class Container extends React.PureComponent<> {
     }
 
     selectFrom = (from) => {
-        const { terminals } = this.props;
+        const { terminals, updateMakeBooking } = this.props;
         const selectedLocation = terminals.find(location => location.TerminalAddress === from);
 
         if(selectedLocation){
-            this.setState({from : selectedLocation, to : null});
+            updateMakeBooking({
+                from: selectedLocation,
+                to: null
+            });
+            // this.setState({from : selectedLocation, to : null});
             this.flyToLocation(selectedLocation.Coordinates);
         } else {
             alert("Location does not exist");
@@ -76,11 +82,14 @@ class Container extends React.PureComponent<> {
     }
 
     selectTo = (to) => {
-        const { terminals } = this.props;
+        const { terminals, updateMakeBooking } = this.props;
         const selectedLocation = terminals.find(location => location.TerminalAddress === to);
         
         if(selectedLocation){
-            this.setState({to : selectedLocation});
+            updateMakeBooking({
+                to: selectedLocation,
+            });
+            // this.setState({to : selectedLocation});
             this.flyToLocation(selectedLocation.Coordinates);
             this.getDirections();
         } else {
@@ -98,7 +107,7 @@ class Container extends React.PureComponent<> {
         const {
             from,
             to
-        } = this.state;
+        } = this.props;
         if (!from) {
             return [];
         }
@@ -110,16 +119,12 @@ class Container extends React.PureComponent<> {
     }
 
     handleNext = () => {
-        const { goToNext, setLocationBookingData } = this.props;
+        const { goToNext } = this.props;
         const {
             from,
             to
-        } = this.state;
+        } = this.props;
         goToNext();
-        setLocationBookingData({
-            from,
-            to,
-        });
     }
 
 
@@ -144,22 +149,37 @@ class Container extends React.PureComponent<> {
         const {
             from,
             to
-        } = this.state;
-        // const fromChoices = locations;
+        } = this.props;
         const fromChoices = this.props.terminals;
-        return (
-            <View style={{backgroundColor:"blue",flex:1}}>
+        const toChoices = this.createToChoices();
+        console.log("ZXCZXCZX", this.props);
 
-                <Button
-                    title="DETAILS"
-                    onPress={() => this.props.navigation.navigate('Details')}
+
+        return (
+            <View style={{ position: 'relative', flex:1,margin :10 }}>
+                <MapboxGL.MapView
+                    zoomLevel={13}
+                    zoomLevel={17}
+                    ref={c => (this._map = c)}
+                    style={{flex : 1, margin : 10}}
+                    showUserLocation
+                    centerCoordinate={DEFAULT_COORDINATES}
+                    style={[{ flex: 1, alignSelf: 'stretch' }]}
+                    
                 />
+                <View
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        // backgroundColor: 'red'
+                    }}>
+                    <Button title="CLICK ME" onPress={() => alert('ZXCZX')}/>
+                </View>
             </View>
         );
-        // const selectedFromLocation = locations.find(location => location.TerminalAddress === from);
-        // const toChoices = from ? locations.filter(location => from.dropoffPoints.includes(location.TerminalAddress)) : [];
-        // const selectedToLocation = toChoices.length > 0 ? : null;
-        const toChoices = this.createToChoices();
 
         return (
             <View style={{flex:1,margin:20}}>
@@ -227,4 +247,19 @@ Container.defaultProps = {
     */
 }
 
-export default Container;
+const mapStateToProps = store => ({
+    terminals : store.terminals,
+    schedules : store.schedules.schedules,
+    from : store.bookings.makeBooking.from,
+    to : store.bookings.makeBooking.to
+});
+const mapDispatchToProps = dispatch => ({
+    updateMakeBooking : makeBooking => dispatch(BookingsAction.updateMakeBooking(makeBooking))
+    // listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
+    // listenTerminals : () => dispatch(TerminalsService.listenTerminals()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Container);

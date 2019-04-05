@@ -2,10 +2,10 @@ import firebase from 'react-native-firebase';
 import TerminalsActions from '../reducers/terminals/terminals.action';
 import CollectionInfrastructure from '../modules/infrastructures/database.infrastructure/collection.infrastructure';
 
-const firebaseRef = new CollectionInfrastructure(firebase,'Terminals');
-
 class TerminalsService {
     listenTerminals = () => async (dispatch, getState) => {
+
+        const firebaseRef = new CollectionInfrastructure(firebase,'Terminals');
 
         firebaseRef.listen(terminals => {
             alert("Terminals updated");
