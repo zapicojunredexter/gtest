@@ -107,7 +107,7 @@ class DatabaseInfrastructure {
         return true;
     };
     
-    listen = callback => {
+    listen = async callback => {
         this.checkStore();
 
         const ref = this.getCollection();
@@ -115,7 +115,7 @@ class DatabaseInfrastructure {
         if(this.listening){
             this.unListen();
         }
-        
+
         this.listening = ref.onSnapshot(querySnapshot => {
             const data = [];
             querySnapshot.forEach((doc) => {

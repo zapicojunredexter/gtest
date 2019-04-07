@@ -152,9 +152,7 @@ class Container extends React.PureComponent<> {
         } = this.props;
         const fromChoices = this.props.terminals;
         const toChoices = this.createToChoices();
-        console.log("ZXCZXCZX", this.props);
-
-
+        
         return (
             <View style={{ position: 'relative', flex:1,margin :10 }}>
                 <MapboxGL.MapView

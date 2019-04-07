@@ -4,6 +4,8 @@ import User from './user/user.reducer';
 import TerminalsReducer from './terminals/terminals.reducer';
 import ScheduleReducer from './schedules/schedule.reducer';
 import BookingsReducer from './bookings/booking.reducer';
+import RoutesReducer from './routes/routes.reducer';
+import TripsReducer from './trips/trip.reducer';
 
 export const immutableRecords = [];
 
@@ -15,5 +17,7 @@ export default {
     terminals: TerminalsReducer.reducer,
     schedules: ScheduleReducer.reducer,
     navigation: NavigationReducer.reducer,
-    bookings: BookingsReducer.reducer
+    bookings: BookingsReducer.reducer,
+    routes: RoutesReducer.reducer,
+    trips: TripsReducer.reducer
 };
