@@ -67,15 +67,17 @@ class Container extends React.PureComponent<> {
     }
 
     componentDidMount() {
-        this.props.listenSchedules();
-        // this.props.listenTerminals();
+        this.snapData();
+    }
 
+    snapData = () => {
+        this.props.listenSchedules();
         this.props.listenRoutes();
     }
 
     renderTripRow = ({item}) => {
         const { selectedTrip } = this.state;
-        console.log("ZXCCC",selectedTrip,item);
+
         const renderTripRecord = (label, value) => (
             <View style={styles.tripRowComponentPair}>
                 <Text style={styles.tripRowComponentPairLabel}>{label || '-'}</Text>
@@ -149,6 +151,8 @@ class Container extends React.PureComponent<> {
                         data={trips}
                         renderItem={this.renderTripRow}
                         extraData={this.state.selectedTrip}
+                        onRefresh={this.snapData}
+                        refreshing={false}
                     />
                 </View>
             </View>
@@ -163,14 +167,11 @@ class Container extends React.PureComponent<> {
 }
 
 Container.defaultProps = {
-    // terminals : [],
-    // schedules : [],
     schedules : [],
     routes : [],
 };
 
 const mapStateToProps = store => ({
-    // terminals : store.terminals,
     schedules : store.schedules.schedules,
     routes : store.routes,
     trips : store.trips.trips
@@ -178,7 +179,6 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     // setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
     listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
-    // listenTerminals : () => dispatch(TerminalsService.listenTerminals()),
     listenRoutes : () => dispatch(RoutesService.listenRoutes()),
     listenTrips : (schedId) => dispatch(TripsService.listenTrips(schedId))
 });
