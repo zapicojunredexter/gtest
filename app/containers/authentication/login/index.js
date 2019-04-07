@@ -15,25 +15,28 @@ type Props = {
 class Login extends React.Component<Props> {
     state = {
         username : 'junre@yah.com',
-        password : 'junrejunre'
+        password : 'junrejunre',
+        isLoading : false,
     }
     login = async () => {
         const { login } = this.props;
         const { username, password } = this.state;
+        this.setState({isLoading:true});
         
         login(username, password)
             .then(res => {
-                console.log("HAHAz",res);
+                this.setState({isLoading:false});
                 this.props.navigation.navigate('Home');
             })
             .catch(error => {
+                this.setState({isLoading:false});
                 alert(error.message);
             });
     }
     render() {
+        const { isLoading } = this.state;
         return (
-        <View
-        >
+        <View>
             <Text>You are in LOGIN PAGE</Text>
 
             <TextInput
@@ -47,7 +50,11 @@ class Login extends React.Component<Props> {
                 style={{width : '100%'}}
             />
             <Button title="Registration" onPress={() => this.props.navigation.navigate('Registration')}/>
-            <Button title="LOGIN" onPress={this.login}/>
+            <Button
+                title={isLoading ? "LOGGING IN ..." : "LOGIN"}
+                onPress={this.login}
+                disabled={isLoading}
+            />
         </View>
         );
     }

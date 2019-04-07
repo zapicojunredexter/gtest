@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import Modal from "react-native-modal";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ToastAndroid } from 'react-native';
 import Picker from '../../../components/picker';
 import Steps from './make.bookings.step';
 import ScheduleService from '../../../services/schedules.service';
@@ -78,23 +77,30 @@ class Container extends React.PureComponent<> {
         this.props.listenRoutes();
     }
 
-    handleAddBooking = () => {
+    handleAddBooking = (additionalData) => {
         const { addBooking } = this.props;
         const { selectedRouteId, selectedScheduleId, selectedTrip } = this.state;
 
         this.setState({selectedTrip : null});
         const bookingData = {
+            ...additionalData,
             RouteId : selectedRouteId,
             ScheduleId : selectedScheduleId,  
         };
 
-        addBooking(bookingData);
+        addBooking(bookingData)
+            .then(() => {
+                ToastAndroid.show("Added new Booking",ToastAndroid.SHORT);
+            })
+            .catch(error => {
+
+            });
 
     }
 
     renderTripRow = ({item}) => {
         const { selectedTrip } = this.state;
-
+        const isTravelling = item.Status === "Travelling";
         const renderTripRecord = (label, value) => (
             <View style={styles.tripRowComponentPair}>
                 <Text style={styles.tripRowComponentPairLabel}>{label || '-'}</Text>
@@ -103,10 +109,11 @@ class Container extends React.PureComponent<> {
         );
         return (
             <TouchableOpacity
+                disabled={isTravelling}
                 onPress={() => this.setState({selectedTrip : item})}
                 style={[
                     styles.tripRowContainer,
-                    // selectedTrip && selectedTrip.Id === item.Id && styles.tripRowSelected
+                    isTravelling && styles.tripRowSelected
                 ]}
             >
                 {renderTripRecord('Driver Name',item.DriverName)}
