@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-
+import Modal from "react-native-modal";
 import Picker from '../../../components/picker';
 import Steps from './make.bookings.step';
 import ScheduleService from '../../../services/schedules.service';
 import TerminalsService from '../../../services/terminals.service';
 import RoutesService from '../../../services/routes.service';
 import TripsService from '../../../services/trips.service';
+import ConfirmBooking from './confirm.booking';
 
 const styles = StyleSheet.create({
     container : {
@@ -60,8 +61,8 @@ class Container extends React.PureComponent<> {
     constructor(props) {
         super(props);
         this.state = {
-            selectedRoute : null,
-            selectedSchedule : null,
+            selectedRouteId : null,
+            selectedScheduleId : null,
             selectedTrip : null
         };
     }
@@ -87,7 +88,10 @@ class Container extends React.PureComponent<> {
         return (
             <TouchableOpacity
                 onPress={() => this.setState({selectedTrip : item})}
-                style={[styles.tripRowContainer, selectedTrip && selectedTrip.Id === item.Id && styles.tripRowSelected]}
+                style={[
+                    styles.tripRowContainer,
+                    // selectedTrip && selectedTrip.Id === item.Id && styles.tripRowSelected
+                ]}
             >
                 {renderTripRecord('Driver Name',item.DriverName)}
                 {renderTripRecord('Plate Number',item.VehiclePlateNo)}
@@ -99,11 +103,23 @@ class Container extends React.PureComponent<> {
 
     render() {
         const { routes, schedules, trips } = this.props;
-        const { selectedRoute, selectedSchedule } = this.state;
+        const { selectedRouteId, selectedScheduleId, selectedTrip } = this.state;
+        const selectedRoute  = routes.find(route => route.Id === selectedRouteId);
+        const selectedSchedule = schedules.find(schedule => schedule.Id === selectedScheduleId);
         const filteredSchedules = selectedRoute ? schedules.filter(schedule => schedule.RouteId === selectedRoute.Id) : [];
+
 
         return (
             <View style={styles.container}>
+
+                <ConfirmBooking
+                    modalProps={{
+                        isVisible : !!selectedTrip,
+                        onBackdropPress : () => this.setState({selectedTrip : null})
+                    }}
+                    // route={selectedRoute.Route}
+                    // schedule={selectedSchedule.DepartureTime}
+                />
                 <View style={styles.componentRow}>
                     <Text style={styles.componentLabel}>
                         ROUTE
@@ -117,7 +133,8 @@ class Container extends React.PureComponent<> {
                         onSelect={(data) => {
                             const selected = routes.find(route => route.Route === data);
                             if(selected){
-                                this.setState({selectedRoute: selected, selectedSchedule : null})
+                                this.props.listenTrips(null);
+                                this.setState({selectedRouteId: selected.Id, selectedScheduleId : null})
                             } else {
                                 alert("value does not exists in choiceshjjhjh");
                             }
@@ -136,8 +153,7 @@ class Container extends React.PureComponent<> {
                         onSelect={(data) => {
                             const selected = filteredSchedules.find(sched => sched.DepartureTime === data);
                             if(selected){
-                                console.log("HAHA",selected);
-                                this.setState({selectedSchedule: selected});
+                                this.setState({selectedScheduleId: selected.Id});
                                 this.props.listenTrips(selected.Id);
                             } else {
                                 alert("value does not exists in choiceshjjhjh");
