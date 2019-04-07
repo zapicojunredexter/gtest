@@ -8,7 +8,9 @@ import ScheduleService from '../../../services/schedules.service';
 import TerminalsService from '../../../services/terminals.service';
 import RoutesService from '../../../services/routes.service';
 import TripsService from '../../../services/trips.service';
+import BookingsService from '../../../services/bookings.service';
 import ConfirmBooking from './confirm.booking';
+import SystemRestricted from '../../../utils/system.restrction';
 
 const styles = StyleSheet.create({
     container : {
@@ -76,6 +78,20 @@ class Container extends React.PureComponent<> {
         this.props.listenRoutes();
     }
 
+    handleAddBooking = () => {
+        const { addBooking } = this.props;
+        const { selectedRouteId, selectedScheduleId, selectedTrip } = this.state;
+
+        this.setState({selectedTrip : null});
+        const bookingData = {
+            RouteId : selectedRouteId,
+            ScheduleId : selectedScheduleId,  
+        };
+
+        addBooking(bookingData);
+
+    }
+
     renderTripRow = ({item}) => {
         const { selectedTrip } = this.state;
 
@@ -104,6 +120,7 @@ class Container extends React.PureComponent<> {
     render() {
         const { routes, schedules, trips } = this.props;
         const { selectedRouteId, selectedScheduleId, selectedTrip } = this.state;
+
         const selectedRoute  = routes.find(route => route.Id === selectedRouteId);
         const selectedSchedule = schedules.find(schedule => schedule.Id === selectedScheduleId);
         const filteredSchedules = selectedRoute ? schedules.filter(schedule => schedule.RouteId === selectedRoute.Id) : [];
@@ -111,14 +128,14 @@ class Container extends React.PureComponent<> {
 
         return (
             <View style={styles.container}>
-
                 <ConfirmBooking
                     modalProps={{
                         isVisible : !!selectedTrip,
                         onBackdropPress : () => this.setState({selectedTrip : null})
                     }}
-                    // route={selectedRoute.Route}
-                    // schedule={selectedSchedule.DepartureTime}
+                    route={selectedRoute}
+                    schedule={selectedSchedule}
+                    onPressConfirm={this.handleAddBooking}
                 />
                 <View style={styles.componentRow}>
                     <Text style={styles.componentLabel}>
@@ -196,10 +213,14 @@ const mapDispatchToProps = dispatch => ({
     // setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
     listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
     listenRoutes : () => dispatch(RoutesService.listenRoutes()),
-    listenTrips : (schedId) => dispatch(TripsService.listenTrips(schedId))
+    listenTrips : (schedId) => dispatch(TripsService.listenTrips(schedId)),
+    addBooking : booking => dispatch(BookingsService.addBooking(booking))
 });
 
-export default connect(
+export default SystemRestricted(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Container);
+)(Container),
+{
+    disableCheckLocation : true,
+});

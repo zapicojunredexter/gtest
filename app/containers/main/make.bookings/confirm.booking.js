@@ -24,8 +24,8 @@ class Container extends React.PureComponent<> {
         return (
             <Modal {...modalProps}>
                 <View style={styles.container}>
-                    <Text>ROUTE : {route}</Text>
-                    <Text>SCHEDULE : {schedule}</Text>
+                    <Text>ROUTE : {route && route.Route}</Text>
+                    <Text>SCHEDULE : {schedule && schedule.DepartureTime}</Text>
                     <Button
                         title="CONFIRM"
                         onPress={onPressConfirm}

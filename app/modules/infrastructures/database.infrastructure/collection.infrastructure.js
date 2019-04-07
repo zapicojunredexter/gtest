@@ -14,12 +14,26 @@ class DatabaseInfrastructure {
     create = async (obj) => {
         this.checkStore();
 
-        const ref = this.getCollection();
-        
+        // const ref = this.getCollection();
+
+        // const ref = store.collection('users').doc()
+
+        const ref = this.getCollection().doc();
+        const next = {
+            Id : ref.id,
+            ...obj,
+            createdAt: this.firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: this.firebase.firestore.FieldValue.serverTimestamp(),
+            deleted: false,
+        };
+        await ref.set(next);
+
+        return next;
+        /*
         const next = {
             ...obj,
-            createdAtMs: this.firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAtMs: this.firebase.firestore.FieldValue.serverTimestamp(),
+            createdAt: this.firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: this.firebase.firestore.FieldValue.serverTimestamp(),
             deleted: false,
         };
 
@@ -30,6 +44,7 @@ class DatabaseInfrastructure {
             id,
             ...next,
         };
+        */
     };
 
     read = async () => {
@@ -54,7 +69,7 @@ class DatabaseInfrastructure {
         const next = {
             ...obj,
             HAHA : "HAHA1",
-            updatedAtMs: this.firebase.firestore.FieldValue.serverTimestamp()
+            updatedAt: this.firebase.firestore.FieldValue.serverTimestamp()
         };
 
         await ref.set(next);
@@ -99,7 +114,7 @@ class DatabaseInfrastructure {
         const next = {
             ...obj,
             deleted: true,
-            updatedAtMs: this.firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: this.firebase.firestore.FieldValue.serverTimestamp(),
         };
 
         await ref.set(next);

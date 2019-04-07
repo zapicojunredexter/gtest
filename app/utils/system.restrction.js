@@ -2,23 +2,29 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-export default SystemRestricted = (Component, options) => {
+export default SystemRestricted = (Component, options = {}) => {
     class SystemRestrictedClass extends React.PureComponent<>{
-        static navigationOptions = {...options.navigationOptions}
+        static navigationOptions = {...options.navigationOptions};
         render() {
             const { hasInternet, hasLocation } = this.props;
-            console.log("NAUSAB",hasInternet,hasLocation);
-            if (hasInternet && hasLocation) {
+            const {
+                disableCheckInternet,
+                disableCheckLocation,
+            } = options;
+            const passed =
+                (disableCheckInternet || hasInternet) &&
+                (disableCheckLocation || hasLocation);
+            if (passed) {
                 return (
                     <Component test={123} {...this.props} />
                 );
             }
             return (
                 <View>
-                    {!hasInternet && (
+                    {!disableCheckInternet && !hasInternet && (
                         <Text>NO INTERNET CONNECTION</Text>
                     )}
-                    {!hasLocation && (
+                    {!disableCheckLocation && !hasLocation && (
                         <Text>NO LOCATION</Text>
                     )}
                 </View>
