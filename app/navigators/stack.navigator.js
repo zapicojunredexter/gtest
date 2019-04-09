@@ -10,6 +10,7 @@ import History from '../containers/main/history';
 import MakeBookings from '../containers/main/make.bookings';
 import ViewTrips from '../containers/main/view.trips';
 import UserProfile from '../containers/main/profile';
+import Wallet from '../containers/main/wallets';
 import DrawerComponent from './drawer.component';
 import NotificationIcon from '../components/notification';
 
@@ -59,6 +60,18 @@ const DrawerStack = createDrawerNavigator({
                     source={require('../assets/images/home.png')}
                 />
             ),
+        },
+    },
+    Wallet : {
+        screen: createStackWithNotifIcon({Wallet}),
+        navigationOptions: {
+            drawerLabel: 'Wallet',
+            drawerIcon: () => (
+                <Image
+                    style={{width: 25, height: 25}}
+                    source={require('../assets/images/profile.png')}
+                />
+            )
         },
     },
     UserProfile : {

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ToastAndroid } from 'react-native';
 import Picker from '../../../components/picker';
+import DatePicker from '../../../components/date.picker';
 import Steps from './make.bookings.step';
 import ScheduleService from '../../../services/schedules.service';
 import TerminalsService from '../../../services/terminals.service';
@@ -64,6 +65,7 @@ class Container extends React.PureComponent<> {
         this.state = {
             selectedRouteId : null,
             selectedScheduleId : null,
+            selectedDate : null,
             selectedTrip : null
         };
     }
@@ -73,7 +75,7 @@ class Container extends React.PureComponent<> {
     }
 
     snapData = () => {
-        this.props.listenSchedules();
+        // this.props.listenSchedules();
         this.props.listenRoutes();
     }
 
@@ -81,19 +83,20 @@ class Container extends React.PureComponent<> {
         const { addBooking } = this.props;
         const { selectedRouteId, selectedScheduleId, selectedTrip } = this.state;
 
-        this.setState({selectedTrip : null});
         const bookingData = {
             ...additionalData,
-            RouteId : selectedRouteId,
-            ScheduleId : selectedScheduleId,  
+            // RouteId : selectedRouteId,
+            TripId : selectedTrip.Id,  
         };
 
         addBooking(bookingData)
             .then(() => {
                 ToastAndroid.show("Added new Booking",ToastAndroid.SHORT);
+                this.setState({selectedTrip : null});
             })
             .catch(error => {
 
+                this.setState({selectedTrip : null});
             });
 
     }
@@ -126,11 +129,11 @@ class Container extends React.PureComponent<> {
 
     render() {
         const { routes, schedules, trips } = this.props;
-        const { selectedRouteId, selectedScheduleId, selectedTrip } = this.state;
+        const { selectedRouteId, selectedScheduleId, selectedTrip, selectedDate } = this.state;
 
         const selectedRoute  = routes.find(route => route.Id === selectedRouteId);
-        const selectedSchedule = schedules.find(schedule => schedule.Id === selectedScheduleId);
-        const filteredSchedules = selectedRoute ? schedules.filter(schedule => schedule.RouteId === selectedRoute.Id) : [];
+        // const selectedSchedule = schedules.find(schedule => schedule.Id === selectedScheduleId);
+        // const filteredSchedules = selectedRoute ? schedules.filter(schedule => schedule.RouteId === selectedRoute.Id) : [];
 
 
         return (
@@ -141,7 +144,7 @@ class Container extends React.PureComponent<> {
                         onBackdropPress : () => this.setState({selectedTrip : null})
                     }}
                     route={selectedRoute}
-                    schedule={selectedSchedule}
+                    // schedule={selectedSchedule}
                     onPressConfirm={this.handleAddBooking}
                 />
                 <View style={styles.componentRow}>
@@ -157,7 +160,7 @@ class Container extends React.PureComponent<> {
                         onSelect={(data) => {
                             const selected = routes.find(route => route.Route === data);
                             if(selected){
-                                this.props.listenTrips(null);
+                                // this.props.listenTrips(null);
                                 this.setState({selectedRouteId: selected.Id, selectedScheduleId : null})
                             } else {
                                 alert("value does not exists in choiceshjjhjh");
@@ -165,6 +168,21 @@ class Container extends React.PureComponent<> {
                         }}
                     />
                 </View>
+                <View style={styles.componentRow}>
+                    <Text style={styles.componentLabel}>
+                        DATE
+                    </Text>
+                    <DatePicker
+                        wrapperStyle={styles.componentPicker}
+                        placeholder="-"
+                        value={selectedDate}
+                        onValueChange={(value) => {
+                            this.setState({selectedDate : value});
+                            this.props.listenTrips(value);
+                        }}
+                    />
+                </View>
+                {/* 
                 <View style={styles.componentRow}>
                     <Text style={styles.componentLabel}>
                         SCHEDULE
@@ -185,6 +203,7 @@ class Container extends React.PureComponent<> {
                         }}
                     />
                 </View>
+                */}
                 <View style={styles.flatListWrapper}>
                     <FlatList
                         contentContainerStyle={styles.scrollerContainer}

@@ -16,14 +16,14 @@ const _style = StyleSheet.create({
     },
     defaultPicker: {
         borderWidth : 0,
-        height : 40,
+        // height : 40,
         justifyContent : 'center',
+        backgroundColor : "orange"
     },
     defaultTxtInput: {
         borderWidth : 0,
-        height : 40,
-        color : colors.fontColor,
-        padding : 10,
+        // height : 40,
+        // padding : 10,
     },
     errorMessage : {
         color : 'red',

@@ -5,12 +5,11 @@ import CollectionInfrastructure from '../modules/infrastructures/database.infras
 class RoutesService {
     listening;
 
-    listenTrips = (schedId) => async (dispatch, getState) => {
-        // K26BCPIwZGv9JflFCaod
-        //
+    listenTrips = (tripDate) => async (dispatch, getState) => {
         dispatch(this.unlistenTrips());
-    
-        const firebaseRef = firebase.firestore().collection('Trips').where('ScheduleId', '==', schedId);
+        const firebaseRef = firebase.firestore()
+            .collection('Trips')
+            .where('TripDate', '==', tripDate);
         this.listening = firebaseRef.onSnapshot(querySnapshot => {
             const data = [];
             querySnapshot.forEach((doc) => {
