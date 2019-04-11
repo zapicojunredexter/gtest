@@ -10,6 +10,7 @@ class RoutesService {
         const toBeAdded = {
             ...bookingDetails,
             CommuterId : userId,
+            Status : 'Reserved',
         }
         await firebaseRef.create(toBeAdded);
     }

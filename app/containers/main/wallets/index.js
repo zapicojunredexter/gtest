@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Image, StyleSheet, View, Text, Button, TextInput } from 'react-native';
-import AuthService from '../../../services/auth.service';
+import { Image, StyleSheet, View, Text, Button, FlatList } from 'react-native';
+import WalletsService from '../../../services/wallets.service';
 
 const styles = StyleSheet.create({
     componentRow : {
@@ -36,6 +36,9 @@ const styles = StyleSheet.create({
     cardData : {
         fontSize : 16,
         fontWeight : 'bold',
+    },
+    listContainer : {
+        flex : 1,
     }
 });
 
@@ -44,11 +47,26 @@ class Container extends React.PureComponent<> {
         headerTitle : 'WALLET',
     };
 
+    state = {
+        fetching : false,
+    }
+
+    fetchWalletsHistory = async () => {
+        const { fetchWalletsHistory } = this.props;
+        this.setState({fetching : true});
+
+        await fetchWalletsHistory();
+
+        this.setState({fetching : false});
+
+    }
+
     render() {
-        const { user } = this.props;
+        const { user, walletHistory } = this.props;
+        const { fetching } = this.state;
 
         return (
-            <View style={{flex : 1, alignItems : 'center'}}>
+            <View style={{flex : 1}}>
                 <View style={styles.cardContainer}>
                     <Image
                         style={styles.cardIcon}
@@ -59,9 +77,18 @@ class Container extends React.PureComponent<> {
                             asdasda
                         </Text>
                         <Text style={styles.cardData}>
-                            asdasda
+                            asdasdazz
                         </Text>
                     </View>
+                </View>
+                <View style={styles.listContainer}>
+                    <FlatList
+                        data={walletHistory}
+                        refreshing={fetching}
+                        onRefresh={this.fetchWalletsHistory}
+                        renderItem={({item, index}) => <Text key={index}>{JSON.stringify(item)}</Text>}
+                    />
+                    <Text>asdas</Text>
                 </View>
             </View>
         );
@@ -70,11 +97,11 @@ class Container extends React.PureComponent<> {
 
 
 const mapStateToProps = store => ({
-    user : store.user
+    user : store.user,
+    walletHistory : store.wallets.walletHistory,
 });
 const mapDispatchToProps = dispatch => ({
-    // login : (username, password) => dispatch(AuthService.login(username, password)),
-    // logout : () => dispatch(AuthService.logout()),
+    fetchWalletsHistory : () => dispatch(WalletsService.fetchWalletsHistory())
 });
 
 export default connect(

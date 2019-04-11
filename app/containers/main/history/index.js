@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Text, SectionList } from 'react-native';
 
 class Container extends React.PureComponent<> {
     constructor(props) {
@@ -7,12 +8,50 @@ class Container extends React.PureComponent<> {
     }
 
     render() {
-        return (
-            <View>
-                <Text>IN CONTAINER</Text>
-            </View>
+        const { sections } = this.props;
+        return (// Example 1 (Homogeneous Rendering)
+            <SectionList
+                onRefresh={() => {}}
+                refreshing={false}
+                stickySectionHeadersEnabled
+                renderItem={({item, index, section}) => <Text key={index}>{item}</Text>}
+                renderSectionHeader={({section: {title}}) => (
+                    <Text style={{fontWeight: 'bold'}}>{title}</Text>
+                )}
+                sections={sections}
+                keyExtractor={(item, index) => item + index}
+            />
         );
     }
 }
 
-export default Container;
+const mapStateToProps = store => ({
+    sections : [
+        {
+            title : 'UPCOMING BOOKED TRIPS',
+            data : [
+                'asd',
+                'asd',
+                'asd',
+                'asd',
+            ]
+        },
+        {
+            title : 'PREVIOUS TRIPS',
+            data : [
+                'zxc',
+                'zxc',
+                'zxc',
+                'zx',
+            ]
+        }
+    ]
+});
+const mapDispatchToProps = dispatch => ({
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Container);
+// export default Container;
