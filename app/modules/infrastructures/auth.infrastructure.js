@@ -23,12 +23,14 @@ class AuthInfrastructure {
 
         const userDetails = {
             ...params,
-            HAHA : "HAHAZXC",
+            Id: uid,
+            AccountType : "Commuter",
             createdAtMs: firebase.firestore.FieldValue.serverTimestamp(),
             updatedAtMs: firebase.firestore.FieldValue.serverTimestamp(),
         };
 
         await ref.set(userDetails);
+        // ref.set({Id: doc.id});
         return true;
     };
 

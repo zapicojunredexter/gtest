@@ -68,7 +68,6 @@ class DatabaseInfrastructure {
 
         const next = {
             ...obj,
-            HAHA : "HAHA1",
             updatedAt: this.firebase.firestore.FieldValue.serverTimestamp()
         };
 

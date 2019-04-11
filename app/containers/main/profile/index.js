@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Image, StyleSheet, View, Text, Button, TextInput } from 'react-native';
-import AuthService from '../../../services/auth.service';
+import UserService from '../../../services/user.service';
 
 const styles = StyleSheet.create({
     componentRow : {
@@ -25,36 +25,31 @@ class Container extends React.PureComponent<> {
         super(props);
         this.state = {
             Id : '',
-            Name : '',
+            FirstName : '',
+            LastName: '',
             BirthDate : '',
             Gender : '',
-            ContactNumber : '',
+            ContactNum : '',
             ProfilePictures : [],
-        }
-    }
+            ...props.user,
+        };
 
-    setUserPropsToState = () => {
-        const { user } = this.props;
-
-        this.setState({
-            ...user
-        });
     }
 
     render() {
         const { user } = this.props;
         const {
             Id,
-            Name,
+            FirstName,
+            LastName,
             BirthDate,
             Gender,
-            ContactNumber,
+            ContactNum,
             ProfilePictures
         } = this.state;
         const isCommuter = true;
         return (
             <View style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}>
-                <Text>{JSON.stringify(user)}</Text>
                 <Image
                     style={{width: 50, height: 50}}
                     source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
@@ -65,7 +60,7 @@ class Container extends React.PureComponent<> {
                     </Text>
                     <TextInput
                         editable={false}
-                        value="zxczx"
+                        value={`${FirstName} ${LastName}`}
                         style={styles.componentRowComponent}
                     />
                 </View>
@@ -75,7 +70,7 @@ class Container extends React.PureComponent<> {
                     </Text>
                     <TextInput
                         editable={false}
-                        value="zxczx"
+                        value={BirthDate}
                         style={styles.componentRowComponent}
                     />
                 </View>
@@ -85,7 +80,7 @@ class Container extends React.PureComponent<> {
                     </Text>
                     <TextInput
                         editable={false}
-                        value="zxczx"
+                        value={Gender}
                         style={styles.componentRowComponent}
                     />
                 </View>
@@ -94,10 +89,17 @@ class Container extends React.PureComponent<> {
                         Contact Number
                     </Text>
                     <TextInput
-                        value="zxczx"
+                        value={ContactNum}
+                        onChangeText={text => this.setState({ContactNum:text})}
                         style={styles.componentRowComponent}
                     />
                 </View>
+                <Button
+                    onPress={async () => {
+                        await this.props.updateContactNumber(ContactNum);
+                    }}
+                    title="EDIT"
+                />
                 <Button
                     onPress={async () => {
                         await this.props.logout();
@@ -115,8 +117,7 @@ const mapStateToProps = store => ({
     user : store.user
 });
 const mapDispatchToProps = dispatch => ({
-    login : (username, password) => dispatch(AuthService.login(username, password)),
-    logout : () => dispatch(AuthService.logout()),
+    updateContactNumber : contNum => dispatch(UserService.updateContactNumber(contNum)),
 });
 
 export default connect(
