@@ -1,6 +1,8 @@
 import firebase from 'react-native-firebase';
 import BookingsAction from '../reducers/bookings/booking.action';
 import CollectionInfrastructure from '../modules/infrastructures/database.infrastructure/collection.infrastructure';
+import ScheduleAction from '../reducers/schedules/schedule.action';
+import TripAction from '../reducers/trips/trip.action';
 
 class BookingsService {
     addBooking = (bookingDetails) => async (dispatch, getState) => {
@@ -27,6 +29,52 @@ class BookingsService {
             ref.onSnapshot(results => {
                 const bookings = results.docs.map(data => data.data());
                 dispatch(BookingsAction.setUserBookings(bookings));
+                const travelingBooking = bookings.find(booking => booking.Status === 'Travelling');
+
+                if(travelingBooking) {
+                    if(this.tripSnapshot){
+                        console.log("REMOVED LISTENER former");
+                        this.tripSnapshot();
+                        this.tripSnapshot = null;
+                    }
+                    // TODO should be in api. query route and schedule details
+                    const testResponse = {
+                        DepartureTime : '10:00:00',
+                        TripDate : '04-14-2019',
+                        Driver : {
+                            Id : '123',
+                            Name : 'TESTERRRR DRIVER'
+                        },
+                        Routes : {
+                            From : [
+                                123.9056,
+                                10.2925
+                            ],
+                            To : [
+                                123.8907,
+                                10.3168,
+                            ],
+                        },
+                    };
+
+                    this.tripSnapshot = firebase.firestore().collection('Trips')
+                        .doc(travelingBooking.TripId)
+                        .onSnapshot(trip => {
+                            const tripData = trip.data();
+                            if(tripData.Status === 'Finished'){
+                                console.log("FINISHED !",tripData);
+                                if(this.tripSnapshot){
+                                    console.log("REMOVED LISTENER");
+                                    this.tripSnapshot();
+                                    this.tripSnapshot = null;
+                                }
+                            }else{
+                                console.log("NAGUPDATE SI TRIP", tripData);
+                                dispatch(TripAction.setTravellingTrip(tripData));
+                            }
+                        })
+
+                }
             })
         }
         // const results = await ref.get();
@@ -42,6 +90,10 @@ class BookingsService {
             this.listening();
             this.listening = null;
         }
+    }
+
+    cancelTravelSchedule = () => () => {
+
     }
 
 }

@@ -1,6 +1,6 @@
 export const SET_SCHEDULES = 'SET_SCHEDULES';
 
-export const SET_SCHEDULE = 'SET_SCHEDULE';
+export const SET_TRAVELING_SCHEDULE = 'SET_SCHEDULE';
 
 class ScheduleAction {
     setSchedules = schedules => dispatch => 
@@ -8,9 +8,9 @@ class ScheduleAction {
             type : SET_SCHEDULES,
             schedules
         });
-    setSelectedSchedule = schedule => dispatch => 
+    setTravelingSchedule = schedule => dispatch => 
         dispatch({
-            type : SET_SCHEDULE,
+            type : SET_TRAVELING_SCHEDULE,
             schedule
         });
 }
