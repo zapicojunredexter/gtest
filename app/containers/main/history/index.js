@@ -16,12 +16,12 @@ class Container extends React.PureComponent<> {
         const { fetching } = this.state;
         return (// Example 1 (Homogeneous Rendering)
             <SectionList
-                onRefresh={async () => {
-                    this.setState({fetching:true});
-                    await fetchCommuterHistory();
-                    this.setState({fetching:false});
-                }}
-                refreshing={fetching}
+                // onRefresh={async () => {
+                //     this.setState({fetching:true});
+                //     await fetchCommuterHistory();
+                //     this.setState({fetching:false});
+                // }}
+                // refreshing={fetching}
                 stickySectionHeadersEnabled
                 renderItem={({item, index, section}) => <Text key={index}>{JSON.stringify(item)}</Text>}
                 renderSectionHeader={({section: {title}}) => (

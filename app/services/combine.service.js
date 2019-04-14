@@ -1,10 +1,16 @@
 import firebase from 'react-native-firebase';
 import UserService from './user.service';
-import bookingsService from './bookings.service';
+import BookingsService from './bookings.service';
 class CombineServices {
     masterSnap = () => async (dispatch, getState) => {
         dispatch(UserService.listenUser());
-        dispatch(bookingsService.listenUserBookings());
+        dispatch(BookingsService.listenUserBookings());
+    }
+
+    cancelListeners = () => dispatch => {
+        console.log("TO CANCEL LISTENERS MAIN");
+        dispatch(UserService.cancelListening());
+        dispatch(BookingsService.cancelListening());
     }
 }
 

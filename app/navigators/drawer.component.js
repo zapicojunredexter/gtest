@@ -31,7 +31,6 @@ class DrawerComponent extends React.PureComponent<> {
         if(!(user.AccountType)){
             return null;
         }
-        console.log("LOGGEING OUT", user);
         const filteredItems = items.filter((item, index) => screens[user.AccountType][item.key]);
         return (
             <ScrollView>

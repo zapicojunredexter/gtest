@@ -2,6 +2,7 @@ import firebase from 'react-native-firebase';
 import UserActions from '../reducers/user/user.action';
 import CollectionInfrastructure from '../modules/infrastructures/database.infrastructure/collection.infrastructure';
 import AuthInfrastructure from '../modules/infrastructures/auth.infrastructure';
+import CombineService from './combine.service';
 
 const firebaseRef = new CollectionInfrastructure(firebase,'Users');
 
@@ -17,6 +18,8 @@ class AuthService {
     logout = () => async (dispatch, getState) => {
         await firebase.auth().signOut().catch(error => { throw error });
         dispatch(UserActions.setUser({}));
+        console.log("BEFORE DISPATCH");
+        dispatch(CombineService.cancelListeners());
     }
 
     registerAccount = (username, passsword, params) => async (dispatch, getState) => {

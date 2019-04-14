@@ -20,15 +20,28 @@ class BookingsService {
 
         const ref = firebase.firestore().collection('Bookings')
             .where("CommuterId","==",user.Id);
-        ref.onSnapshot(results => {
-            const bookings = results.docs.map(data => data.data());
-            dispatch(BookingsAction.setUserBookings(bookings));
-        })
+
+        if(this.listening){
+            this.cancelListening();
+        }else{
+            ref.onSnapshot(results => {
+                const bookings = results.docs.map(data => data.data());
+                dispatch(BookingsAction.setUserBookings(bookings));
+            })
+        }
         // const results = await ref.get();
 
         // const bookings = results.docs.map(data => data.data());
         // dispatch(BookingsAction.setUserBookings(bookings));
         // return true;
+    }
+
+    cancelListening = () => () => {
+        console.log("CANCELLED BOOKING LISTENER",this.listening);
+        if(this.listening){
+            this.listening();
+            this.listening = null;
+        }
     }
 
 }

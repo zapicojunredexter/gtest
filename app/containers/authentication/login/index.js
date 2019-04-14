@@ -27,6 +27,7 @@ class Login extends React.Component<Props> {
         login(username, password)
             .then(res => {
                 this.setState({isLoading:false});
+                this.props.masterSnap();
                 this.props.navigation.navigate('Home');
             })
             .catch(error => {

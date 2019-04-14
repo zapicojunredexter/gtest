@@ -8,14 +8,27 @@ class UserService {
         if(!currentUser){
             throw new Error("Listening for user updates with no User");
         }
-        firebase.firestore()
-            .collection('Users')
-            .doc(currentUser.uid)
-            .onSnapshot(user => {
-                const userData = user.data();
-                dispatch(UserAction.setUser(userData));
-            })
+        if(this.listening){
+            this.cancelListening();
+        }else{
+            this.listening = firebase.firestore()
+                .collection('Users')
+                .doc(currentUser.uid)
+                .onSnapshot(user => {
+                    const userData = user.data();
+                    dispatch(UserAction.setUser(userData));
+                })
+        }
     }
+
+    cancelListening = () => () => {
+        console.log("CANCELLED USER LISTENER", this.listening);
+        if(this.listening){
+            this.listening();
+            this.listening = null;
+        }
+    }
+
     updateContactNumber = (contactNumber) => async (dispatch, getState) => {
         const { user } = getState();
 
