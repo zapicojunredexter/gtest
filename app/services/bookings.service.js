@@ -1,8 +1,8 @@
 import firebase from 'react-native-firebase';
-import RoutesActions from '../reducers/routes/routes.action';
+import BookingsAction from '../reducers/bookings/booking.action';
 import CollectionInfrastructure from '../modules/infrastructures/database.infrastructure/collection.infrastructure';
 
-class RoutesService {
+class BookingsService {
     addBooking = (bookingDetails) => async (dispatch, getState) => {
         // TODO should be call to api
         const userId = getState().user.Id;
@@ -10,25 +10,27 @@ class RoutesService {
         const toBeAdded = {
             ...bookingDetails,
             CommuterId : userId,
-            Status : 'Reserved',
+            Status : 'Upcoming',
         }
         await firebaseRef.create(toBeAdded);
     }
 
-    fetchCommuterHistory = () => async (dispatch, getState) => {
+    listenUserBookings = () => async (dispatch, getState) => {
         const { user } = getState();
 
-        // await firebase.firestore().collection('Users').doc(user.Id).set({
-        //     ContactNum: contactNumber
-        // }, { merge: true });
         const ref = firebase.firestore().collection('Bookings')
             .where("CommuterId","==",user.Id);
-        const results = await ref.get();
+        ref.onSnapshot(results => {
+            const bookings = results.docs.map(data => data.data());
+            dispatch(BookingsAction.setUserBookings(bookings));
+        })
+        // const results = await ref.get();
 
-        console.log("ZZZZZZ", results.docs.map(data => data.data()));
-        return true;
+        // const bookings = results.docs.map(data => data.data());
+        // dispatch(BookingsAction.setUserBookings(bookings));
+        // return true;
     }
 
 }
 
-export default new RoutesService();
+export default new BookingsService();

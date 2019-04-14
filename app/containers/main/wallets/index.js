@@ -70,14 +70,14 @@ class Container extends React.PureComponent<> {
                 <View style={styles.cardContainer}>
                     <Image
                         style={styles.cardIcon}
-                        source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                        source={require('../../../assets/images/wallet.png')}
                     />
                     <View style={styles.cardContents}>
                         <Text style={styles.cardLabel}>
-                            asdasda
+                            {Number(user.WalletBalance).toFixed(2)}
                         </Text>
                         <Text style={styles.cardData}>
-                            asdasdazz
+                            Cash balance
                         </Text>
                     </View>
                 </View>

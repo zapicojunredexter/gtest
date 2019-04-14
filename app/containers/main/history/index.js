@@ -23,7 +23,7 @@ class Container extends React.PureComponent<> {
                 }}
                 refreshing={fetching}
                 stickySectionHeadersEnabled
-                renderItem={({item, index, section}) => <Text key={index}>{item}</Text>}
+                renderItem={({item, index, section}) => <Text key={index}>{JSON.stringify(item)}</Text>}
                 renderSectionHeader={({section: {title}}) => (
                     <Text style={{fontWeight: 'bold'}}>{title}</Text>
                 )}
@@ -38,21 +38,23 @@ const mapStateToProps = store => ({
     sections : [
         {
             title : 'UPCOMING BOOKED TRIPS',
-            data : [
-                'asd',
-                'asd',
-                'asd',
-                'asd',
-            ]
+            // data : [
+            //     'asd',
+            //     'asd',
+            //     'asd',
+            //     'asd',
+            // ]
+            data : store.bookings.userBookings.filter(booking => booking.Status !== 'Finished'),
         },
         {
             title : 'PREVIOUS TRIPS',
-            data : [
-                'zxc',
-                'zxc',
-                'zxc',
-                'zx',
-            ]
+            data : store.bookings.userBookings.filter(booking => booking.Status === 'Finished'),
+            // data : [
+            //     'zxc',
+            //     'zxc',
+            //     'zxc',
+            //     'zx',
+            // ]
         }
     ]
 });

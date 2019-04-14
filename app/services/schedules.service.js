@@ -4,31 +4,31 @@ import CollectionInfrastructure from '../modules/infrastructures/database.infras
 import BookingsAction from '../reducers/bookings/booking.action';
 
 class SchedulesService {
-    listenSchedules = () => async (dispatch, getState) => {
-        const firebaseRef = new CollectionInfrastructure(firebase,'Schedules');
+    // listenSchedules = () => async (dispatch, getState) => {
+    //     const firebaseRef = new CollectionInfrastructure(firebase,'Schedules');
 
-        firebaseRef.listen(schedules => {
-            dispatch(ScheduleActions.setSchedules(schedules));
-        });
-    }
+    //     firebaseRef.listen(schedules => {
+    //         dispatch(ScheduleActions.setSchedules(schedules));
+    //     });
+    // }
 
-    listenSchedule = schedId => async (dispatch, getState) => {
-        const document = firebase.firestore().collection('Schedules').doc(schedId)
+    // listenSchedule = schedId => async (dispatch, getState) => {
+    //     const document = firebase.firestore().collection('Schedules').doc(schedId)
         
-        if(this.listeningSchedule){
-            this.listeningSchedule();
-            this.listeningSchedule = null;
-        }
+    //     if(this.listeningSchedule){
+    //         this.listeningSchedule();
+    //         this.listeningSchedule = null;
+    //     }
         
-        this.listeningSchedule = document.onSnapshot(querySnapshot => {
-            const data = querySnapshot.data();
+    //     this.listeningSchedule = document.onSnapshot(querySnapshot => {
+    //         const data = querySnapshot.data();
 
-            dispatch(BookingsAction.updateMakeBooking({
-                schedule : data
-            }));
-            // dispatch(ScheduleActions.setSelectedSchedule(data));
-        });
-    }
+    //         dispatch(BookingsAction.updateMakeBooking({
+    //             schedule : data
+    //         }));
+    //         // dispatch(ScheduleActions.setSelectedSchedule(data));
+    //     });
+    // }
 }
 
 export default new SchedulesService();

@@ -69,7 +69,7 @@ const DrawerStack = createDrawerNavigator({
             drawerIcon: () => (
                 <Image
                     style={{width: 25, height: 25}}
-                    source={require('../assets/images/profile.png')}
+                    source={require('../assets/images/wallet.png')}
                 />
             )
         },

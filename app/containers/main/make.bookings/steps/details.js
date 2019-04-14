@@ -55,7 +55,7 @@ class Container extends React.PureComponent<> {
                             selectedValue={selectedSchedule && selectedSchedule.DepartureTime}
                             onSelect={(data) => {
                                 const selectedSchedule = choices.find(schedule => schedule.DepartureTime === data);
-                                this.props.listenSchedule(selectedSchedule.ScheduleId);
+                                // this.props.listenSchedule(selectedSchedule.ScheduleId);
                             }}
                         />
                     </View>
@@ -86,8 +86,8 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     // setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
     // listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
-    listenSchedule : (scheduleId) => dispatch(ScheduleService.listenSchedule(scheduleId)),
-    updateMakeBooking : makeBooking => dispatch(BookingsAction.updateMakeBooking(makeBooking))
+    // listenSchedule : (scheduleId) => dispatch(ScheduleService.listenSchedule(scheduleId)),
+    // updateMakeBooking : makeBooking => dispatch(BookingsAction.updateMakeBooking(makeBooking))
     // listenTerminals : () => dispatch(TerminalsService.listenTerminals()),
 });
 

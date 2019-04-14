@@ -122,6 +122,7 @@ class Container extends React.PureComponent<> {
                 {renderTripRecord('Driver Name',item.DriverName)}
                 {renderTripRecord('Plate Number',item.VehiclePlateNo)}
                 {renderTripRecord('Commuter Count', `${item.CommutersCount} / ${item.CommutersTotal}`)}
+                {renderTripRecord('Departure Time', `${item.Schedule}`)}
                 {renderTripRecord('Status',item.Status)}
             </TouchableOpacity>
         );
@@ -210,8 +211,8 @@ class Container extends React.PureComponent<> {
                         data={trips}
                         renderItem={this.renderTripRow}
                         extraData={this.state.selectedTrip}
-                        onRefresh={this.snapData}
-                        refreshing={false}
+                        // onRefresh={this.snapData}
+                        // refreshing={false}
                     />
                 </View>
             </View>
@@ -237,7 +238,7 @@ const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
     // setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
-    listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
+    // listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
     listenRoutes : () => dispatch(RoutesService.listenRoutes()),
     listenTrips : (schedId) => dispatch(TripsService.listenTrips(schedId)),
     addBooking : booking => dispatch(BookingsService.addBooking(booking))

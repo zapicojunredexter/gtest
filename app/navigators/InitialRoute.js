@@ -6,7 +6,10 @@ import {
   View,
 } from 'react-native';
 import Listener from '../listeners/listeners.navigation';
-import SystemActions from '../reducers/system/system.action';
+// import SystemActions from '../reducers/system/system.action';
+// import UserService from '../services/user.service';
+// import bookingsService from '../services/bookings.service';
+import CombineService from '../services/combine.service';
 
 type Props = {
 };
@@ -17,66 +20,33 @@ class InitialRoute extends React.Component<Props> {
         super(props);
         const { navigation } = props;
         const isLoggedIn = !!firebase.auth().currentUser;
-        console.log("HOOOY", isLoggedIn);
-        navigation.navigate(isLoggedIn ? 'Home' : 'Login');
 
-        // firebase.auth()
-        //     .signInAnonymously()
-        //     .then(credential => {
-        //     if (credential) {
-        //         console.log('default app user ->', credential.user.toJSON());
-        //     }
-        //     }).catch(error => console.log(error));
+        if(!isLoggedIn) {
 
+            navigation.navigate('Login');
+        } else {
 
-        // this.ref = firebase.firestore().collection('todos');
-        // this.ref.add({
-        //     title: 'test title',
-        //     complete: false,
-        //   });
-
-        //   this.ref.onSnapshot(this.onCollectionUpdate)
-
-
-        // const res = firebaseRef.create(params);
-        // console.log("ARA", res, 'Users');
-
-        // firebaseRef.read();
-
-        // firebaseRef.update(params,'testId');
-        // console.log("IN");
-        // await firebaseRef.delete('testId').catch(error => { throw error });
+            navigation.navigate('Home');
+            props.masterSnap();
+        }
         
-        // firebaseRef.listen(data => {
-        //     console.log("SAMANA",data);
-        // });
-        // console.log("OUT");
-        // const firebaseRef = firebase.firestore().collection('todos');
-        // this.ref.add({
-        //     title: 'test title',
-        //     complete: false,
-        //   });
-
-        //   this.ref.onSnapshot(this.onCollectionUpdate)
     }
-    onCollectionUpdate = (querySnapshot) => {
-        console.log("HOY", querySnapshot);
-        querySnapshot.forEach((doc) => {
-            console.log("HEREES DOC DATA", doc.data());
-          });
+    
+    render() {
+        return (
+            <View>
+                <Listener {...this.props} />
+            </View>
+        );
     }
-  render() {
-    return (
-      <View>
-          <Listener {...this.props} />
-      </View>
-    );
-  }
 }
 const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
-    setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
+    masterSnap : () => dispatch(CombineService.masterSnap()),
+    // setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
+    // listenUserUpdates : () => dispatch(UserService.listenUser()),
+    // listenUserBookings : () => dispatch(bookingsService.listenUserBookings())
 });
 
 export default connect(

@@ -1,6 +1,5 @@
 import {
-    SET_USER,
-    UPDATE_CONTACT_NUMBER
+    SET_USER
 } from './user.action';
 
 class UserReducer {
@@ -8,12 +7,6 @@ class UserReducer {
         switch (action.type) {
             case SET_USER: {
                 return {...action.user};
-            }
-            case UPDATE_CONTACT_NUMBER: {
-                return {
-                    ...state,
-                    ContactNum: action.contactNum,
-                }
             }
             default: {
                 return state;

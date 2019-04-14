@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import DatePicker from '../../../components/date.picker';
 import AuthService from '../../../services/auth.service';
+import CombineService from '../../../services/combine.service';
 
 class Registration extends React.Component<> {
     state = {
@@ -20,6 +21,7 @@ class Registration extends React.Component<> {
         gender: 'male',
     }
     render() {
+        // console.log("ZZZZ", this.props.navigation.state.params);
         return (
         <View>
             <TextInput
@@ -76,7 +78,13 @@ class Registration extends React.Component<> {
                                 BirthDate : this.state.birthDate,
                                 ContactNum : this.state.contactNum,
                                 Gender : this.state.gender,
-                            }).catch(error => alert(error.message));
+                                WalletBalance : 0,
+                            })
+                            .then(() => {
+                                this.props.navigation.navigate('Home');
+                                this.props.masterSnap();
+                            })
+                            .catch(error => alert(error.message));
                         // this.props.registerAccount("now@gmail.com","nowgmail",{name : "now", age : 21, gender : "M"}).catch(error => alert(error.message));
                         // this.props.registerAccount({
                         //     username : 'testUsername',
@@ -95,7 +103,8 @@ const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
     login : (params) => dispatch(AuthService.login(params)),
-    registerAccount : (username, password, params) => dispatch(AuthService.registerAccount(username, password, params))
+    registerAccount : (username, password, params) => dispatch(AuthService.registerAccount(username, password, params)),
+    masterSnap : () => dispatch(CombineService.masterSnap()),
 });
 
 export default connect(
