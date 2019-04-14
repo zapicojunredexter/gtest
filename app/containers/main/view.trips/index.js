@@ -16,8 +16,8 @@ class Container extends React.PureComponent<> {
                 <CameraKitCameraScreen 
                     showFrame={true}
                     scanBarcode={true}
-                    laserColor={"blue"}
-                    frameColor={"yellow"}
+                    laserColor={"transparent"}
+                    frameColor={"transparent"}
                     onReadCode={((event) => alert(event.nativeEvent.codeStringValue))}
                     hideControls={true}
                     offsetForScannerFrame={30}

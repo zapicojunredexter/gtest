@@ -14,6 +14,21 @@ class RoutesService {
         }
         await firebaseRef.create(toBeAdded);
     }
+
+    fetchCommuterHistory = () => async (dispatch, getState) => {
+        const { user } = getState();
+
+        // await firebase.firestore().collection('Users').doc(user.Id).set({
+        //     ContactNum: contactNumber
+        // }, { merge: true });
+        const ref = firebase.firestore().collection('Bookings')
+            .where("CommuterId","==",user.Id);
+        const results = await ref.get();
+
+        console.log("ZZZZZZ", results.docs.map(data => data.data()));
+        return true;
+    }
+
 }
 
 export default new RoutesService();

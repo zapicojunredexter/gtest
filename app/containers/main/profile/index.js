@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Image, StyleSheet, View, Text, Button, TextInput } from 'react-native';
+import { Image, StyleSheet, View, Text, Button, TextInput, ToastAndroid } from 'react-native';
 import UserService from '../../../services/user.service';
+import AuthService from '../../../services/auth.service';
 
 const styles = StyleSheet.create({
     componentRow : {
@@ -95,8 +96,15 @@ class Container extends React.PureComponent<> {
                     />
                 </View>
                 <Button
-                    onPress={async () => {
-                        await this.props.updateContactNumber(ContactNum);
+                    onPress={() => {
+                        this.props.updateContactNumber(ContactNum)
+                            .then(() => {
+                                ToastAndroid.show('Contact Number Updated', ToastAndroid.SHORT);
+                            })
+                            .catch(error => {
+                                ToastAndroid.show(error.message, ToastAndroid.SHORT);
+                            });
+                        
                     }}
                     title="EDIT"
                 />
@@ -118,6 +126,7 @@ const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
     updateContactNumber : contNum => dispatch(UserService.updateContactNumber(contNum)),
+    logout : () => dispatch(AuthService.logout()),
 });
 
 export default connect(
