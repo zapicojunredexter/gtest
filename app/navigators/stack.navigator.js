@@ -7,6 +7,7 @@ import Registration from '../containers/authentication/registration';
 import Main from '../containers/main/home';
 import Feedbacks from '../containers/main/feedbacks';
 import History from '../containers/main/history';
+import HistoryDetails from '../containers/main/history/history.details';
 import MakeBookings from '../containers/main/make.bookings';
 import ViewTrips from '../containers/main/view.trips';
 import UserProfile from '../containers/main/profile';
@@ -99,7 +100,10 @@ const DrawerStack = createDrawerNavigator({
         },
     },
     History : {
-        screen: createStackWithNotifIcon({History}),
+        screen: createStackWithNotifIcon({
+            History,
+            HistoryDetails,
+        }),
         navigationOptions: {
             drawerLabel: 'History',
             drawerIcon: () => (

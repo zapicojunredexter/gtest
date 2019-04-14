@@ -11,6 +11,7 @@ import TripsService from '../../../services/trips.service';
 import BookingsService from '../../../services/bookings.service';
 import ConfirmBooking from './confirm.booking';
 import SystemRestricted from '../../../utils/system.restrction';
+import { getTravellingBooking } from '../../../selectors/bookings.selector';
 
 const styles = StyleSheet.create({
     container : {
@@ -129,13 +130,22 @@ class Container extends React.PureComponent<> {
     }
 
     render() {
-        const { routes, schedules, trips } = this.props;
+        const { routes, schedules, trips, travellingBooking } = this.props;
         const { selectedRouteId, selectedScheduleId, selectedTrip, selectedDate } = this.state;
 
         const selectedRoute  = routes.find(route => route.Id === selectedRouteId);
         // const selectedSchedule = schedules.find(schedule => schedule.Id === selectedScheduleId);
         // const filteredSchedules = selectedRoute ? schedules.filter(schedule => schedule.RouteId === selectedRoute.Id) : [];
 
+        if(!!travellingBooking){
+            return(
+                <View style={[styles.container, {justifyContent:'center',alignItems:'center'}]}>
+                    <Text>
+                        CANNOT MAKE RESERVATION WHEN IN TRAVEL BOOKING STATUS
+                    </Text>
+                </View>
+            );
+        }
 
         return (
             <View style={styles.container}>
@@ -234,7 +244,8 @@ Container.defaultProps = {
 const mapStateToProps = store => ({
     schedules : store.schedules.schedules,
     routes : store.routes,
-    trips : store.trips.trips
+    trips : store.trips.trips,
+    travellingBooking : getTravellingBooking(store),
 });
 const mapDispatchToProps = dispatch => ({
     // setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
