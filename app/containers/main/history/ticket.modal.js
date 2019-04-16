@@ -25,7 +25,7 @@ class TicketModal extends React.PureComponent<> {
         const { modalProps, bookingDetails, closeModal, onViewDetails } = this.props;
 
         return (
-            <Modal {...modalProps}>
+            <Modal {...modalProps} animationInTiming={0} animationOutTiming={0} backdropTransitionInTiming={0} backdropTransitionOutTiming={0} hideModalContentWhileAnimating>
                 <View style={styles.container}>
                     <TouchableOpacity
                         onPress={onViewDetails}

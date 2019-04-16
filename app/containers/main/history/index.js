@@ -14,33 +14,39 @@ class Container extends React.PureComponent<> {
     constructor(props) {
         super(props);
         this.state = {
-            selectedBooking : null
+            selected : null
         }
     }
 
     render() {
-        const { sections, fetchCommuterHistory } = this.props;
-        const { selectedBooking } = this.state;
-        return (// Example 1 (Homogeneous Rendering)
+        const { sections, fetchCommuterHistory, isCommuter } = this.props;
+        const { selected } = this.state;
+        return (
             <View style={styles.container}>
                 <TicketModal
                     modalProps={{
-                        isVisible :  !!selectedBooking,
-                        onBackdropPress : () => this.setState({selectedBooking : null})
+                        isVisible :  !!selected,
+                        onBackdropPress : () => this.setState({selected : null})
                     }}
                     onViewDetails={() => {
-                        const bookingId = this.state.selectedBooking.Id;
-                        this.setState({ selectedBooking : null });
-                        this.props.navigation.navigate('HistoryDetails',{bookingId});
+                        const itemId = this.state.selected.Id;
+                        this.setState({ selected : null });
+                        if(isCommuter) {
+                            this.props.navigation.navigate('HistoryDetails',{bookingId: itemId});
+                        } else {
+                            this.props.navigation.navigate('DriverTripDetails', {tripId: itemId});
+                        }
                     }}
-                    closeModal={() => this.setState({ selectedBooking : null })}
-                    bookingDetails={selectedBooking}
+                    closeModal={() => this.setState({ selected : null })}
+                    bookingDetails={selected}
                 />
                 <SectionList
                     stickySectionHeadersEnabled
                     renderItem={({item, index, section}) => (
                         <TouchableOpacity
-                            onPress={() => this.setState({ selectedBooking : item})}
+                            onPress={() => {
+                                this.setState({ selected : item});
+                            }}
                         >
                             <Text key={index}>{JSON.stringify(item)}</Text>
                         </TouchableOpacity>
@@ -58,30 +64,37 @@ class Container extends React.PureComponent<> {
     }
 }
 
-const mapStateToProps = store => ({
-    sections : [
+
+const mapStateToProps = store => {
+    const { user } = store;
+    const bookings = [
         {
             title : 'UPCOMING BOOKED TRIPS',
-            // data : [
-            //     'asd',
-            //     'asd',
-            //     'asd',
-            //     'asd',
-            // ]
             data : store.bookings.userBookings.filter(booking => booking.Status !== 'Finished'),
         },
         {
             title : 'PREVIOUS TRIPS',
             data : store.bookings.userBookings.filter(booking => booking.Status === 'Finished'),
-            // data : [
-            //     'zxc',
-            //     'zxc',
-            //     'zxc',
-            //     'zx',
-            // ]
         }
-    ]
-});
+    ];
+    const trips = [
+        {
+            title : 'UPCOMING TRIPS',
+            data : store.trips.trips.filter(booking => booking.Status !== 'Finished'),
+        },
+        {
+            title : 'PREVIOUS TRIPS',
+            data : store.trips.trips.filter(booking => booking.Status === 'Finished'),
+        }
+    ];
+    if(!user){
+        return {};
+    }
+    return {
+        sections : user.AccountType === 'Commuter' ? bookings : trips,
+        isCommuter : user.AccountType === 'Commuter',
+    };
+}
 const mapDispatchToProps = dispatch => ({
     fetchCommuterHistory : () => dispatch(BookingService.fetchCommuterHistory())
 });

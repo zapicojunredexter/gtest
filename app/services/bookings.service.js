@@ -16,7 +16,7 @@ class BookingsService {
         }
         await firebaseRef.create(toBeAdded);
     }
-
+a
     listenUserBookings = () => async (dispatch, getState) => {
         const { user } = getState();
 
@@ -77,11 +77,6 @@ class BookingsService {
                 }
             })
         }
-        // const results = await ref.get();
-
-        // const bookings = results.docs.map(data => data.data());
-        // dispatch(BookingsAction.setUserBookings(bookings));
-        // return true;
     }
 
     cancelListening = () => () => {

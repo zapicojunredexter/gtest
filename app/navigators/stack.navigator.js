@@ -8,8 +8,10 @@ import Main from '../containers/main/home';
 import Feedbacks from '../containers/main/feedbacks';
 import History from '../containers/main/history';
 import HistoryDetails from '../containers/main/history/history.details';
+import DriverTripDetails from '../containers/main/history/driver.trip';
 import MakeBookings from '../containers/main/make.bookings';
 import ViewTrips from '../containers/main/view.trips';
+import ManageAttendees from '../containers/main/view.trips/manage.attendees';
 import UserProfile from '../containers/main/profile';
 import Wallet from '../containers/main/wallets';
 import DrawerComponent from './drawer.component';
@@ -103,6 +105,7 @@ const DrawerStack = createDrawerNavigator({
         screen: createStackWithNotifIcon({
             History,
             HistoryDetails,
+            DriverTripDetails,
         }),
         navigationOptions: {
             drawerLabel: 'History',
@@ -128,7 +131,7 @@ const DrawerStack = createDrawerNavigator({
         },
     },
     ViewTrips : {
-        screen: createStackWithNotifIcon({ViewTrips}),
+        screen: createStackWithNotifIcon({ViewTrips, ManageAttendees}),
         navigationOptions: {
             drawerLabel: 'View Trips',
             drawerIcon: () => (
