@@ -1,5 +1,8 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { createStackNavigator, createDrawerNavigator, SafeAreaView, DrawerItems } from 'react-navigation';
 import InitialRoute from './InitialRoute';
 import Login from '../containers/authentication/login';
@@ -36,10 +39,7 @@ const createStackWithNotifIcon = (screens) =>
             navigationOptions : (({ navigation, screenProps }) => ({
                 headerLeft : (
                     <TouchableOpacity onPress={navigation.toggleDrawer}>
-                        <Image
-                            style={{marginLeft : 15, width: 35, height: 35}}
-                            source={require('../assets/images/burger.png')}
-                        />
+                        <Entypo name="list" size={35} color="#fff" style={{ marginLeft : 5 }} />
                     </TouchableOpacity>
                     
                 ),
@@ -58,10 +58,7 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'Home',
             drawerIcon: () => (
-                <Image
-                    style={{width: 25, height: 25}}
-                    source={require('../assets/images/home.png')}
-                />
+                <Entypo name="home" size={20} color="#fff" />
             ),
         },
     },
@@ -70,10 +67,7 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'Wallet',
             drawerIcon: () => (
-                <Image
-                    style={{width: 25, height: 25}}
-                    source={require('../assets/images/wallet.png')}
-                />
+                <Entypo name="wallet" size={20} color="#fff" />
             )
         },
     },
@@ -82,10 +76,7 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'User',
             drawerIcon: () => (
-                <Image
-                    style={{width: 25, height: 25}}
-                    source={require('../assets/images/profile.png')}
-                />
+                <FontAwesome name="user" size={20} color="#fff" />
             )
         },
     },
@@ -94,10 +85,7 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'Feedbacks',
             drawerIcon: () => (
-                <Image
-                    style={{width: 25, height: 25}}
-                    source={require('../assets/images/feedbacks.png')}
-                />
+                <MaterialIcons name="feedback" size={20} color="#fff" />
             )
         },
     },
@@ -110,10 +98,7 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'History',
             drawerIcon: () => (
-                <Image
-                    style={{width: 25, height: 25}}
-                    source={require('../assets/images/history.png')}
-                />
+                <Entypo name="address" size={20} color="#fff" />
             )
         },
     },
@@ -123,10 +108,7 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'Make Bookings',
             drawerIcon: () => (
-                <Image
-                    style={{width: 25, height: 25}}
-                    source={require('../assets/images/bookings.png')}
-                />
+                <Entypo name="new-message" size={20} color="#fff" />
             )
         },
     },
@@ -135,10 +117,7 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'View Trips',
             drawerIcon: () => (
-                <Image
-                    style={{width: 25, height: 25}}
-                    source={require('../assets/images/trips.png')}
-                />
+                <Entypo name="calendar" size={20} color="#fff" />
             )
         },
     },

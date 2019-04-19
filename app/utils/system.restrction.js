@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default SystemRestricted = (Component, options = {}) => {
     class SystemRestrictedClass extends React.PureComponent<>{
@@ -20,12 +21,20 @@ export default SystemRestricted = (Component, options = {}) => {
                 );
             }
             return (
-                <View>
+                <View style={{backgroundColor: '#dae1e8', flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     {!disableCheckInternet && !hasInternet && (
-                        <Text>NO INTERNET CONNECTION</Text>
+                        <View style={{margin: 15, alignItems: 'center', justifyContent: 'center'}}>
+                            <MaterialIcons name="signal-cellular-connected-no-internet-4-bar" size={35} color="#3d5166" />
+                            <Text style={{ fontWeight: 'bold' }}>NO INTERNET CONNECTION</Text>
+                            <Text style={{ fontSize : 12 }}>Please make sure you are connected to the internet.</Text>
+                        </View>
                     )}
                     {!disableCheckLocation && !hasLocation && (
-                        <Text>NO LOCATION</Text>
+                        <View style={{margin: 30, alignItems: 'center', justifyContent: 'center'}}>
+                            <MaterialIcons name="location-off" size={35} color="#3d5166" />
+                            <Text style={{ fontWeight: 'bold' }}>NO LOCATION PROVIDER</Text>
+                            <Text style={{ fontSize : 12 }}>Please turn on location in device settings.</Text>
+                        </View>
                     )}
                 </View>
             );

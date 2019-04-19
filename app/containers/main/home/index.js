@@ -6,7 +6,7 @@ class Home extends React.Component {
     
     render() {
         return (
-            <View style={{flex:1,backgroundColor:'orange'}}>
+            <View style={{flex:1,backgroundColor:'#dae1e8'}}>
                 <MapView />
             </View>
         );

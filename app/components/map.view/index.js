@@ -62,7 +62,7 @@ class DriveTheLine extends React.Component {
     }
 
     componentDidMount() {
-        this.getDirections();
+        this.getDirections().catch(error => alert(error.message));
     }
 
     async getDirections() {
@@ -79,16 +79,15 @@ class DriveTheLine extends React.Component {
             ],
             {profile: 'walking', geometry: 'polyline'},
         );
-        console.log("HOOOOY",res);
         this.setState({
-        route: makeLineString(res.entity.routes[0].geometry.coordinates),
+            route: makeLineString(res.entity.routes[0].geometry.coordinates),
         });
     }
 
     componentWillUnmount() {
-        // if (this.state.routeSimulator) {
-        //   this.state.routeSimulator.stop();
-        // }
+        if (this.state.routeSimulator) {
+          this.state.routeSimulator.stop();
+        }
     }
 
     renderRoute() {

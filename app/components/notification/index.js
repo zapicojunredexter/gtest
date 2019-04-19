@@ -1,26 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Entypo from 'react-native-vector-icons/Ionicons';
 import {
   Text,
   View,
-  Image,
+  TouchableOpacity,
   StyleSheet,
 } from 'react-native';
 
 export default class NotificationIcon extends React.PureComponent<> {
+    constructor(props){
+        super(props);
+        this.state = {
+            hasNotification : false
+        };
+    }
     render() {
-        const hasNotification = this.props.notifications.length > 0;
-        return (
-            <View style={{backgroundColor:'red'}}>
+        const { hasNotification } = this.state;
 
-                <Text>{hasNotification ? `has notifs`:`no notifs`}</Text>
-                {/*
-                <Image
-                    style={{marginLeft : 15, width: 35, height: 35}}
-                    source={require('../../assets/images/burger.png')}
-                />
-                */}
-            </View>
+        return (
+            <TouchableOpacity onPress={() => this.setState({ hasNotification : !this.state.hasNotification})}>
+                <Entypo name="ios-notifications" size={35} color={hasNotification ? "#FFA500" : "#fff"} style={{ marginRight : 10 }} />
+            </TouchableOpacity>
         );
     }
 }

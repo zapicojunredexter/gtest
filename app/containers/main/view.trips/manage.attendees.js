@@ -8,6 +8,7 @@ import { throttle, debounce } from 'throttle-debounce';
 import TripsService from '../../../services/trips.service';
 import BookingsService from '../../../services/bookings.service';
 import { checkAndAskPermission } from '../../../utils/permissions';
+import SystemRestricted from '../../../utils/system.restrction';
 
 const styles = StyleSheet.create({
     container : {
@@ -70,7 +71,7 @@ class Container extends React.PureComponent<> {
                     scanBarcode={true}
                     laserColor={"transparent"}
                     frameColor={"transparent"}
-                    onReadCode={throttle(5,(event) => alert(event.nativeEvent.codeStringValue))}
+                    onReadCode={throttle(3000,(event) => alert(event.nativeEvent.codeStringValue))}
                     hideControls={true}
                     offsetForScannerFrame={30}
                     heightForScannerFrame={300}
@@ -193,7 +194,14 @@ const mapDispatchToProps = dispatch => ({
     cancelBooking : bookingId => dispatch(BookingsService.cancelBooking(bookingId)),
 });
 
-export default connect(
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps,
+// )(Container);
+export default SystemRestricted(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Container);
+)(Container),
+{
+    disableCheckLocation : true,
+});
