@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Text as OpenText } from 'react-native-openanything';
+
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
 import { throttle, debounce } from 'throttle-debounce';
 import TripsService from '../../../services/trips.service';
@@ -140,8 +142,8 @@ class Container extends React.PureComponent<> {
                         'BODY',
                         [
                           {
-                            text: 'action 1',
-                            onPress: () => {},
+                            text: 'SEND SMS',
+                            onPress: () => OpenText(item.ContactNumber, 'Can you please call me!'),
                           },
                           {
                             text: 'APPROVE',

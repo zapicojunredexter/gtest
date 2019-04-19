@@ -25,6 +25,7 @@
     "react-native-console-time-polyfill": "0.0.6",
     "react-native-firebase": "^5.2.3",
     "react-native-modal": "^9.0.0",
+    "react-native-openanything": "0.0.6",
     "react-native-permissions": "^1.1.1",
     "react-native-picker": "^4.3.7",
     "react-native-qrcode": "^0.2.7",
