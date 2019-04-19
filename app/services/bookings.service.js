@@ -5,6 +5,14 @@ import ScheduleAction from '../reducers/schedules/schedule.action';
 import TripAction from '../reducers/trips/trip.action';
 
 class BookingsService {
+    approveBooking = bookingId => async(dispatch, getState) => {
+        alert("TODO: API APPROVE BOOKING "+bookingId);
+    }
+
+    cancelBooking = bookingId => async(dispatch, getState) => {
+        alert("TODO: API CANCEL BOOKING "+bookingId);
+    }
+
     addBooking = (bookingDetails) => async (dispatch, getState) => {
         // TODO should be call to api
         const userId = getState().user.Id;

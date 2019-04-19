@@ -5,6 +5,40 @@ import CollectionInfrastructure from '../modules/infrastructures/database.infras
 class TripsService {
     listening;
 
+    fetchFreshTripData = tripId => async (dispatch, getState) => {
+        alert("TOODO CALL API"+tripId);
+        const testResponse = {
+            Status: 'Travelling',
+            Id: 'testId',
+            Schedule: 'testSchedule',
+            TripDate: 'testTripDate',
+            Driver: {
+                Name: 'Don Tiburcio',
+            },
+            Vehicle: {
+                PlateNumber: '12345'
+            },
+            commuters: [
+                {
+                    Id : '1234',
+                    Name : 'Junre',
+                    ContactNumber : '12345',
+                },
+                {
+                    Id : '12345',
+                    Name : 'Dexter',
+                    ContactNumber : '12345',
+                },
+                {
+                    Id : '123456',
+                    Name : 'Zapico',
+                    ContactNumber : '12345',
+                }
+            ]
+        };
+        dispatch(TripsAction.setSelectedDriverTrip(testResponse));
+    }
+
     listenTrips = (tripDate) => async (dispatch, getState) => {
         dispatch(this.unlistenTrips());
         const firebaseRef = firebase.firestore()

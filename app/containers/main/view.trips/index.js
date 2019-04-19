@@ -57,7 +57,9 @@ class Container extends React.PureComponent<> {
         );
         return (
             <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('ManageAttendees',{trip : item})}
+                onPress={() => {
+                    this.props.navigation.navigate('ManageAttendees',{trip : item});
+                }}
                 style={[
                     styles.tripRowContainer,
                     isTravelling && styles.tripRowSelected
@@ -122,7 +124,7 @@ const mapStateToProps = store => ({
     trips: store.trips.trips.filter(booking => booking.Status !== 'Finished'),
 });
 const mapDispatchToProps = dispatch => ({
-    fetchCommuterHistory : () => dispatch(BookingService.fetchCommuterHistory())
+    fetchCommuterHistory : () => dispatch(BookingService.fetchCommuterHistory()),
 });
 
 export default connect(
