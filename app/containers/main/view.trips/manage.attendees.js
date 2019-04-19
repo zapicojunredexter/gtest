@@ -115,8 +115,15 @@ class Container extends React.PureComponent<> {
             <TouchableOpacity
                 style={styles.fixedButton}
                 onPress={() => {
-                    checkAndAskPermission('photo');
-                    this.setState({isQrView : true})
+                    checkAndAskPermission(
+                        'camera',
+                        () => this.setState({isQrView : true}),
+                        {
+                            alertTitle : ``,
+                            alertMessage : `GT.Est needs access to your phone's camera`,
+                        }
+                    );
+                    
                 }}
             >
                 <Text>go to scanner</Text>
