@@ -16,7 +16,7 @@ const screens = {
         'Main' : true,
         'UserProfile' : true,
         'Feedbacks' : true,
-        'History' : true,
+        // 'History' : true,
         'ViewTrips' : true,
     }
 };

@@ -16,9 +16,9 @@ class AuthService {
     };
 
     logout = () => async (dispatch, getState) => {
+        console.log("BEFORE DISPATCH");
         await firebase.auth().signOut().catch(error => { throw error });
         dispatch(UserActions.setUser({}));
-        console.log("BEFORE DISPATCH");
         dispatch(CombineService.cancelListeners());
     }
 

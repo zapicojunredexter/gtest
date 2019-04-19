@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, SectionList, StyleSheet, TouchableOpacity } from 'react-native';
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
+import { throttle, debounce } from 'throttle-debounce';
 
 const styles = StyleSheet.create({
     container : {
@@ -66,7 +67,7 @@ class Container extends React.PureComponent<> {
                     scanBarcode={true}
                     laserColor={"transparent"}
                     frameColor={"transparent"}
-                    onReadCode={((event) => alert(event.nativeEvent.codeStringValue))}
+                    onReadCode={throttle(5,(event) => alert(event.nativeEvent.codeStringValue))}
                     hideControls={true}
                     offsetForScannerFrame={30}
                     heightForScannerFrame={300}

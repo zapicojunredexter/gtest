@@ -19,7 +19,7 @@ class Container extends React.PureComponent<> {
     }
 
     render() {
-        const { sections, fetchCommuterHistory, isCommuter } = this.props;
+        const { sections, fetchCommuterHistory } = this.props;
         const { selected } = this.state;
         return (
             <View style={styles.container}>
@@ -31,11 +31,13 @@ class Container extends React.PureComponent<> {
                     onViewDetails={() => {
                         const itemId = this.state.selected.Id;
                         this.setState({ selected : null });
-                        if(isCommuter) {
-                            this.props.navigation.navigate('HistoryDetails',{bookingId: itemId});
-                        } else {
-                            this.props.navigation.navigate('DriverTripDetails', {tripId: itemId});
-                        }
+                        this.props.navigation.navigate('HistoryDetails',{bookingId: itemId});
+                        
+                        // if(isCommuter) {
+                        //     this.props.navigation.navigate('HistoryDetails',{bookingId: itemId});
+                        // } else {
+                        //     this.props.navigation.navigate('DriverTripDetails', {tripId: itemId});
+                        // }
                     }}
                     closeModal={() => this.setState({ selected : null })}
                     bookingDetails={selected}
@@ -66,6 +68,19 @@ class Container extends React.PureComponent<> {
 
 
 const mapStateToProps = store => {
+    return {
+        sections : [
+            {
+                title : 'UPCOMING BOOKED TRIPS',
+                data : store.bookings.userBookings.filter(booking => booking.Status !== 'Finished'),
+            },
+            {
+                title : 'PREVIOUS TRIPS',
+                data : store.bookings.userBookings.filter(booking => booking.Status === 'Finished'),
+            }
+        ],
+    };
+    /*
     const { user } = store;
     const bookings = [
         {
@@ -94,6 +109,7 @@ const mapStateToProps = store => {
         sections : user.AccountType === 'Commuter' ? bookings : trips,
         isCommuter : user.AccountType === 'Commuter',
     };
+    */
 }
 const mapDispatchToProps = dispatch => ({
     fetchCommuterHistory : () => dispatch(BookingService.fetchCommuterHistory())

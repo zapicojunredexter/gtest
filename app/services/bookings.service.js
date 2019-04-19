@@ -16,7 +16,7 @@ class BookingsService {
         }
         await firebaseRef.create(toBeAdded);
     }
-a
+
     listenUserBookings = () => async (dispatch, getState) => {
         const { user } = getState();
 

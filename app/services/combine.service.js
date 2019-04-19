@@ -8,21 +8,20 @@ class CombineServices {
         dispatch(UserService.listenUser());
 
         const { user } = getState();
-        if(user.AccountType === 'Communter') {
+        if(user.AccountType === 'Commuter') {
             dispatch(BookingsService.listenUserBookings());
         } else {
             dispatch(TripsService.listenDriverTrips());
         }
     }
 
-    cancelListeners = () => dispatch => {
+    cancelListeners = () => (dispatch, getState) => {
         dispatch(UserService.cancelListening());
 
         const { user } = getState();
-        if(user.AccountType === 'Communter') {
+        if(user.AccountType === 'Commuter') {
             dispatch(BookingsService.cancelListening());
         } else {
-            console.log("ZZZtt");
             dispatch(TripsService.unlistenTrips());
         }
     }
