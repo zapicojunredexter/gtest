@@ -39,15 +39,10 @@ class DriveTheLine extends React.Component {
         super(props);
 
         this.state = {
-        route: null,
-        //   route:[
-        //     [-122.400129,37.788975],
-        //     [-122.400129,57.788975],
-        //     [-112.400129,87.788975]
-        //     ],
-        route : null,
-        currentPoint: null,
-        routeSimulator: null,
+            route: null,
+            route : null,
+            currentPoint: null,
+            routeSimulator: null,
         };
 
         this.onStart = this.onStart.bind(this);

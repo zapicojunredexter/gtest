@@ -140,6 +140,18 @@ class Container extends React.PureComponent<> {
             return(
                 <View style={[styles.container]}>
                     <Pathing />
+                    <View style={{
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        alignItems: 'center',
+                        position: 'absolute'
+                    }}>
+                        <View style={{opacity: 0.7, margin: 30,padding: 10, borderRadius: 4, backgroundColor: 'white'}}>
+                            <Text style={{ fontWeight: 'bold' }}>Currently on Trip en route {travellingBooking.Route.Route}</Text>
+                        </View>
+                    </View>
                 </View>
             );
         }

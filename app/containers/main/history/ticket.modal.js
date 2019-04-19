@@ -23,14 +23,13 @@ const styles = StyleSheet.create({
 class TicketModal extends React.PureComponent<> {
     render() {
         const { modalProps, bookingDetails, closeModal, onViewDetails } = this.props;
-
         return (
             <Modal {...modalProps} animationInTiming={0} animationOutTiming={0} backdropTransitionInTiming={0} backdropTransitionOutTiming={0} hideModalContentWhileAnimating>
                 <View style={styles.container}>
                     <TouchableOpacity
                         onPress={onViewDetails}
                     >
-                        <Text>{JSON.stringify(bookingDetails)}</Text>
+                        <Text style={{fontWeight: 'bold', fontSize : 20 }}>En route {bookingDetails && bookingDetails.Route.Route}</Text>
                     </TouchableOpacity>
                     {bookingDetails && (
                         <View style={styles.qrCodeContainer}>

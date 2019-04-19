@@ -7,6 +7,34 @@ import TicketModal from './ticket.modal';
 const styles = StyleSheet.create({
     container : {
         flex: 1,
+    },
+    tripRowContainer : {
+        borderRadius : 3,
+        borderColor : 'silver',
+        borderWidth : 1,
+        marginBottom : 5,
+        padding : 15,
+        marginLeft : 10,
+        marginRight : 10,
+        marginTop : 10,
+        marginBottom : 10,
+    },
+    tripRowComponentPair : {
+        flexDirection : 'row',
+    },
+    tripRowComponentPairLabel : {
+        fontWeight : 'bold',
+        fontSize : 12,
+    },
+    tripRowComponentPairValue : {
+        fontSize : 12,
+        marginLeft : 10,
+    },
+    tripRowTravelling: {
+        backgroundColor : '#87ceeb'
+    },
+    tripRowCancelled: {
+        backgroundColor: '#f4a1a1',
     }
 });
 
@@ -16,6 +44,35 @@ class Container extends React.PureComponent<> {
         this.state = {
             selected : null
         }
+    }
+
+    renderTripDetails = ({item}) => {
+        const isTravelling = item.Status === "Travelling";
+        const isCancelled = item.Status === "Cancelled";
+        const renderTripRecord = (label, value) => (
+            <View style={styles.tripRowComponentPair}>
+                <Text style={styles.tripRowComponentPairLabel}>{label || '-'}</Text>
+                <Text style={styles.tripRowComponentPairValue}>{value || '-'}</Text>
+            </View>
+        );
+        return (
+            <TouchableOpacity
+                onPress={() => {
+                    this.setState({ selected : item});
+                }}
+                style={[
+                    styles.tripRowContainer,
+                    isTravelling && styles.tripRowTravelling,
+                    isCancelled && styles.tripRowCancelled
+                ]}
+            >
+                {renderTripRecord('Vehicle Number',item.TripDate)}
+                {renderTripRecord('Route',item.Route.Route)}
+                {renderTripRecord('Departure Time',item.VehiclePlateNo)}
+                {renderTripRecord('Departure', `${item.CommutersCount} / ${item.CommutersTotal}`)}
+                {renderTripRecord('Booked', `${item.Schedule}`)}
+            </TouchableOpacity>
+        );
     }
 
     render() {
@@ -53,6 +110,7 @@ class Container extends React.PureComponent<> {
                             <Text key={index}>{JSON.stringify(item)}</Text>
                         </TouchableOpacity>
                     )}
+                    renderItem={this.renderTripDetails}
                     renderSectionHeader={({section: {title}}) => (
                         <View style={{backgroundColor:'white',padding : 7}}>
                             <Text style={{fontWeight: 'bold'}}>{title}</Text>
@@ -72,11 +130,11 @@ const mapStateToProps = store => {
         sections : [
             {
                 title : 'UPCOMING BOOKED TRIPS',
-                data : store.bookings.userBookings.filter(booking => booking.Status !== 'Finished'),
+                data : store.bookings.userBookings.filter(booking => booking.Status === 'Waiting' || booking.Status === 'Travelling'),
             },
             {
                 title : 'PREVIOUS TRIPS',
-                data : store.bookings.userBookings.filter(booking => booking.Status === 'Finished'),
+                data : store.bookings.userBookings.filter(booking => booking.Status === 'Finished' || booking.Status === 'Cancelled'),
             }
         ],
     };

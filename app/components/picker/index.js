@@ -48,6 +48,8 @@ export default class CustomPicker extends React.PureComponent<> {
             return;
         }
         Picker.init({
+            wheelFlex: [1, 0, 0],
+            pickerTextEllipsisLen: 20,
             pickerData: choices,
             selectedValue: [selectedValue],
             onPickerConfirm: data => {
@@ -57,6 +59,7 @@ export default class CustomPicker extends React.PureComponent<> {
             },
             onPickerSelect: data => {
             },
+            pickerTitleText: '',
             pickerConfirmBtnText : "Ok",
             pickerCancelBtnText : "Cancel",
         });

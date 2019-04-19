@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Image, StyleSheet, View, Text, Button, FlatList } from 'react-native';
+import Entypo from 'react-native-vector-icons/Entypo';
 import WalletsService from '../../../services/wallets.service';
 
 const styles = StyleSheet.create({
@@ -68,10 +69,7 @@ class Container extends React.PureComponent<> {
         return (
             <View style={{flex : 1}}>
                 <View style={styles.cardContainer}>
-                    <Image
-                        style={styles.cardIcon}
-                        source={require('../../../assets/images/wallet.png')}
-                    />
+                    <Entypo name="wallet" size={50} color="black" style={styles.cardIcon} />
                     <View style={styles.cardContents}>
                         <Text style={styles.cardLabel}>
                             {Number(user.WalletBalance).toFixed(2)}
@@ -88,7 +86,6 @@ class Container extends React.PureComponent<> {
                         onRefresh={this.fetchWalletsHistory}
                         renderItem={({item, index}) => <Text key={index}>{JSON.stringify(item)}</Text>}
                     />
-                    <Text>asdas</Text>
                 </View>
             </View>
         );
