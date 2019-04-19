@@ -24,7 +24,7 @@ const layerStyles = MapboxGL.StyleSheet.create({
     circleColor: '#336699',
   },
   route: {
-    lineColor: '#2b83db',
+    lineColor: 'grey',
     lineWidth: 3,
     lineOpacity: 0.84,
   },

@@ -12,6 +12,7 @@ import BookingsService from '../../../services/bookings.service';
 import ConfirmBooking from './confirm.booking';
 import SystemRestricted from '../../../utils/system.restrction';
 import { getTravellingBooking } from '../../../selectors/bookings.selector';
+import Pathing from '../../../components/map.view/pathing';
 
 const styles = StyleSheet.create({
     container : {
@@ -134,15 +135,11 @@ class Container extends React.PureComponent<> {
         const { selectedRouteId, selectedScheduleId, selectedTrip, selectedDate } = this.state;
 
         const selectedRoute  = routes.find(route => route.Id === selectedRouteId);
-        // const selectedSchedule = schedules.find(schedule => schedule.Id === selectedScheduleId);
-        // const filteredSchedules = selectedRoute ? schedules.filter(schedule => schedule.RouteId === selectedRoute.Id) : [];
 
         if(!!travellingBooking){
             return(
-                <View style={[styles.container, {justifyContent:'center',alignItems:'center'}]}>
-                    <Text>
-                        CANNOT MAKE RESERVATION WHEN IN TRAVEL BOOKING STATUS
-                    </Text>
+                <View style={[styles.container]}>
+                    <Pathing />
                 </View>
             );
         }
