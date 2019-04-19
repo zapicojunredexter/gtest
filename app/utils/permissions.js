@@ -1,5 +1,6 @@
 import Permissions from 'react-native-permissions';
 import { Alert } from 'react-native';
+import AndroidOpenSettings from 'react-native-android-open-settings';
 
 export const checkAndAskPermission = (
   permission: string,
@@ -28,7 +29,7 @@ export const checkAndAskPermission = (
                 text: 'Deny',
                 onPress: () => {},
               },
-              { text: 'Open Settings', onPress: Permissions.openSettings },
+              { text: 'Open Settings', onPress: AndroidOpenSettings.appDetailsSettings },
             ],
           );
         }

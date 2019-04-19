@@ -151,6 +151,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-android-open-settings')
     compile project(':react-native-camera-kit')
     compile project(':react-native-picker')
     implementation 'com.google.firebase:firebase-core:16.0.1'

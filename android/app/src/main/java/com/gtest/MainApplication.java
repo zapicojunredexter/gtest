@@ -3,6 +3,7 @@ package com.gtest;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage;
 import com.wix.RNCameraKit.RNCameraKitPackage;
 import com.beefe.picker.PickerViewPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AndroidOpenSettingsPackage(),
             new RNCameraKitPackage(),
             new PickerViewPackage(),
             new RNFirebasePackage(),
