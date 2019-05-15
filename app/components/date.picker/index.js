@@ -37,7 +37,7 @@ export default class CustomPicker extends React.PureComponent<> {
     openDatePicker = async () => {
         try {
             const {action, year, month, day} = await DatePickerAndroid.open({
-            date: new Date()
+            date: new Date(),
             });
             if(action === 'dateSetAction'){
                 const { onValueChange } = this.props;

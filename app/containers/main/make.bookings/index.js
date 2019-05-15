@@ -68,7 +68,8 @@ class Container extends React.PureComponent<> {
             selectedRouteId : null,
             selectedScheduleId : null,
             selectedDate : null,
-            selectedTrip : null
+            selectedTrip : null,
+            availableDates: [],
         };
     }
 
@@ -135,7 +136,7 @@ class Container extends React.PureComponent<> {
         const { selectedRouteId, selectedScheduleId, selectedTrip, selectedDate } = this.state;
 
         const selectedRoute  = routes.find(route => route.Id === selectedRouteId);
-
+        console.log('ZZZZ',this.state.availableDates);
         if(!!travellingBooking){
             return(
                 <View style={[styles.container]}>
@@ -181,9 +182,13 @@ class Container extends React.PureComponent<> {
                             const selected = routes.find(route => route.Route === data);
                             if(selected){
                                 // this.props.listenTrips(null);
-                                this.setState({selectedRouteId: selected.Id, selectedScheduleId : null})
+                                
+                                this.setState({selectedRouteId: selected.Id, availableDates: [], selectedDate : null})
+
+                                this.props.fetchRouteScheduleDates(selected.Id).then(result => this.setState({availableDates: result}));;
+                                
                             } else {
-                                alert("value does not exists in choiceshjjhjh");
+                                alert("value does not exists in choices");
                             }
                         }}
                     />
@@ -192,6 +197,17 @@ class Container extends React.PureComponent<> {
                     <Text style={styles.componentLabel}>
                         DATE
                     </Text>
+                    <Picker
+                        style={styles.componentPicker}
+                        numberOfLines={1}
+                        choices={this.state.availableDates}
+                        selectedValue={(selectedDate || "-")}
+                        onSelect={(data) => {
+                            this.setState({selectedDate : data});
+                            this.props.listenTrips(data);
+                        }}
+                    />
+                    {/*
                     <DatePicker
                         wrapperStyle={styles.componentPicker}
                         placeholder="-"
@@ -201,6 +217,7 @@ class Container extends React.PureComponent<> {
                             this.props.listenTrips(value);
                         }}
                     />
+                    */}
                 </View>
                 {/* 
                 <View style={styles.componentRow}>
@@ -261,7 +278,8 @@ const mapDispatchToProps = dispatch => ({
     // listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
     listenRoutes : () => dispatch(RoutesService.listenRoutes()),
     listenTrips : (schedId) => dispatch(TripsService.listenTrips(schedId)),
-    addBooking : booking => dispatch(BookingsService.addBooking(booking))
+    addBooking : booking => dispatch(BookingsService.addBooking(booking)),
+    fetchRouteScheduleDates: (routeId) => dispatch(RoutesService.fetchRouteScheduleDates(routeId))
 });
 
 export default SystemRestricted(connect(

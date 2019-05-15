@@ -67,7 +67,7 @@ class Container extends React.PureComponent<> {
                 ]}
             >
                 {renderTripRecord('Vehicle Number',item.TripDate)}
-                {renderTripRecord('Route',item.Route.Route)}
+                {renderTripRecord('Route',item.Route && item.Route.Route)}
                 {renderTripRecord('Departure Time',item.VehiclePlateNo)}
                 {renderTripRecord('Departure', `${item.CommutersCount} / ${item.CommutersTotal}`)}
                 {renderTripRecord('Booked', `${item.Schedule}`)}
@@ -101,15 +101,6 @@ class Container extends React.PureComponent<> {
                 />
                 <SectionList
                     stickySectionHeadersEnabled
-                    renderItem={({item, index, section}) => (
-                        <TouchableOpacity
-                            onPress={() => {
-                                this.setState({ selected : item});
-                            }}
-                        >
-                            <Text key={index}>{JSON.stringify(item)}</Text>
-                        </TouchableOpacity>
-                    )}
                     renderItem={this.renderTripDetails}
                     renderSectionHeader={({section: {title}}) => (
                         <View style={{backgroundColor:'white',padding : 7}}>
