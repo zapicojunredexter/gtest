@@ -25,7 +25,7 @@ class Container extends React.PureComponent<> {
             seats
         } = this.state;
         const additionalData = {
-            Seats : seats
+            Seats : [seats]
         };
         onPressConfirm(additionalData);
     }

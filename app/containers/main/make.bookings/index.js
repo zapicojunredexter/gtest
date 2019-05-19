@@ -98,7 +98,7 @@ class Container extends React.PureComponent<> {
                 this.setState({selectedTrip : null});
             })
             .catch(error => {
-
+                alert(error.message);
                 this.setState({selectedTrip : null});
             });
 
@@ -136,7 +136,6 @@ class Container extends React.PureComponent<> {
         const { selectedRouteId, selectedScheduleId, selectedTrip, selectedDate } = this.state;
 
         const selectedRoute  = routes.find(route => route.Id === selectedRouteId);
-        console.log('ZZZZ',this.state.availableDates);
         if(!!travellingBooking){
             return(
                 <View style={[styles.container]}>

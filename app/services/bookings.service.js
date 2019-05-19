@@ -4,6 +4,8 @@ import CollectionInfrastructure from '../modules/infrastructures/database.infras
 import ScheduleAction from '../reducers/schedules/schedule.action';
 import TripAction from '../reducers/trips/trip.action';
 import { API_URL } from '../constants/api';
+import RequestService from './request.service';
+import { responseToJson } from '../utils/parsing.helper';
 
 class BookingsService {
     approveBooking = bookingId => async(dispatch, getState) => {
@@ -11,20 +13,35 @@ class BookingsService {
     }
 
     cancelBooking = bookingId => async(dispatch, getState) => {
-        alert("TODO: API CANCEL BOOKING "+bookingId);
+        try{
+            const result = await RequestService.put(`bookings/cancel/${bookingId}`);
+            return responseToJson(result);
+        }catch(error){
+            console.error(error);
+        }
+    }
+
+    fetchBookingDetails = bookingId => async (dispatch, getState) => {
+        try{
+            const result = await RequestService.get(`bookings/${bookingId}`);
+            return responseToJson(result);
+        }catch(error){
+            console.error(error);
+        }
     }
 
     addBooking = (bookingDetails) => async (dispatch, getState) => {
-        // TODO should be call to api
-        const userId = getState().user.Id;
-        const firebaseRef = new CollectionInfrastructure(firebase,'Bookings');
-        const toBeAdded = {
-            ...bookingDetails,
-            CommuterId : userId,
-            Status : 'Upcoming',
+        try{
+            const userId = getState().user.Id;
+            const toBeAdded = {
+                ...bookingDetails,
+                CommuterId : userId,
+            }
+            const result = await RequestService.post('bookings', toBeAdded);
+            return responseToJson(result);
+        }catch(error){
+            console.error(error);
         }
-        alert(JSON.stringify(toBeAdded));
-        // await firebaseRef.create(toBeAdded);
     }
 
     listenUserBookings = () => async (dispatch, getState) => {
@@ -37,9 +54,11 @@ class BookingsService {
             this.cancelListening();
         }else{
             ref.onSnapshot(results => {
+                console.log('beforeeee bagu!');
                 const bookings = results.docs.map(data => data.data());
                 dispatch(BookingsAction.setUserBookings(bookings));
-                const travelingBooking = bookings.find(booking => booking.Status === 'Travelling');
+                /*
+                const travelingBooking = bookings.find(booking => booking && booking.Status === 'Travelling');
 
                 if(travelingBooking) {
                     if(this.tripSnapshot){
@@ -71,8 +90,8 @@ class BookingsService {
                         .doc(travelingBooking.TripId)
                         .onSnapshot(trip => {
                             const tripData = trip.data();
+                            console.log("before 2!",tripData);
                             if(tripData.Status === 'Finished'){
-                                console.log("FINISHED !",tripData);
                                 if(this.tripSnapshot){
                                     console.log("REMOVED LISTENER");
                                     this.tripSnapshot();
@@ -85,6 +104,7 @@ class BookingsService {
                         })
 
                 }
+                */
             })
         }
     }

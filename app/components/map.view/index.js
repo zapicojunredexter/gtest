@@ -7,7 +7,6 @@ import RouteSimulator from '../map.view/RouteSimulator';;
 import MapboxClient from '../../utils/mapbox.client';
 
 import PulseCircleLayer from '../map.view/PulseCircleLayer';
-
 MapboxGL.setAccessToken("pk.eyJ1IjoiemFwaWNvanVucmVkZXh0ZXIiLCJhIjoiY2p0aDlsZHN5MG5xaDN5cDhtbGdrN3hkeSJ9.UOC5ygISBssSgsyXp7rruQ");
 
 const PARIAN_COORDINATES = [123.903557, 10.299158];

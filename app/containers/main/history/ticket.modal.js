@@ -29,7 +29,7 @@ class TicketModal extends React.PureComponent<> {
                     <TouchableOpacity
                         onPress={onViewDetails}
                     >
-                        <Text style={{fontWeight: 'bold', fontSize : 20 }}>En route {bookingDetails && bookingDetails.Route.Route}</Text>
+                        <Text style={{fontWeight: 'bold', fontSize : 20 }}>En route {bookingDetails && bookingDetails.Trip && bookingDetails.Trip.Route && bookingDetails.Trip.Route.Route}</Text>
                     </TouchableOpacity>
                     {bookingDetails && (
                         <View style={styles.qrCodeContainer}>
