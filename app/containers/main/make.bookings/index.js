@@ -204,7 +204,7 @@ class Container extends React.PureComponent<> {
                         selectedValue={(selectedDate || "-")}
                         onSelect={(data) => {
                             this.setState({selectedDate : data});
-                            this.props.listenTrips(data);
+                            this.props.listenTrips(data, this.state.selectedRouteId);
                         }}
                     />
                     {/*
@@ -277,7 +277,7 @@ const mapDispatchToProps = dispatch => ({
     // setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
     // listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
     listenRoutes : () => dispatch(RoutesService.listenRoutes()),
-    listenTrips : (schedId) => dispatch(TripsService.listenTrips(schedId)),
+    listenTrips : (schedDate,routeId) => dispatch(TripsService.listenTrips(schedDate,routeId)),
     addBooking : booking => dispatch(BookingsService.addBooking(booking)),
     fetchRouteScheduleDates: (routeId) => dispatch(RoutesService.fetchRouteScheduleDates(routeId))
 });

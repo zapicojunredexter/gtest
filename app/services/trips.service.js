@@ -39,17 +39,20 @@ class TripsService {
         dispatch(TripsAction.setSelectedDriverTrip(testResponse));
     }
 
-    listenTrips = (tripDate) => async (dispatch, getState) => {
+    listenTrips = (tripDate, selectedRouteId) => async (dispatch, getState) => {
         dispatch(this.unlistenTrips());
         const firebaseRef = firebase.firestore()
             .collection('Trips')
-            .where('TripDate', '==', tripDate);
+            .where('Schedule.DepartDate', '==', tripDate);
         this.listening = firebaseRef.onSnapshot(querySnapshot => {
             const data = [];
             querySnapshot.forEach((doc) => {
                 data.push(doc.data());
             });
-            dispatch(TripsAction.setTrips(data));
+
+            const filtered = data.filter(res => res.Route.Id === selectedRouteId);
+            
+            dispatch(TripsAction.setTrips(filtered));
         });
 
     }

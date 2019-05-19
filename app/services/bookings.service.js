@@ -3,6 +3,7 @@ import BookingsAction from '../reducers/bookings/booking.action';
 import CollectionInfrastructure from '../modules/infrastructures/database.infrastructure/collection.infrastructure';
 import ScheduleAction from '../reducers/schedules/schedule.action';
 import TripAction from '../reducers/trips/trip.action';
+import { API_URL } from '../constants/api';
 
 class BookingsService {
     approveBooking = bookingId => async(dispatch, getState) => {
@@ -22,7 +23,8 @@ class BookingsService {
             CommuterId : userId,
             Status : 'Upcoming',
         }
-        await firebaseRef.create(toBeAdded);
+        alert(JSON.stringify(toBeAdded));
+        // await firebaseRef.create(toBeAdded);
     }
 
     listenUserBookings = () => async (dispatch, getState) => {
