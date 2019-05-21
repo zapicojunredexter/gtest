@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, SectionList, Button, ToastAndroid, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Text as OpenText } from 'react-native-openanything';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
 import { throttle, debounce } from 'throttle-debounce';
@@ -19,24 +20,58 @@ const styles = StyleSheet.create({
     },
     attendanceWrapper: {
         flex : 1,
-        backgroundColor : 'orange'
     },
     qrCodeWrapper: {
         flex : 1,
-        backgroundColor : 'blue'
     },
     fixedButton: {
         position: 'absolute',
         bottom : 0,
         right : 0,
         backgroundColor : 'green',
-        height : 50,
-        width : 50,
+        height : 70,
+        width : 70,
+        borderRadius: 70 / 2,
+        backgroundColor: '#0B5173',
+        opacity: 0.8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 5,
+        marginRight: 5,
     },
     listWrapper: {
         flex : 1,
-        backgroundColor : 'yellow'
-    }
+    },
+
+
+    tripRowContainer : {
+        borderRadius : 3,
+        borderColor : 'silver',
+        borderWidth : 1,
+        marginBottom : 5,
+        padding : 15,
+        marginLeft : 10,
+        marginRight : 10,
+        marginTop : 10,
+        marginBottom : 10,
+    },
+    tripRowComponentPair : {
+        flexDirection : 'row',
+    },
+    tripRowComponentPairLabel : {
+        fontWeight : 'bold',
+        fontSize : 12,
+    },
+    tripRowComponentPairValue : {
+        fontSize : 12,
+        marginLeft : 10,
+    },
+    tripRowTravelling: {
+        backgroundColor : '#87ceeb'
+    },
+    tripRowCancelled: {
+        backgroundColor: '#f4a1a1',
+    },
 });
 
 class Container extends React.PureComponent<> {
@@ -89,9 +124,31 @@ class Container extends React.PureComponent<> {
                     this.setState({isQrView : false})
                 }}
             >
-                <Text>go to list</Text>
+                <FontAwesome name="list" size={25} color="#fff" />
             </TouchableOpacity>
         );
+    }
+
+    mapUsers = () => {
+        const { selectedTrip } = this.props;
+        if(!selectedTrip){ 
+            return [];
+        }
+        const { Bookings } = selectedTrip;
+        return [
+            {
+                title: 'UNCHECKED',
+                data: Bookings.filter(booking => booking.Status === 'Waiting'),
+            },
+            {
+                title: 'STANDBY',
+                data: Bookings.filter(booking => booking.Status === 'Travelling'),
+            },
+            {
+                title: 'CANCELLED',
+                data: Bookings.filter(booking => booking.Status === 'Cancelled'),
+            }
+        ];
     }
 
     renderSectionList = () => {
@@ -99,16 +156,30 @@ class Container extends React.PureComponent<> {
         if(!selectedTrip){ 
             return null;
         }
-        const { commuters } = selectedTrip;
+        const { Bookings } = selectedTrip;
         return (
             <View style={styles.listWrapper}>
+                <SectionList
+                    stickySectionHeadersEnabled
+                    // renderItem={() => <Text>sdasdads</Text>}
+                    renderItem={this.renderUserRow}
+                    renderSectionHeader={({section: {title}}) => (
+                        <View style={{backgroundColor:'white',padding : 7}}>
+                            <Text style={{fontWeight: 'bold'}}>{title}</Text>
+                        </View>
+                    )}
+                    sections={this.mapUsers()}
+                    keyExtractor={(item, index) => item + index}
+                />
+                {/*
                 <FlatList
                     contentContainerStyle={styles.scrollerContainer}
-                    data={commuters}
+                    data={Bookings}
                     renderItem={this.renderUserRow}
                     onRefresh={this.fetchTripData}
                     refreshing={false}
                 />
+                */}
             </View>
         );
     }
@@ -129,7 +200,7 @@ class Container extends React.PureComponent<> {
                     
                 }}
             >
-                <Text>go to scanner</Text>
+                <FontAwesome name="qrcode" size={25} color="#fff" />
             </TouchableOpacity>
         );
     }
@@ -139,30 +210,79 @@ class Container extends React.PureComponent<> {
             <TouchableOpacity
                 onPress={() => {
                     Alert.alert(
-                        'TITLE',
-                        'BODY',
+                        `${item.Commuter && `${item.Commuter.FirstName} ${item.Commuter.LastName}`}`,
+                        `${item.Commuter && item.Commuter.ContactNum}`,
                         [
                           {
                             text: 'SEND SMS',
-                            onPress: () => OpenText(item.ContactNumber, 'Can you please call me!'),
+                            onPress: () => OpenText(item.Commuter && item.Commuter.ContactNum, ''),
                           },
                           {
                             text: 'APPROVE',
                             onPress: () => {
-                                this.props.approveBooking(item.Id);
+                                this.props.approveBooking(item.Id).then(() => {
+                                    ToastAndroid.show("Approved Booking",ToastAndroid.SHORT);
+                                    this.fetchTripData();
+                                }).catch(error => alert(error.message));
                             },
                           },
                           {
                             text: 'CANCEL',
                             onPress: () => {
-                                this.props.cancelBooking(item.Id);
+                                // this.props.cancelBooking(item.Id).then(() => {
+                                //     ToastAndroid.show("Cancelled Booking",ToastAndroid.SHORT);
+                                //     this.fetchTripData();
+                                // }).catch(error => alert(error.message));
                             },
                           },
                         ],
                     );
                 }}
+                style={{
+                    flexDirection: 'row',
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    paddingTop: 5,
+                    paddingBottom: 5,
+                }}
             >
-                <Text>{JSON.stringify(item)}</Text>
+                <FontAwesome
+                    name={item.Commuter && item.Commuter.Gender === 'female' ? 'female' : 'male'}
+                    size={15}
+                    color="#000"
+                    style={{ marginRight: 5 }}
+                />
+                <Text>{`${item.Commuter && `${item.Commuter.FirstName} ${item.Commuter.LastName}`}`}</Text>
+            </TouchableOpacity>
+        );
+    }
+
+
+    renderTripDetails = () => {
+        const { selectedTrip } = this.props;
+        const item = selectedTrip;
+        const isTravelling = item && item.Status === "Travelling";
+        const isCancelled = item && item.Status === "Cancelled";
+        const renderTripRecord = (label, value) => (
+            <View style={styles.tripRowComponentPair}>
+                <Text style={styles.tripRowComponentPairLabel}>{label || '-'}</Text>
+                <Text style={styles.tripRowComponentPairValue}>{value || '-'}</Text>
+            </View>
+        );
+        return (
+            <TouchableOpacity
+                onPress={this.fetchTripData}
+                style={[
+                    styles.tripRowContainer,
+                    isTravelling && styles.tripRowTravelling,
+                    isCancelled && styles.tripRowCancelled
+                ]}
+            >
+                {renderTripRecord('Driver Name',item && item.Driver && `${item.Driver.FirstName} ${item.Driver.LastName}`)}
+                {renderTripRecord('Vehicle Number',item && item.Vehicle && `${item.Vehicle.PlateNumber}`)}
+                {renderTripRecord('Route',item && item.Route && item.Route.Route)}
+                {renderTripRecord('Departure Date',item && item.Schedule && item.Schedule.DepartDate)}
+                {renderTripRecord('Departure Time',item && item.Schedule && item.Schedule.DepartTime)}
             </TouchableOpacity>
         );
     }
@@ -170,14 +290,30 @@ class Container extends React.PureComponent<> {
     render() {
         // const { selectedTrip } = this.props.navigation.state.params;
         const { selectedTrip } = this.props;
+        console.log('BAGO DAATA', selectedTrip);
+        const item = selectedTrip;
+        const isTravelling = item && item.Status === "Travelling";
         const { isQrView }  = this.state;
         return (
             <View style={styles.container}>
-                <View style={styles.detailsWrapper}>
-                    <Text>attendees{JSON.stringify(selectedTrip)}</Text>
-                </View>
+                {this.renderTripDetails()}
+                <Button
+                    title={`${isTravelling ? `FINISH TRIP` : `START TRIP`}`}
+                    onPress={() => {
+                        if(isTravelling){
+                            this.props.finishTrip(item.Id).then(() => {
+                                this.fetchTripData();
+                            } );
+                        }else{
+                            this.props.startTrip(item.Id).then(() => {
+                                this.fetchTripData();
+                            } );
+                        }
+                    }}
+                />
                 <View style={styles.attendanceWrapper}>
                     {isQrView ? this.renderQrScanner() : this.renderSectionList()}
+                    
                     {isQrView ? this.renderListButton() : this.renderScannerButton()}
                 </View>
             </View>
@@ -189,6 +325,8 @@ const mapStateToProps = store => ({
     selectedTrip: store.trips.selectedDriverTrip
 });
 const mapDispatchToProps = dispatch => ({
+    startTrip: tripId => dispatch(TripsService.startTrip(tripId)),
+    finishTrip: tripId => dispatch(TripsService.finishTrip(tripId)),
     fetchFreshTripData : tripId =>  dispatch(TripsService.fetchFreshTripData(tripId)),
     approveBooking : bookingId => dispatch(BookingsService.approveBooking(bookingId)),
     cancelBooking : bookingId => dispatch(BookingsService.cancelBooking(bookingId)),

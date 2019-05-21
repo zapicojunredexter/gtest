@@ -9,7 +9,12 @@ import { responseToJson } from '../utils/parsing.helper';
 
 class BookingsService {
     approveBooking = bookingId => async(dispatch, getState) => {
-        alert("TODO: API APPROVE BOOKING "+bookingId);
+        try{
+            const result = await RequestService.put(`bookings/${bookingId}`,{ Status: 'Travelling', });
+            return responseToJson(result);
+        }catch(error){
+            console.error(error);
+        }
     }
 
     cancelBooking = bookingId => async(dispatch, getState) => {

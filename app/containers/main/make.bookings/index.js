@@ -70,6 +70,9 @@ class Container extends React.PureComponent<> {
             selectedDate : null,
             selectedTrip : null,
             availableDates: [],
+
+            isRoutesFetching: true,
+            isSchedulesFetching: false,
         };
     }
 
@@ -77,9 +80,14 @@ class Container extends React.PureComponent<> {
         this.snapData();
     }
 
-    snapData = () => {
+    snapData = async () => {
+        await this.props.fetchRoutes();
+
+        this.setState({
+            isRoutesFetching: false,
+        })
         // this.props.listenSchedules();
-        this.props.listenRoutes();
+        // this.props.listenRoutes();
     }
 
     handleAddBooking = (additionalData) => {
@@ -148,8 +156,11 @@ class Container extends React.PureComponent<> {
                         alignItems: 'center',
                         position: 'absolute'
                     }}>
-                        <View style={{opacity: 0.7, margin: 30,padding: 10, borderRadius: 4, backgroundColor: 'white'}}>
-                            <Text style={{ fontWeight: 'bold' }}>Currently on Trip en route {travellingBooking.Route.Route}</Text>
+                        <View style={{opacity: 0.9, margin: 30,padding: 10, borderRadius: 4, backgroundColor: 'white'}}>
+                            <Text style={{ fontWeight: 'bold' }}>
+                                Currently on Trip en route
+                                {` ${travellingBooking && travellingBooking.Trip && travellingBooking.Trip.Route.Route}`}
+                            </Text>
                         </View>
                     </View>
                 </View>
@@ -175,16 +186,26 @@ class Container extends React.PureComponent<> {
                         style={styles.componentPicker}
                         numberOfLines={1}
                         choices={routes.map(route => route.Route)}
-                        selectedValue={(selectedRoute && selectedRoute.Route || "-")}
+                        selectedValue={this.state.isRoutesFetching ? 'Fetching...' : (selectedRoute && selectedRoute.Route || "-")}
                         onSelect={(it) => alert(JSON.stringify(it))}
                         onSelect={(data) => {
                             const selected = routes.find(route => route.Route === data);
                             if(selected){
                                 // this.props.listenTrips(null);
                                 
-                                this.setState({selectedRouteId: selected.Id, availableDates: [], selectedDate : null})
+                                this.setState({
+                                    selectedRouteId: selected.Id,
+                                    availableDates: [],
+                                    selectedDate : null,
+                                    isSchedulesFetching: true,
+                                })
 
-                                this.props.fetchRouteScheduleDates(selected.Id).then(result => this.setState({availableDates: result}));;
+                                this.props.fetchRouteScheduleDates(selected.Id).then(result => {
+                                    this.setState({
+                                        availableDates: result,
+                                        isSchedulesFetching: false,
+                                    });
+                                });;
                                 
                             } else {
                                 alert("value does not exists in choices");
@@ -200,7 +221,7 @@ class Container extends React.PureComponent<> {
                         style={styles.componentPicker}
                         numberOfLines={1}
                         choices={this.state.availableDates}
-                        selectedValue={(selectedDate || "-")}
+                        selectedValue={this.state.isSchedulesFetching ? 'Fetching...' : (selectedDate || "-")}
                         onSelect={(data) => {
                             this.setState({selectedDate : data});
                             this.props.listenTrips(data, this.state.selectedRouteId);
@@ -275,7 +296,8 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     // setHasInternetConnection : () => dispatch(SystemActions.setHasInternet(true)),
     // listenSchedules : () => dispatch(ScheduleService.listenSchedules()),
-    listenRoutes : () => dispatch(RoutesService.listenRoutes()),
+    // listenRoutes : () => dispatch(RoutesService.listenRoutes()),
+    fetchRoutes: () => dispatch(RoutesService.fetchRoutes()),
     listenTrips : (schedDate,routeId) => dispatch(TripsService.listenTrips(schedDate,routeId)),
     addBooking : booking => dispatch(BookingsService.addBooking(booking)),
     fetchRouteScheduleDates: (routeId) => dispatch(RoutesService.fetchRouteScheduleDates(routeId))

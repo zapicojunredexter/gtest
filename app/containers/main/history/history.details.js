@@ -111,6 +111,7 @@ class Container extends React.PureComponent<> {
             </View>
         );
     }
+
     renderMap = () => {
         const item = this.state.booking;
         const Route = item && item.Trip && item.Trip.Route && item.Trip.Route.Route;

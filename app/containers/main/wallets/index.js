@@ -40,6 +40,16 @@ const styles = StyleSheet.create({
     },
     listContainer : {
         flex : 1,
+    },
+
+    listItemWrapper: {
+        padding: 5,
+    },
+    listItem: {
+        fontSize: 12,
+    },
+    isEventRow: {
+        backgroundColor: '#e0e0e0'
     }
 });
 
@@ -52,6 +62,10 @@ class Container extends React.PureComponent<> {
         fetching : false,
     }
 
+    componentDidMount() {
+        this.fetchWalletsHistory()
+    }
+
     fetchWalletsHistory = async () => {
         const { fetchWalletsHistory } = this.props;
         this.setState({fetching : true});
@@ -60,6 +74,16 @@ class Container extends React.PureComponent<> {
 
         this.setState({fetching : false});
 
+    }
+
+    renderItemList = ({item, index}) => {
+        return (
+            <View style={[styles.listItemWrapper,index%2===0 && styles.isEventRow]} key={index}>  
+                <Text style={styles.listItem}>
+                    {item.Amount} points loaded {item.createAt}
+                </Text>
+            </View>
+        );
     }
 
     render() {
@@ -84,7 +108,7 @@ class Container extends React.PureComponent<> {
                         data={walletHistory}
                         refreshing={fetching}
                         onRefresh={this.fetchWalletsHistory}
-                        renderItem={({item, index}) => <Text key={index}>{JSON.stringify(item)}</Text>}
+                        renderItem={this.renderItemList}
                     />
                 </View>
             </View>

@@ -55,6 +55,10 @@ class Container extends React.PureComponent<> {
                 <Text style={styles.tripRowComponentPairValue}>{value || '-'}</Text>
             </View>
         );
+        console.log("AYYY", item.Vehicle.Seats);
+        const seatsArray = item.Vehicle && item.Vehicle.Seats ? Object.values(item.Vehicle.Seats) : [];
+        const takenSeats = seatsArray.filter(seat => seat).length;
+        const totalSeats = seatsArray.length;
         return (
             <TouchableOpacity
                 onPress={() => {
@@ -65,10 +69,10 @@ class Container extends React.PureComponent<> {
                     isTravelling && styles.tripRowSelected
                 ]}
             >
-                {renderTripRecord('Trip Date',item.TripDate)}
-                {renderTripRecord('Plate Number',item.VehiclePlateNo)}
-                {renderTripRecord('Commuter Count', `${item.CommutersCount} / ${item.CommutersTotal}`)}
-                {renderTripRecord('Departure Time', `${item.Schedule}`)}
+                {renderTripRecord('Departure Date',item.Schedule && item.Schedule.DepartDate)}
+                {renderTripRecord('Departure Time', `${item.Schedule && item.Schedule.DepartTime}`)}
+                {renderTripRecord('Vehicle Plate Number',item.Vehicle && item.Vehicle.PlateNumber)}
+                {renderTripRecord('Commuter Count', `${takenSeats} / ${totalSeats}`)}
                 {renderTripRecord('Status',item.Status)}
             </TouchableOpacity>
         );
@@ -121,7 +125,7 @@ class Container extends React.PureComponent<> {
 }
 
 const mapStateToProps = store => ({
-    trips: store.trips.trips.filter(booking => booking.Status !== 'Finished'),
+    trips: store.trips.trips.filter(booking => booking.Status === 'Travelling' || booking.Status === 'Waiting'),
 });
 const mapDispatchToProps = dispatch => ({
     fetchCommuterHistory : () => dispatch(BookingService.fetchCommuterHistory()),

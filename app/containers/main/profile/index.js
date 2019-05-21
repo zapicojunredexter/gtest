@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Foundation from 'react-native-vector-icons/Foundation';
 import { Image, StyleSheet, View, Text, Button, TextInput, ToastAndroid } from 'react-native';
 import UserService from '../../../services/user.service';
 import AuthService from '../../../services/auth.service';
@@ -50,11 +51,24 @@ class Container extends React.PureComponent<> {
         } = this.state;
         const isCommuter = true;
         return (
-            <View style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}>
-                <Image
-                    style={{width: 50, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                />
+            <View style={{flex : 1, padding: 20}}>
+                <View style={{alignItems:'center',justifyContent: 'center'}}> 
+                    <View
+                        style={{
+                            backgroundColor: '#0B5173',
+                            height: 80,
+                            width: 80,
+                            borderRadius:40,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                        <Foundation
+                            name={user.Gender === 'female' ? 'torso-female' : 'torso'}
+                            size={70}
+                            color="#fff"
+                        />
+                    </View>
+                </View>
                 <View style={styles.componentRow}>
                     <Text style={styles.componentRowLabel}>
                         Name
@@ -106,6 +120,7 @@ class Container extends React.PureComponent<> {
                             });
                         
                     }}
+                    style={{width:'100%'}}
                     title="EDIT"
                 />
                 <Button

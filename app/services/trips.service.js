@@ -2,11 +2,14 @@ import firebase from 'react-native-firebase';
 import TripsAction from '../reducers/trips/trip.action';
 import CollectionInfrastructure from '../modules/infrastructures/database.infrastructure/collection.infrastructure';
 
+import RequestService from './request.service';
+import { responseToJson } from '../utils/parsing.helper';
+
 class TripsService {
     listening;
 
     fetchFreshTripData = tripId => async (dispatch, getState) => {
-        alert("TOODO CALL API"+tripId);
+        /*
         const testResponse = {
             Status: 'Travelling',
             Id: 'testId',
@@ -18,25 +21,49 @@ class TripsService {
             Vehicle: {
                 PlateNumber: '12345'
             },
-            commuters: [
+            Bookings: [
                 {
                     Id : '1234',
                     Name : 'Junre',
                     ContactNumber : '12345',
+                    Status: 'Waiting',
                 },
                 {
                     Id : '12345',
                     Name : 'Dexter',
                     ContactNumber : '12345',
+                    Status: 'Waiting',
                 },
                 {
                     Id : '123456',
                     Name : 'Zapico',
                     ContactNumber : '12345',
-                }
+                    Status: 'Waiting',
+                },
+                {
+                    Id : '123456',
+                    Name : 'Zapico',
+                    ContactNumber : '12345',
+                    Status: 'Cancelled',
+                },
+                {
+                    Id : '123456',
+                    Name : 'Zapico',
+                    ContactNumber : '12345',
+                    Status: 'Travelling',
+                },
             ]
         };
         dispatch(TripsAction.setSelectedDriverTrip(testResponse));
+        */
+        try{
+            const result = await RequestService.get(`trips/${tripId}`);
+            const jsonResult = await responseToJson(result);
+            dispatch(TripsAction.setSelectedDriverTrip(jsonResult));
+            return jsonResult;
+        }catch(error){
+            console.error(error);
+        }
     }
 
     listenTrips = (tripDate, selectedRouteId) => async (dispatch, getState) => {
@@ -80,6 +107,26 @@ class TripsService {
             dispatch(TripsAction.setTrips(data));
         });
     } 
+
+    startTrip = (tripId) => async (dispatch, getState) => {
+        try{
+            const result = await RequestService.put(`trips/${tripId}`, {Status: 'Travelling'});
+            const jsonResult = await responseToJson(result);
+            return jsonResult;
+        }catch(error){
+            console.error(error);
+        }
+    }
+
+    finishTrip = (tripId) =>  async (dispatch, getState) => {
+        try{
+            const result = await RequestService.put(`trips/${tripId}`, {Status: 'Finished'});
+            const jsonResult = await responseToJson(result);
+            return jsonResult;
+        }catch(error){
+            console.error(error);
+        }
+    }
 }
 
 export default new TripsService();
