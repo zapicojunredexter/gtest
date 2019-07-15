@@ -1,5 +1,7 @@
 import firebase from 'react-native-firebase';
+import RequestService from './request.service';
 import UserAction from '../reducers/user/user.action';
+import { responseToJson } from '../utils/parsing.helper';
 
 class UserService {
     listenUser  = () => (dispatch, getState) => {
@@ -22,7 +24,6 @@ class UserService {
     }
 
     cancelListening = () => () => {
-        console.log("CANCELLED USER LISTENER", this.listening);
         if(this.listening){
             this.listening();
             this.listening = null;
@@ -30,14 +31,19 @@ class UserService {
     }
 
     updateContactNumber = (contactNumber) => async (dispatch, getState) => {
-        const { user } = getState();
-
-        await firebase.firestore().collection('Users').doc(user.Id).set({
-            ContactNum: contactNumber
-        }, { merge: true });
-        // dispatch(UserAction.updateContactNumber(contactNumber));
-
-        return true;
+        try{
+            const { user } = getState();
+            const notifToken = await firebase.messaging().getToken();
+            const result = await RequestService.put(`users/${user.Id}`, {
+                ContactNumber: contactNumber,
+                notifToken
+            });
+            const jsonResult = await responseToJson(result);
+            console.log('ADUNA', jsonResult);
+            return jsonResult;
+        }catch(error){
+            console.error(error);
+        }
     }
 
 }

@@ -55,7 +55,6 @@ class Container extends React.PureComponent<> {
                 <Text style={styles.tripRowComponentPairValue}>{value || '-'}</Text>
             </View>
         );
-        console.log("AYYY", item.Vehicle.Seats);
         const seatsArray = item.Vehicle && item.Vehicle.Seats ? Object.values(item.Vehicle.Seats) : [];
         const takenSeats = seatsArray.filter(seat => seat).length;
         const totalSeats = seatsArray.length;

@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { View, Text, Button, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native';
 import BookingService from '../../../services/bookings.service';
-import MapView from '../../../components/map.view';
+import Pathing from '../../../components/map.view/pathing';
 
 const styles = StyleSheet.create({
     container : {
@@ -54,7 +56,7 @@ class Container extends React.PureComponent<> {
    static navigationOptions = (({ navigation, screenProps }) => ({
         headerLeft : (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text>back</Text>
+                <Ionicons name="ios-arrow-back" size={30} color="#fff" style={{ marginLeft : 10 }} />
             </TouchableOpacity>
         ),
         title : `BOOKING DETAILS`,
@@ -73,7 +75,6 @@ class Container extends React.PureComponent<> {
         const { bookingId } = this.props.navigation.state.params;
         this.props.fetchBookingDetails(bookingId)
             .then(response => {
-                console.log("HOOOY", response);
                 this.setState({
                     isFetching: false,
                     booking: response.Booking,
@@ -94,6 +95,7 @@ class Container extends React.PureComponent<> {
                 <Text style={styles.tripRowComponentPairValue}>{value || '-'}</Text>
             </View>
         );
+        const bookedDate = new Date(item.createdAt);
         return (
             <View
                 style={[
@@ -107,7 +109,7 @@ class Container extends React.PureComponent<> {
                 {renderTripRecord('Route',item && item.Trip && item.Trip.Route && item.Trip.Route.Route)}
                 {renderTripRecord('Departure Date',item && item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartDate)}
                 {renderTripRecord('Departure Time',item && item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartTime)}
-                {renderTripRecord('Booked', `${item && item.createdAt}`)}
+                {renderTripRecord('Booked', bookedDate && `${bookedDate.getMonth() + 1}-${bookedDate.getDate()}-${bookedDate.getFullYear()}`)}
             </View>
         );
     }
@@ -120,7 +122,9 @@ class Container extends React.PureComponent<> {
                 <TouchableOpacity>
                     <Text style={styles.routeName}>enroute: {Route}</Text>
                 </TouchableOpacity>
-                <MapView />
+                {item && item.Trip && item.Trip.Route &&(
+                    <Pathing route={item.Trip.Route} />
+                )}
             </View>
         );
     }

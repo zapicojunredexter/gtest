@@ -15,6 +15,22 @@ class WalletsService {
             console.error(error);
         }
     }
+
+    submitReview = (driverId, commuterId, description, score) => async (dispatch, getState) => {
+        try{
+            const params = {
+                DriverId: driverId,
+                CommuterId: commuterId,
+                Score: score,
+                Comment: description,
+            };
+            const result = await RequestService.post(`feedbacks`, params);
+            const jsonResult = await responseToJson(result);
+            return jsonResult;
+        }catch(error){
+            console.error(error);
+        }
+    }
 }
 
 export default new WalletsService();

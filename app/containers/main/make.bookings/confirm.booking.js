@@ -32,18 +32,20 @@ class Container extends React.PureComponent<> {
 
 
     render() {
-        const { modalProps, route, schedule, onPressConfirm } = this.props;
+        const { modalProps, route, selectedTrip, onPressConfirm } = this.props;
         const {
             seats
         } = this.state;
+        const availableSeats = selectedTrip && selectedTrip.Vehicle && Object.keys(selectedTrip.Vehicle.Seats);
 
         return (
             <Modal {...modalProps}>
                 <View style={styles.container}>
                     <Text>ROUTE : {route && route.Route}</Text>
-                    <Text>SCHEDULE : {schedule && schedule.DepartureTime}</Text>
+                    <Text>SCHEDULE : {selectedTrip && selectedTrip.Schedule && selectedTrip.Schedule.DepartDate}</Text>
+                    <Text>SEATS : {JSON.stringify(availableSeats)}</Text>
+                    
                     <TextInput
-                        keyboardType="numeric"
                         value={seats}
                         onChangeText={(value) => this.setState({seats : value})}
                     />

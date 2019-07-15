@@ -4,11 +4,27 @@ import {
   Text,
   View,
   Button,
-  TextInput
+  TextInput,
+  StyleSheet,
 } from 'react-native';
 import DatePicker from '../../../components/date.picker';
+import RadioButton from '../../../components/radio.button';
 import AuthService from '../../../services/auth.service';
 import CombineService from '../../../services/combine.service';
+
+const styles = StyleSheet.create({
+    mainContainer: {
+        flex: 1,
+        padding: 20,
+        justifyContent: 'center',
+    },
+    genderWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+        marginBottom: 10,
+    }
+});
 
 class Registration extends React.Component<> {
     state = {
@@ -19,11 +35,12 @@ class Registration extends React.Component<> {
         contactNum: '1231231',
         birthDate: '',
         gender: 'male',
+        isLoading: false,
     }
     render() {
         // console.log("ZZZZ", this.props.navigation.state.params);
         return (
-        <View>
+        <View style={styles.mainContainer}>
             <TextInput
                 placeholder="Email"
                 onChangeText={(text) => this.setState({ username : text })}
@@ -52,6 +69,12 @@ class Registration extends React.Component<> {
                 onValueChange={date => this.setState({ birthDate: date})}
                 value={this.state.birthDate}
                 placeholder="Birth Date"
+                style={{
+                    marginTop: 15,
+                    marginBottom: 3,
+                    borderBottomWidth: 1,
+                    borderColor: 'black'
+                }}
             />
             <TextInput
                 placeholder="Contact Number"
@@ -59,16 +82,24 @@ class Registration extends React.Component<> {
                 value={this.state.contactNum}
                 style={{width : '100%'}}
             />
-            <TextInput
-                placeholder="Gender"
-                onChangeText={(text) => this.setState({ gender : text })}
-                value={this.state.gender}
-                style={{width : '100%'}}
-            />
-            <Text>You are in REGISTRATION PAGE</Text>
-            <Button title="REGISTER"
+            <View style={styles.genderWrapper}>
+                <Text>Male</Text>
+                <RadioButton
+                    checkboxColor="#0B5173"
+                    selected={this.state.gender === 'male'}
+                    onPress={() => this.setState({gender:'male'})}
+                />
+                <Text>Female</Text>
+                <RadioButton
+                    checkboxColor="#0B5173"
+                    selected={this.state.gender === 'female'}
+                    onPress={() => this.setState({gender:'female'})}
+                />
+            </View>
+            <Button title={`${this.state.isLoading ? `LOADING...` : `SUBMIT`}`}
+                disabled={this.state.isLoading}
                 onPress={() => {
-                    // try{
+                        this.setState({isLoading: true});
                         this.props.registerAccount(
                             this.state.username,
                             this.state.password,
@@ -76,23 +107,20 @@ class Registration extends React.Component<> {
                                 FirstName : this.state.firstName,
                                 LastName : this.state.lastName,
                                 BirthDate : this.state.birthDate,
-                                ContactNum : this.state.contactNum,
+                                ContactNumber : this.state.contactNum,
                                 Gender : this.state.gender,
-                                WalletBalance : 0,
-                            })
-                            .then(() => {
-                                this.props.navigation.navigate('Home');
-                                this.props.masterSnap();
-                            })
-                            .catch(error => alert(error.message));
-                        // this.props.registerAccount("now@gmail.com","nowgmail",{name : "now", age : 21, gender : "M"}).catch(error => alert(error.message));
-                        // this.props.registerAccount({
-                        //     username : 'testUsername',
-                        //     password : 'testPassword',
-                        // }).then(res => alert("SUCCESS")).catch(error => alert(error.message));
-                    // }catch(err){
-                    //     alert("ZXCs"+err.message);
-                    // }
+	                            AccountType: "Commuter"
+                            }
+                        )
+                        .then(() => {
+                            this.setState({isLoading: false});
+                            this.props.navigation.navigate('Home');
+                            this.props.masterSnap();
+                        })
+                        .catch(error => {
+                            this.setState({isLoading: false});
+                            alert(error.message);
+                        });
                 }}
             />
         </View>

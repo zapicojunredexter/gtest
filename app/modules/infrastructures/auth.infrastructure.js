@@ -1,5 +1,7 @@
 import firebase from 'react-native-firebase';
 import ErrorMessages from '../error.messages';
+import RequestService from '../../services/request.service';
+import { responseToJson } from '../../utils/parsing.helper';
 
 class AuthInfrastructure {
     login = async (username, password) => {
@@ -15,23 +17,26 @@ class AuthInfrastructure {
     }
 
     registerAccount = async (username, password, params) => {
-        const res = await firebase.auth().createUserWithEmailAndPassword(username, password).catch((error) => { throw error });
-        const authObject = res.user;
+        if(!firebase.auth().currentUser) {
+            const registeredUser = await firebase.auth().createUserWithEmailAndPassword(username, password).catch((error) => { throw error });
+        }
+        const res = !firebase.auth().currentUser ? registeredUser.user : firebase.auth().currentUser;
+        const authObject = res;
         const { uid } = authObject;
-    
-        const ref = this.getCollection().doc(uid);
 
-        const userDetails = {
-            ...params,
-            Id: uid,
-            AccountType : "Commuter",
-            createdAtMs: firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAtMs: firebase.firestore.FieldValue.serverTimestamp(),
-        };
-
-        await ref.set(userDetails);
-        // ref.set({Id: doc.id});
-        return true;
+        try{
+            const notifToken = await firebase.messaging().getToken();
+            const toBeAdded = {
+                ...params,
+                email: username,
+                notifToken,
+            };
+            const result = await RequestService.post(`users/${uid}`, toBeAdded);
+            const jsonResult = await responseToJson(result);
+            return jsonResult;
+        }catch(error){
+            throw error;
+        }
     };
 
     getStore = () => firebase.firestore();

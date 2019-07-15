@@ -10,6 +10,7 @@ import TripsService from '../../../services/trips.service';
 import BookingsService from '../../../services/bookings.service';
 import { checkAndAskPermission } from '../../../utils/permissions';
 import SystemRestricted from '../../../utils/system.restrction';
+import ConfirmAttendeeQr from './confirm.attendee.qr';
 
 const styles = StyleSheet.create({
     container : {
@@ -86,10 +87,19 @@ class Container extends React.PureComponent<> {
 
     state = {
         isQrView: false,
+        detectedBooking: null,
     }
 
     componentDidMount() {
         this.fetchTripData();
+    }
+
+    confirmCommuterAttendance = (id) => {
+        this.props.approveBooking(id).then(() => {
+            this.setState({detectedBooking: null});
+            ToastAndroid.show("Approved Booking",ToastAndroid.SHORT);
+            this.fetchTripData();
+        }).catch(error => alert(error.message));
     }
 
     fetchTripData = () => {
@@ -103,10 +113,25 @@ class Container extends React.PureComponent<> {
             <View style={styles.qrCodeWrapper}>
                 <CameraKitCameraScreen 
                     // showFrame={true}
-                    scanBarcode={true}
+                    scanBarcode={!this.state.detectedBooking}
                     laserColor={"transparent"}
                     frameColor={"transparent"}
-                    onReadCode={throttle(3000,(event) => alert(event.nativeEvent.codeStringValue))}
+                    onReadCode={(event) => {
+                        // alert('MISULOD');
+                        // if(!event.nativeEvent && !event.nativeEvent.codeStringValue) {
+                        //     return;
+                        // }
+                        console.log('Naai nadetect ay', event.nativeEvent.codeStringValue);
+
+                        const { selectedTrip } = this.props;
+                        if(!selectedTrip){ 
+                            return;
+                        }
+                        const { Bookings } = selectedTrip;
+                        const foundBooking = Bookings.find(booking => booking.Id === event.nativeEvent.codeStringValue);
+                        this.setState({detectedBooking: foundBooking});
+                        // alert(event.nativeEvent.codeStringValue);
+                    }}
                     hideControls={true}
                     offsetForScannerFrame={30}
                     heightForScannerFrame={300}
@@ -211,19 +236,16 @@ class Container extends React.PureComponent<> {
                 onPress={() => {
                     Alert.alert(
                         `${item.Commuter && `${item.Commuter.FirstName} ${item.Commuter.LastName}`}`,
-                        `${item.Commuter && item.Commuter.ContactNum}`,
+                        `${item.Commuter && item.Commuter.ContactNumber}`,
                         [
                           {
                             text: 'SEND SMS',
-                            onPress: () => OpenText(item.Commuter && item.Commuter.ContactNum, ''),
+                            onPress: () => OpenText(item.Commuter && item.Commuter.ContactNumber, ''),
                           },
                           {
                             text: 'APPROVE',
                             onPress: () => {
-                                this.props.approveBooking(item.Id).then(() => {
-                                    ToastAndroid.show("Approved Booking",ToastAndroid.SHORT);
-                                    this.fetchTripData();
-                                }).catch(error => alert(error.message));
+                                this.confirmCommuterAttendance(item.Id);
                             },
                           },
                           {
@@ -290,12 +312,19 @@ class Container extends React.PureComponent<> {
     render() {
         // const { selectedTrip } = this.props.navigation.state.params;
         const { selectedTrip } = this.props;
-        console.log('BAGO DAATA', selectedTrip);
         const item = selectedTrip;
         const isTravelling = item && item.Status === "Travelling";
         const { isQrView }  = this.state;
         return (
             <View style={styles.container}>
+                <ConfirmAttendeeQr
+                    modalProps={{
+                        isVisible: !!this.state.detectedBooking,
+                        onBackdropPress : () => this.setState({detectedBooking : null})
+                    }}
+                    bookingDetails={this.state.detectedBooking}
+                    onConfirm={this.confirmCommuterAttendance}
+                />
                 {this.renderTripDetails()}
                 <Button
                     title={`${isTravelling ? `FINISH TRIP` : `START TRIP`}`}

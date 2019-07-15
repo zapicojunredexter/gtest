@@ -10,6 +10,8 @@ import PulseCircleLayer from '../map.view/PulseCircleLayer';
 
 MapboxGL.setAccessToken("pk.eyJ1IjoiemFwaWNvanVucmVkZXh0ZXIiLCJhIjoiY2p0aDlsZHN5MG5xaDN5cDhtbGdrN3hkeSJ9.UOC5ygISBssSgsyXp7rruQ");
 
+const CAPITOL_COORDINATES = [123.8907, 10.3168];
+
 const PARIAN_COORDINATES = [123.903557, 10.299158];
 
 const UC_COORDINATES = [123.896886, 10.297485];
@@ -57,19 +59,29 @@ class DriveTheLine extends React.Component {
     }
 
     componentDidMount() {
-        this.getDirections().catch(error => alert(error.message));
+        setTimeout(() => {
+            this.getDirections().catch(error => alert(error.message));
+        }, 3000);
     }
 
     async getDirections() {
         const res = await MapboxClient.getDirections(
             [
+                // {
+                //     latitude: PARIAN_COORDINATES[1],
+                //     longitude: PARIAN_COORDINATES[0],
+                // },
+                // {
+                //     latitude: UC_COORDINATES[1],
+                //     longitude: UC_COORDINATES[0]
+                // },
             {
-                latitude: PARIAN_COORDINATES[1],
-                longitude: PARIAN_COORDINATES[0],
+                latitude: this.props.route.FromLocation[1],
+                longitude: this.props.route.FromLocation[0],
             },
             {
-                latitude: UC_COORDINATES[1],
-                longitude: UC_COORDINATES[0]
+                latitude: this.props.route.ToLocation[1],
+                longitude: this.props.route.ToLocation[0]
             },
             ],
             {profile: 'walking', geometry: 'polyline'},
@@ -152,7 +164,7 @@ class DriveTheLine extends React.Component {
         return (
             <MapboxGL.ShapeSource
                 id="origin"
-                shape={MapboxGL.geoUtils.makePoint(PARIAN_COORDINATES)}
+                shape={MapboxGL.geoUtils.makePoint(this.props.route.FromLocation)}
             >
                 <MapboxGL.Animated.CircleLayer id="originInnerCircle" style={style} />
             </MapboxGL.ShapeSource>
@@ -165,6 +177,7 @@ class DriveTheLine extends React.Component {
                 zoomLevel={13}
                 ref={c => (this._map = c)}
                 centerCoordinate={PARIAN_COORDINATES}
+                centerCoordinate={this.props.FromLocation || CAPITOL_COORDINATES}
                 style={{flex : 1, margin : 10}}
                 // this is not same as the one in global state
                 showUserLocation
@@ -178,7 +191,7 @@ class DriveTheLine extends React.Component {
 
                 <MapboxGL.ShapeSource
                     id="destination"
-                    shape={MapboxGL.geoUtils.makePoint(UC_COORDINATES)}
+                    shape={MapboxGL.geoUtils.makePoint(this.props.route.ToLocation)}
                 >
                     <MapboxGL.CircleLayer
                     id="destinationInnerCircle"

@@ -121,6 +121,7 @@ class Container extends React.PureComponent<> {
                 <Text style={styles.tripRowComponentPairValue}>{value || '-'}</Text>
             </View>
         );
+        const seatsValuesArray = item.Vehicle && Object.values(item.Vehicle.Seats) || [];
         return (
             <TouchableOpacity
                 disabled={isTravelling}
@@ -130,10 +131,10 @@ class Container extends React.PureComponent<> {
                     isTravelling && styles.tripRowSelected
                 ]}
             >
-                {renderTripRecord('Driver Name',item.DriverName)}
-                {renderTripRecord('Plate Number',item.VehiclePlateNo)}
-                {renderTripRecord('Commuter Count', `${item.CommutersCount} / ${item.CommutersTotal}`)}
-                {renderTripRecord('Departure Time', `${item.Schedule}`)}
+                {renderTripRecord('Driver Name',item.Driver && `${item.Driver.FirstName} ${item.Driver.LastName}`)}
+                {renderTripRecord('Plate Number',item.Vehicle && item.Vehicle.PlateNumber)}
+                {renderTripRecord('Commuter Count', `${seatsValuesArray.filter(seat => seat).length} / ${seatsValuesArray.length}`)}
+                {renderTripRecord('Departure Time', `${item.Schedule && `${item.Schedule.DepartDate} ${item.Schedule.DepartTime}`}`)}
                 {renderTripRecord('Status',item.Status)}
             </TouchableOpacity>
         );
@@ -147,7 +148,7 @@ class Container extends React.PureComponent<> {
         if(!!travellingBooking){
             return(
                 <View style={[styles.container]}>
-                    <Pathing />
+                    <Pathing route={travellingBooking.Trip.Route} />
                     <View style={{
                         top: 0,
                         left: 0,
@@ -175,6 +176,7 @@ class Container extends React.PureComponent<> {
                         onBackdropPress : () => this.setState({selectedTrip : null})
                     }}
                     route={selectedRoute}
+                    selectedTrip={this.state.selectedTrip}
                     // schedule={selectedSchedule}
                     onPressConfirm={this.handleAddBooking}
                 />
@@ -199,6 +201,7 @@ class Container extends React.PureComponent<> {
                                     selectedDate : null,
                                     isSchedulesFetching: true,
                                 })
+                                this.props.listenTrips('', selected.Id);
 
                                 this.props.fetchRouteScheduleDates(selected.Id).then(result => {
                                     this.setState({

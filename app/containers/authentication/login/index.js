@@ -1,10 +1,14 @@
 import React from 'react';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import {
     Text,
     View,
     Button,
-    TextInput
+    TextInput,
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 import AuthService from '../../../services/auth.service';
 import CombineService from '../../../services/combine.service';
@@ -12,6 +16,34 @@ import CombineService from '../../../services/combine.service';
 type Props = {
 };
 
+const styles = StyleSheet.create({
+    mainContainer: {
+        flex:1,
+        justifyContent: 'center',
+        padding: 20,
+    },
+    iconContainer: {
+        alignItems: 'center'
+    },
+    marginComponent: {
+        marginBottom: 10,
+        width : '100%',
+    },
+    iconCircle: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        backgroundColor: '#0B5173',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    signUpButton: {
+        marginTop: 20,
+    },
+    signUpTxt: {
+        textAlign: 'center'
+    }
+});
 
 class Login extends React.Component<Props> {
     state = {
@@ -38,24 +70,35 @@ class Login extends React.Component<Props> {
     render() {
         const { isLoading } = this.state;
         return (
-            <View>
-                <Text>You are in LOGIN PAGE</Text>
+            <View style={styles.mainContainer}>
+                <View style={styles.iconContainer}>
+                    <View style={styles.iconCircle}>
+                        <MaterialCommunityIcons name="van-passenger" size={90} color="#fff" style={{ marginLeft : 5 }} />
+                    </View>
+                </View>
                 <TextInput
                     onChangeText={(text) => this.setState({ username : text })}
                     value={this.state.username}
-                    style={{width : '100%'}}
+                    placeholder="Email"
+                    style={styles.marginComponent}
                 />
                 <TextInput
                     onChangeText={(text) => this.setState({ password : text })}
                     value={this.state.password}
-                    style={{width : '100%'}}
+                    placeholder="Password"
+                    style={styles.marginComponent}
                 />
-                <Button title="Registration" onPress={() => this.props.navigation.navigate('Registration')}/>
                 <Button
                     title={isLoading ? "LOGGING IN ..." : "LOGIN"}
                     onPress={this.login}
                     disabled={isLoading}
                 />
+                <TouchableOpacity
+                    style={styles.signUpButton}
+                    onPress={() => this.props.navigation.navigate('Registration')}
+                >
+                    <Text style={styles.signUpTxt}>No account? Sign-up here!</Text>
+                </TouchableOpacity>
             </View>
         );
     }

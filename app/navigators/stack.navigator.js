@@ -27,10 +27,14 @@ import Confirm from '../containers/main/make.bookings/steps/confirm';
 const AuthenticationStack = createStackNavigator({
     Login : {
         screen : Login,
+    headerMode: 'none',
     },
     Registration : {
         screen : Registration,
     }
+},{
+
+    headerMode: 'none',
 });
 
 const createStackWithNotifIcon = (screens) =>
@@ -125,12 +129,23 @@ const DrawerStack = createDrawerNavigator({
     contentComponent : DrawerComponent,
     drawerBackgroundColor : '#0B5173',
 });
+class ModalScreen extends React.Component {
+    render() {
+      return (
+        <View style={{ margin: 50, flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor: 'orange' }}>
+          <Text style={{ fontSize: 30 }}>This is a modal!</Text>
+          
+        </View>
+      );
+    }
+  }
 
 const StackNavigator = createStackNavigator(
   {
     InitialRoute : { screen: InitialRoute },
     Authentication : { screen : AuthenticationStack },
-    Home : { screen : DrawerStack }
+    Home : { screen : DrawerStack },
+
   },
   {
     headerMode: 'none',
@@ -138,5 +153,22 @@ const StackNavigator = createStackNavigator(
     },
   },
 );
+
+/*
+  const RootStack = createStackNavigator(
+    {
+        InitialRoute : { screen: InitialRoute },
+        Authentication : { screen : AuthenticationStack },
+        Home : { screen : DrawerStack },
+      MyModal: {
+        screen: ModalScreen,
+      },
+    },
+    {
+      mode: 'modal',
+      headerMode: 'none',
+    }
+  );
+*/
 
 export default StackNavigator;

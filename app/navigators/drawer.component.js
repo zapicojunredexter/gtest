@@ -30,10 +30,7 @@ class DrawerComponent extends React.PureComponent<> {
 
     render() {
         const { user, items } = this.props;
-        if(!(user.AccountType)){
-            return null;
-        }
-        const filteredItems = items.filter((item, index) => screens[user.AccountType][item.key]);
+        const filteredItems = (user.AccountType) ? items.filter((item, index) => screens[user.AccountType][item.key]) : [];
         return (
             <ScrollView>
                 <View style={{width:'100%',backgroundColor : '#147DAD',padding:20, alignItems:'center'}}>

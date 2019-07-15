@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Foundation from 'react-native-vector-icons/Foundation';
+import firebase from 'react-native-firebase';
 import { Image, StyleSheet, View, Text, Button, TextInput, ToastAndroid } from 'react-native';
 import UserService from '../../../services/user.service';
 import AuthService from '../../../services/auth.service';
@@ -31,11 +32,10 @@ class Container extends React.PureComponent<> {
             LastName: '',
             BirthDate : '',
             Gender : '',
-            ContactNum : '',
+            ContactNumber : '',
             ProfilePictures : [],
             ...props.user,
         };
-
     }
 
     render() {
@@ -46,12 +46,13 @@ class Container extends React.PureComponent<> {
             LastName,
             BirthDate,
             Gender,
-            ContactNum,
+            ContactNumber,
             ProfilePictures
         } = this.state;
         const isCommuter = true;
+
         return (
-            <View style={{flex : 1, padding: 20}}>
+            <View style={{flex : 1, justifyContent: 'center', padding: 20}}>
                 <View style={{alignItems:'center',justifyContent: 'center'}}> 
                     <View
                         style={{
@@ -104,31 +105,23 @@ class Container extends React.PureComponent<> {
                         Contact Number
                     </Text>
                     <TextInput
-                        value={ContactNum}
-                        onChangeText={text => this.setState({ContactNum:text})}
+                        value={ContactNumber}
+                        onChangeText={text => this.setState({ContactNumber:text})}
                         style={styles.componentRowComponent}
                     />
                 </View>
                 <Button
                     onPress={() => {
-                        this.props.updateContactNumber(ContactNum)
+                        this.props.updateContactNumberber(ContactNumber)
                             .then(() => {
                                 ToastAndroid.show('Contact Number Updated', ToastAndroid.SHORT);
                             })
                             .catch(error => {
                                 ToastAndroid.show(error.message, ToastAndroid.SHORT);
                             });
-                        
                     }}
                     style={{width:'100%'}}
                     title="EDIT"
-                />
-                <Button
-                    onPress={async () => {
-                        await this.props.logout();
-                        this.props.navigation.navigate('Login');
-                    }}
-                    title="LOGOUT"
                 />
             </View>
         );
@@ -140,7 +133,7 @@ const mapStateToProps = store => ({
     user : store.user
 });
 const mapDispatchToProps = dispatch => ({
-    updateContactNumber : contNum => dispatch(UserService.updateContactNumber(contNum)),
+    updateContactNumberber : contNum => dispatch(UserService.updateContactNumber(contNum)),
     logout : () => dispatch(AuthService.logout()),
 });
 

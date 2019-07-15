@@ -71,7 +71,7 @@ class Container extends React.PureComponent<> {
                 {renderTripRecord('Route',item.Trip && item.Trip.Route && item.Trip.Route.Route)}
                 {renderTripRecord('Departure Date',item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartDate)}
                 {renderTripRecord('Departure Time', item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartTime)}
-                {renderTripRecord('Booked', `${item.createdAt}`)}
+                {renderTripRecord('Booked', `${item.createdAt && item.createdAt.toLocaleString()}`)}
             </TouchableOpacity>
         );
     }
@@ -87,7 +87,6 @@ class Container extends React.PureComponent<> {
                         onBackdropPress : () => this.setState({selected : null})
                     }}
                     onViewDetails={() => {
-                        console.log('ZZZZ', this.state.selected);
                         const itemId = this.state.selected.Id;
                         this.props.navigation.navigate('HistoryDetails',{bookingId: itemId});
                         this.setState({ selected : null });

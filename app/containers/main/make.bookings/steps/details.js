@@ -40,7 +40,7 @@ class Container extends React.PureComponent<> {
         return (
             <View style={{backgroundColor:'orange',margin: 20,flex:1}}>
                 <View style={{flex:1}}>
-                    <Text>IN DETAILSii</Text>
+                    <Text>IN DETAILS</Text>
 
                     <Text style={{}}>FROM : {(from.TerminalAddress)}</Text>
                     <Text style={{}}>TO :{(to.TerminalAddress)}</Text>
