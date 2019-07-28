@@ -87,11 +87,11 @@ class Container extends React.PureComponent<> {
         return (
             <View style={[styles.listItemWrapper,index%2===0 && styles.isEventRow]} key={index}>  
                 <View style={styles.starsWrapper}>
-                    <FontAwesome name={item.Score >= 1? "star" : "star-o"} size={12} color="black"  />
-                    <FontAwesome name={item.Score >= 2? "star" : "star-o"} size={12} color="black"  />
-                    <FontAwesome name={item.Score >= 3? "star" : "star-o"} size={12} color="black"  />
-                    <FontAwesome name={item.Score >= 4? "star" : "star-o"} size={12} color="black" />
-                    <FontAwesome name={item.Score >= 5? "star" : "star-o"} size={12} color="black" />
+                    <FontAwesome name={item.Score >= 1? "star" : "star-o"} size={12} color="orange"  />
+                    <FontAwesome name={item.Score >= 2? "star" : "star-o"} size={12} color="orange"  />
+                    <FontAwesome name={item.Score >= 3? "star" : "star-o"} size={12} color="orange"  />
+                    <FontAwesome name={item.Score >= 4? "star" : "star-o"} size={12} color="orange" />
+                    <FontAwesome name={item.Score >= 5? "star" : "star-o"} size={12} color="orange" />
                 </View>
                 <Text style={styles.listItem}>
                     {item.Comment}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, SectionList, TouchableOpacity } from 'react-native';
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
 import QRCode from 'react-native-qrcode';
 import { connect } from 'react-redux';
@@ -7,11 +7,11 @@ import { connect } from 'react-redux';
 const styles = StyleSheet.create({
     container : {
         flex : 1,
-        padding : 5,
+        // padding : 5,
     },
     flatListWrapper : {
         flex : 1,
-        padding : 10,
+        // padding : 10,
     },
     tripRowContainer : {
         borderRadius : 3,
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         borderWidth : 1,
         marginBottom : 5,
         padding : 15,
+        margin: 10
     },
     tripRowComponentPair : {
         flexDirection : 'row',
@@ -43,6 +44,10 @@ const styles = StyleSheet.create({
     }
 });
 class Container extends React.PureComponent<> {
+    static navigationOptions = {
+        headerTitle : 'MY TRIPS',
+    };
+
     constructor(props) {
         super(props);
     }
@@ -82,12 +87,27 @@ class Container extends React.PureComponent<> {
         return (
             <View style={styles.container}>
                 <View style={styles.flatListWrapper}>
+                    {/**
                     <FlatList
                         contentContainerStyle={styles.scrollerContainer}
                         data={trips}
                         renderItem={this.renderTripRow}
                         // onRefresh={this.snapData}
                         // refreshing={false}
+                    />
+                    */}
+                    
+                    <SectionList
+                        stickySectionHeadersEnabled
+                        // renderItem={this.renderTripDetails}
+                        renderItem={this.renderTripRow}
+                        renderSectionHeader={({section: {title}}) => (
+                            <View style={{backgroundColor:'white',padding : 7}}>
+                                <Text style={{fontWeight: 'bold'}}>{title}</Text>
+                            </View>
+                        )}
+                        sections={this.props.sections}
+                        keyExtractor={(item, index) => item + index}
                     />
                 </View>
             </View>
@@ -123,9 +143,25 @@ class Container extends React.PureComponent<> {
     }
 }
 
-const mapStateToProps = store => ({
-    trips: store.trips.trips.filter(booking => booking.Status === 'Travelling' || booking.Status === 'Waiting'),
-});
+
+const mapStateToProps = store => {
+    return {
+        trips: store.trips.trips.filter(trip => trip.Status === 'Travelling' || trip.Status === 'Waiting'),
+        sections : [
+            {
+                title : 'CURRENT & UPCOMING TRIPS',
+                data : store.trips.trips.filter(trip => trip.Status === 'Waiting' || trip.Status === 'Travelling'),
+            },
+            {
+                title : 'PREVIOUS TRIPS',
+                data : store.trips.trips.filter(trip => trip.Status === 'Finished' || trip.Status === 'Cancelled'),
+            }
+        ],
+    };
+}
+// const mapStateToProps = store => ({
+//     trips: store.trips.trips.filter(booking => booking.Status === 'Travelling' || booking.Status === 'Waiting'),
+// });
 const mapDispatchToProps = dispatch => ({
     fetchCommuterHistory : () => dispatch(BookingService.fetchCommuterHistory()),
 });

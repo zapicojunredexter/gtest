@@ -68,6 +68,7 @@ class TripsService {
 
     listenTrips = (tripDate, selectedRouteId) => async (dispatch, getState) => {
         dispatch(this.unlistenTrips());
+        dispatch(TripsAction.setTrips([]));
         const firebaseRef = firebase.firestore()
             .collection('Trips')
             .where('Schedule.DepartDate', '==', tripDate);
@@ -120,7 +121,7 @@ class TripsService {
 
     finishTrip = (tripId) =>  async (dispatch, getState) => {
         try{
-            const result = await RequestService.put(`trips/${tripId}`, {Status: 'Finished'});
+            const result = await RequestService.put(`trips/finish/${tripId}`, {Status: 'Finished'});
             const jsonResult = await responseToJson(result);
             return jsonResult;
         }catch(error){

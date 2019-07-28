@@ -62,6 +62,11 @@ const styles = StyleSheet.create({
 });
 
 class Container extends React.PureComponent<> {
+
+    static navigationOptions = {
+        headerTitle : 'BOOK TRIP',
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -121,7 +126,7 @@ class Container extends React.PureComponent<> {
                 <Text style={styles.tripRowComponentPairValue}>{value || '-'}</Text>
             </View>
         );
-        const seatsValuesArray = item.Vehicle && Object.values(item.Vehicle.Seats) || [];
+        const seatsValuesArray = item.Vehicle && Object.values(item.Vehicle.SeatsStatus) || [];
         return (
             <TouchableOpacity
                 disabled={isTravelling}
@@ -143,8 +148,9 @@ class Container extends React.PureComponent<> {
     render() {
         const { routes, schedules, trips, travellingBooking } = this.props;
         const { selectedRouteId, selectedScheduleId, selectedTrip, selectedDate } = this.state;
-
+        
         const selectedRoute  = routes.find(route => route.Id === selectedRouteId);
+        // if(false){
         if(!!travellingBooking){
             return(
                 <View style={[styles.container]}>
@@ -173,6 +179,7 @@ class Container extends React.PureComponent<> {
                 <ConfirmBooking
                     modalProps={{
                         isVisible : !!selectedTrip,
+                        // isVisible: true,
                         onBackdropPress : () => this.setState({selectedTrip : null})
                     }}
                     route={selectedRoute}
@@ -267,12 +274,14 @@ class Container extends React.PureComponent<> {
                 <View style={styles.flatListWrapper}>
                     <FlatList
                         contentContainerStyle={styles.scrollerContainer}
-                        data={trips}
+                        data={this.state.selectedDate ? trips : []}
                         renderItem={this.renderTripRow}
-                        extraData={this.state.selectedTrip}
+                        // extraData={this.state.selectedTrip}
                         // onRefresh={this.snapData}
                         // refreshing={false}
                     />
+                    {/*
+                    */}
                 </View>
             </View>
         );
@@ -312,4 +321,9 @@ export default SystemRestricted(connect(
 )(Container),
 {
     disableCheckLocation : true,
+
+    navigationOptions: {
+        headerTitle : 'BOOK TRIP',
+    }
+
 });

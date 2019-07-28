@@ -39,6 +39,9 @@ const styles = StyleSheet.create({
 });
 
 class Container extends React.PureComponent<> {
+    static navigationOptions = {
+        headerTitle : 'HISTORY',
+    };
     constructor(props) {
         super(props);
         this.state = {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, SectionList, Button, ToastAndroid, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Text as OpenText } from 'react-native-openanything';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
 import { throttle, debounce } from 'throttle-debounce';
@@ -82,7 +83,7 @@ class Container extends React.PureComponent<> {
                 <Text>back</Text>
             </TouchableOpacity>
         ),
-        title : "MANAGE ATTENDEES",
+        headerTitle : "MANAGE ATTENDEES",
     }));
 
     state = {
@@ -166,8 +167,8 @@ class Container extends React.PureComponent<> {
                 data: Bookings.filter(booking => booking.Status === 'Waiting'),
             },
             {
-                title: 'STANDBY',
-                data: Bookings.filter(booking => booking.Status === 'Travelling'),
+                title: 'CHECKED',
+                data: Bookings.filter(booking => booking.Status === 'Travelling' || booking.Status === 'Finished'),
             },
             {
                 title: 'CANCELLED',
@@ -231,6 +232,8 @@ class Container extends React.PureComponent<> {
     }
 
     renderUserRow = ({item}) => {
+        const { selectedTrip } = this.props;
+        const isFinished = selectedTrip && selectedTrip.Status === "Finished";
         return (
             <TouchableOpacity
                 onPress={() => {
@@ -267,11 +270,13 @@ class Container extends React.PureComponent<> {
                     paddingTop: 5,
                     paddingBottom: 5,
                 }}
+                disabled={isFinished}
             >
                 <FontAwesome
                     name={item.Commuter && item.Commuter.Gender === 'female' ? 'female' : 'male'}
                     size={15}
                     color="#000"
+                    color={item.Commuter && item.Commuter.Gender === 'female' ? '#d66d6d' : '#87ceeb'}
                     style={{ marginRight: 5 }}
                 />
                 <Text>{`${item.Commuter && `${item.Commuter.FirstName} ${item.Commuter.LastName}`}`}</Text>
@@ -314,6 +319,7 @@ class Container extends React.PureComponent<> {
         const { selectedTrip } = this.props;
         const item = selectedTrip;
         const isTravelling = item && item.Status === "Travelling";
+        const isFinished = item && item.Status === "Finished";
         const { isQrView }  = this.state;
         return (
             <View style={styles.container}>
@@ -327,7 +333,7 @@ class Container extends React.PureComponent<> {
                 />
                 {this.renderTripDetails()}
                 <Button
-                    title={`${isTravelling ? `FINISH TRIP` : `START TRIP`}`}
+                    title={`${isTravelling ? `FINISH TRIP` : (isFinished ? `FINISHED`:`START TRIP`)}`}
                     onPress={() => {
                         if(isTravelling){
                             this.props.finishTrip(item.Id).then(() => {
@@ -339,11 +345,12 @@ class Container extends React.PureComponent<> {
                             } );
                         }
                     }}
+                    disabled={isFinished}
                 />
                 <View style={styles.attendanceWrapper}>
-                    {isQrView ? this.renderQrScanner() : this.renderSectionList()}
+                    {isFinished ? this.renderSectionList() : (isQrView  ? this.renderQrScanner() : this.renderSectionList())}
                     
-                    {isQrView ? this.renderListButton() : this.renderScannerButton()}
+                    {!isFinished && (isQrView ? this.renderListButton() : this.renderScannerButton())}
                 </View>
             </View>
         );
@@ -371,4 +378,12 @@ export default SystemRestricted(connect(
 )(Container),
 {
     disableCheckLocation : true,
+    navigationOptions : (({ navigation, screenProps }) => ({
+        headerLeft : (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Entypo name="chevron-left" size={30} color="#fff" style={{marginLeft: 10}} />
+            </TouchableOpacity>
+        ),
+        headerTitle : "MANAGE COMMUTERS",
+    })),
 });

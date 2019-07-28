@@ -8,10 +8,13 @@ const firebaseRef = new CollectionInfrastructure(firebase,'Users');
 
 class AuthService {
     login = (username, password) => async (dispatch, getState) => {
+        console.log('starting');
         const loggedInUser = await AuthInfrastructure.login(username, password);
+        console.log('starting1');
         if(!loggedInUser){
             throw new Error('User does not exists');
         }
+        console.log('starting2');
         dispatch(UserActions.setUser(loggedInUser));
     };
 

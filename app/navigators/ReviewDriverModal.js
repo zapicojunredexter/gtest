@@ -34,7 +34,7 @@ class ReviewDriverModal extends React.Component<Props> {
         const { modalProps } = this.props;
         return (
             <Modal {...modalProps} animationInTiming={0} animationOutTiming={0} backdropTransitionInTiming={0} backdropTransitionOutTiming={0} hideModalContentWhileAnimating>
-                <View style={{backgroundColor: '#fff', padding: 20,textAlign:'center'}}>
+                <View style={{backgroundColor: '#fff', padding: 20,}}>
                     <Text style={{textAlign: 'center',fontSize: 15,marginBottom: 20, fontWeight: "bold"}}>Help us improve by rating our services!</Text>
                     <TextInput
                         style={{width: '100%'}}

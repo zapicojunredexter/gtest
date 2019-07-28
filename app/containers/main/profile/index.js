@@ -9,13 +9,20 @@ import AuthService from '../../../services/auth.service';
 const styles = StyleSheet.create({
     componentRow : {
         flexDirection : 'row',
-        alignItems : 'center'
+        alignItems : 'center',
+        justifyContent: 'center',
+        height: 50,
     },
     componentRowLabel : {
         flex : 2,
+        // height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     componentRowComponent : {
         flex : 3,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
 
@@ -74,31 +81,25 @@ class Container extends React.PureComponent<> {
                     <Text style={styles.componentRowLabel}>
                         Name
                     </Text>
-                    <TextInput
-                        editable={false}
-                        value={`${FirstName} ${LastName}`}
-                        style={styles.componentRowComponent}
-                    />
+                    <Text style={styles.componentRowComponent}>
+                        {`${FirstName} ${LastName}`}
+                    </Text>
                 </View>
                 <View style={styles.componentRow}>
                     <Text style={styles.componentRowLabel}>
                         Birth Date
                     </Text>
-                    <TextInput
-                        editable={false}
-                        value={BirthDate}
-                        style={styles.componentRowComponent}
-                    />
+                    <Text style={styles.componentRowComponent}>
+                        {BirthDate}
+                    </Text>
                 </View>
                 <View style={styles.componentRow}>
                     <Text style={styles.componentRowLabel}>
                         Gender
                     </Text>
-                    <TextInput
-                        editable={false}
-                        value={Gender}
-                        style={styles.componentRowComponent}
-                    />
+                    <Text style={styles.componentRowComponent}>
+                        {Gender}
+                    </Text>
                 </View>
                 <View style={styles.componentRow}>
                     <Text style={styles.componentRowLabel}>

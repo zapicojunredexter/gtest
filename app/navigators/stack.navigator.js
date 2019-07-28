@@ -48,6 +48,7 @@ const createStackWithNotifIcon = (screens) =>
                     
                 ),
                 headerRight : <NotificationIcon />,
+                headerRight : null,
                 headerStyle: {
                     backgroundColor: '#0B5173',
                 },
@@ -78,7 +79,7 @@ const DrawerStack = createDrawerNavigator({
     UserProfile : {
         screen: createStackWithNotifIcon({UserProfile}),
         navigationOptions: {
-            drawerLabel: 'User',
+            drawerLabel: 'Profile',
             drawerIcon: () => (
                 <FontAwesome name="user" size={20} color="#fff" />
             )
@@ -110,7 +111,7 @@ const DrawerStack = createDrawerNavigator({
         screen: createStackWithNotifIcon({MakeBookings}),
         // screen: createStackWithNotifIcon({Location,Confirm,Details}),
         navigationOptions: {
-            drawerLabel: 'Make Bookings',
+            drawerLabel: 'Book a Trip',
             drawerIcon: () => (
                 <Entypo name="new-message" size={20} color="#fff" />
             )
@@ -119,7 +120,7 @@ const DrawerStack = createDrawerNavigator({
     ViewTrips : {
         screen: createStackWithNotifIcon({ViewTrips, ManageAttendees}),
         navigationOptions: {
-            drawerLabel: 'View Trips',
+            drawerLabel: 'Trips',
             drawerIcon: () => (
                 <Entypo name="calendar" size={20} color="#fff" />
             )

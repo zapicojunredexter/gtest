@@ -42,6 +42,7 @@ class BookingsService {
                 ...bookingDetails,
                 CommuterId : userId,
             }
+            console.log('dadadada', toBeAdded);
             const result = await RequestService.post('bookings', toBeAdded);
             return responseToJson(result);
         }catch(error){
@@ -59,7 +60,6 @@ class BookingsService {
             this.cancelListening();
         }else{
             ref.onSnapshot(results => {
-                console.log('beforeeee bagu!');
                 const bookings = results.docs.map(data => data.data());
                 dispatch(BookingsAction.setUserBookings(bookings));
                 /*

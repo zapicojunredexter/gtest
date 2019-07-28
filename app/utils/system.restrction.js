@@ -5,7 +5,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default SystemRestricted = (Component, options = {}) => {
     class SystemRestrictedClass extends React.PureComponent<>{
-        static navigationOptions = {...options.navigationOptions};
+        // static navigationOptions = {...options.navigationOptions};
+        static navigationOptions = options.navigationOptions;
         render() {
             const { hasInternet, hasLocation } = this.props;
             const {
