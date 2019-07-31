@@ -65,6 +65,7 @@ class DriveTheLine extends React.Component {
     }
 
     async getDirections() {
+        console.log('starting hohohooooooy, res', this.props.route.FromLocation, this.props.route.ToLocation);
         const res = await MapboxClient.getDirections(
             [
                 // {
@@ -78,14 +79,21 @@ class DriveTheLine extends React.Component {
             {
                 latitude: this.props.route.FromLocation[1],
                 longitude: this.props.route.FromLocation[0],
+
+                latitude: this.props.route.FromLocation[0],
+                longitude: this.props.route.FromLocation[1],
             },
             {
                 latitude: this.props.route.ToLocation[1],
-                longitude: this.props.route.ToLocation[0]
+                longitude: this.props.route.ToLocation[0],
+
+                latitude: this.props.route.ToLocation[0],
+                longitude: this.props.route.ToLocation[1]
             },
             ],
             {profile: 'walking', geometry: 'polyline'},
         );
+        console.log('hohohooooooy, res', res);
         this.setState({
             route: makeLineString(res.entity.routes[0].geometry.coordinates),
         });

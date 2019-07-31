@@ -12,6 +12,7 @@ import BookingsService from '../../../services/bookings.service';
 import { checkAndAskPermission } from '../../../utils/permissions';
 import SystemRestricted from '../../../utils/system.restrction';
 import ConfirmAttendeeQr from './confirm.attendee.qr';
+import LoadingModal from '../../../components/modal.wrapper/loading.modal';
 
 const styles = StyleSheet.create({
     container : {
@@ -89,7 +90,8 @@ class Container extends React.PureComponent<> {
     state = {
         isQrView: false,
         detectedBooking: null,
-    }
+        isFetching: false,
+    };
 
     componentDidMount() {
         this.fetchTripData();
@@ -104,9 +106,15 @@ class Container extends React.PureComponent<> {
     }
 
     fetchTripData = () => {
+        this.setState({isFetching: true})
         const { trip } = this.props.navigation.state.params;
         const { fetchFreshTripData } = this.props;
-        fetchFreshTripData(trip.Id);
+        fetchFreshTripData(trip.Id)
+            .then(() => this.setState({isFetching: false}))
+            .catch((err) => {
+                ToastAndroid.show(err.message,ToastAndroid.SHORT);
+                this.setState({isFetching: false});
+            });
     }
 
     renderQrScanner = () => {
@@ -323,6 +331,13 @@ class Container extends React.PureComponent<> {
         const { isQrView }  = this.state;
         return (
             <View style={styles.container}>
+                <LoadingModal
+                
+                modalProps={{
+                    isVisible :  this.state.isFetching,
+                    onBackdropPress : () => {}
+                }}
+                />
                 <ConfirmAttendeeQr
                     modalProps={{
                         isVisible: !!this.state.detectedBooking,

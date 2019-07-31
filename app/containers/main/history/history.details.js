@@ -117,6 +117,7 @@ class Container extends React.PureComponent<> {
     renderMap = () => {
         const item = this.state.booking;
         const Route = item && item.Trip && item.Trip.Route && item.Trip.Route.Route;
+        console.log('sulod man unta', item);
         return (
             <View style={styles.mapContentsWrapper}>
                 <TouchableOpacity>
