@@ -107,9 +107,21 @@ class Container extends React.PureComponent<> {
                 {renderTripRecord('Driver Name',item && item.Trip && item.Trip.Driver && `${item.Trip.Driver.FirstName} ${item.Trip.Driver.LastName}`)}
                 {renderTripRecord('Vehicle Number',item && item.Trip && item.Trip.Vehicle && `${item.Trip.Vehicle.PlateNumber}`)}
                 {renderTripRecord('Route',item && item.Trip && item.Trip.Route && item.Trip.Route.Route)}
-                {renderTripRecord('Departure Date',item && item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartDate)}
-                {renderTripRecord('Departure Time',item && item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartTime)}
-                {renderTripRecord('Booked', bookedDate && `${bookedDate.getMonth() + 1}-${bookedDate.getDate()}-${bookedDate.getFullYear()}`)}
+                {
+                    // renderTripRecord('Departure Date',item && item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartDate)
+                }
+                {
+                    // renderTripRecord('Departure Time',item && item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartTime)
+                }
+                {
+                    renderTripRecord('Departure',item && item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartDate && item.Trip.Schedule.DepartTime && (new Date(`${item.Trip.Schedule.DepartDate} ${item.Trip.Schedule.DepartTime}`).toLocaleString()))
+                }
+                {renderTripRecord('Reserved Seat',item && item.Seats && (item.Seats.join(', ')))}
+                {
+                    // renderTripRecord('Booked', bookedDate && `${bookedDate.getMonth() + 1}-${bookedDate.getDate()}-${bookedDate.getFullYear()}`)
+                    renderTripRecord('Booked', bookedDate && bookedDate.toLocaleString())
+                    
+                }
             </View>
         );
     }
@@ -117,12 +129,8 @@ class Container extends React.PureComponent<> {
     renderMap = () => {
         const item = this.state.booking;
         const Route = item && item.Trip && item.Trip.Route && item.Trip.Route.Route;
-        console.log('sulod man unta', item);
         return (
             <View style={styles.mapContentsWrapper}>
-                <TouchableOpacity>
-                    <Text style={styles.routeName}>enroute: {Route}</Text>
-                </TouchableOpacity>
                 {item && item.Trip && item.Trip.Route &&(
                     <Pathing route={item.Trip.Route} />
                 )}

@@ -58,7 +58,9 @@ class Listeners extends React.PureComponent<> {
     });
   }
 
-  handleBackButton = () => true;
+  handleBackButton = () => {
+      this.props.navigation.goBack(null);
+  };
 
   handleAppStateChange = (nextAppState) => {
     if (

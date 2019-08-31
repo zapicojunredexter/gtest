@@ -72,9 +72,18 @@ class Container extends React.PureComponent<> {
                 {renderTripRecord('Driver Name',item.Trip && item.Trip.Driver && `${item.Trip.Driver.FirstName} ${item.Trip.Driver.LastName}`)}
                 {renderTripRecord('Vehicle Number',item.Trip && item.Trip.Vehicle && `${item.Trip.Vehicle.PlateNumber}`)}
                 {renderTripRecord('Route',item.Trip && item.Trip.Route && item.Trip.Route.Route)}
-                {renderTripRecord('Departure Date',item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartDate)}
-                {renderTripRecord('Departure Time', item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartTime)}
-                {renderTripRecord('Booked', `${item.createdAt && item.createdAt.toLocaleString()}`)}
+                {
+                    // renderTripRecord('Departure Date',item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartDate)
+                }
+                {
+                    // renderTripRecord('Departure Time', item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartTime)
+                }
+                {
+                    renderTripRecord('Departure',item && item.Trip && item.Trip.Schedule && item.Trip.Schedule.DepartDate && item.Trip.Schedule.DepartTime && (new Date(`${item.Trip.Schedule.DepartDate} ${item.Trip.Schedule.DepartTime}`).toLocaleString()))
+                }
+                {
+                    // renderTripRecord('Booked', `${item.createdAt && item.createdAt.toLocaleString()}`)
+                }
             </TouchableOpacity>
         );
     }

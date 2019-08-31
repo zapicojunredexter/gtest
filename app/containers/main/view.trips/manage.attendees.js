@@ -281,7 +281,7 @@ class Container extends React.PureComponent<> {
                 disabled={isFinished}
             >
                 <FontAwesome
-                    name={item.Commuter && item.Commuter.Gender === 'female' ? 'female' : 'male'}
+                    name={item.Commuter && item.Commuter.Gender === 'female' ? 'venus' : 'mars'}
                     size={15}
                     color="#000"
                     color={item.Commuter && item.Commuter.Gender === 'female' ? '#d66d6d' : '#87ceeb'}
@@ -316,8 +316,15 @@ class Container extends React.PureComponent<> {
                 {renderTripRecord('Driver Name',item && item.Driver && `${item.Driver.FirstName} ${item.Driver.LastName}`)}
                 {renderTripRecord('Vehicle Number',item && item.Vehicle && `${item.Vehicle.PlateNumber}`)}
                 {renderTripRecord('Route',item && item.Route && item.Route.Route)}
-                {renderTripRecord('Departure Date',item && item.Schedule && item.Schedule.DepartDate)}
-                {renderTripRecord('Departure Time',item && item.Schedule && item.Schedule.DepartTime)}
+                {
+                    renderTripRecord('Departure',item && item.Schedule && item.Schedule.DepartDate && item.Schedule.DepartTime && (new Date(`${item.Schedule.DepartDate} ${item.Schedule.DepartTime}`).toLocaleString()))
+                }
+                {
+                    // renderTripRecord('Departure Date',item && item.Schedule && item.Schedule.DepartDate)
+                }
+                {
+                    // renderTripRecord('Departure Time',item && item.Schedule && item.Schedule.DepartTime)
+                }
             </TouchableOpacity>
         );
     }

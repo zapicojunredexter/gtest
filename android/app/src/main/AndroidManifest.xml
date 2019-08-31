@@ -50,6 +50,16 @@
       <meta-data
         android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyBn9yjNnLVZZqe62tVKfoQ3TW4VpBcWaCE"/>
+
+    <receiver android:name="io.invertase.firebase.notifications.RNFirebaseNotificationReceiver"/>
+    <receiver android:enabled="true" android:exported="true"  android:name="io.invertase.firebase.notifications.RNFirebaseNotificationsRebootReceiver">
+        <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+        <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+        <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+        <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </receiver>
     </application>
 
 </manifest>

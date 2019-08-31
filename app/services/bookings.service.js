@@ -42,7 +42,6 @@ class BookingsService {
                 ...bookingDetails,
                 CommuterId : userId,
             }
-            console.log('dadadada', toBeAdded);
             const result = await RequestService.post('bookings', toBeAdded);
             return responseToJson(result);
         }catch(error){
@@ -56,66 +55,15 @@ class BookingsService {
         const ref = firebase.firestore().collection('Bookings')
             .where("CommuterId","==",user.Id);
 
-        if(this.listening){
-            this.cancelListening();
-        }else{
-            ref.onSnapshot(results => {
-                const bookings = results.docs.map(data => data.data());
-                dispatch(BookingsAction.setUserBookings(bookings));
-                /*
-                const travelingBooking = bookings.find(booking => booking && booking.Status === 'Travelling');
-
-                if(travelingBooking) {
-                    if(this.tripSnapshot){
-                        console.log("REMOVED LISTENER former");
-                        this.tripSnapshot();
-                        this.tripSnapshot = null;
-                    }
-                    // TODO should be in api. query route and schedule details
-                    const testResponse = {
-                        DepartureTime : '10:00:00',
-                        TripDate : '04-14-2019',
-                        Driver : {
-                            Id : '123',
-                            Name : 'TESTERRRR DRIVER'
-                        },
-                        Routes : {
-                            From : [
-                                123.9056,
-                                10.2925
-                            ],
-                            To : [
-                                123.8907,
-                                10.3168,
-                            ],
-                        },
-                    };
-
-                    this.tripSnapshot = firebase.firestore().collection('Trips')
-                        .doc(travelingBooking.TripId)
-                        .onSnapshot(trip => {
-                            const tripData = trip.data();
-                            console.log("before 2!",tripData);
-                            if(tripData.Status === 'Finished'){
-                                if(this.tripSnapshot){
-                                    console.log("REMOVED LISTENER");
-                                    this.tripSnapshot();
-                                    this.tripSnapshot = null;
-                                }
-                            }else{
-                                console.log("NAGUPDATE SI TRIP", tripData);
-                                dispatch(TripAction.setTravellingTrip(tripData));
-                            }
-                        })
-
-                }
-                */
-            })
-        }
+        this.cancelListening();
+        ref.onSnapshot(results => {
+            const bookings = results.docs.map(data => data.data());
+            dispatch(BookingsAction.setUserBookings(bookings));
+                
+        });
     }
 
     cancelListening = () => () => {
-        console.log("CANCELLED BOOKING LISTENER",this.listening);
         if(this.listening){
             this.listening();
             this.listening = null;

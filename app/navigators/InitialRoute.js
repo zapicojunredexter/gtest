@@ -13,6 +13,7 @@ import Listener from '../listeners/listeners.navigation';
 import CombineService from '../services/combine.service';
 import {NotificationsAndroid} from 'react-native-notifications';
 import ReviewDriverModal from './ReviewDriverModal';
+import NotificationService from '../services/notifications.service';
 type Props = {
 };
 
@@ -35,8 +36,17 @@ class InitialRoute extends React.Component<Props> {
             navigation.navigate('Home');
             props.masterSnap();
         }
+
+        // this.buildNotification();
         
     }
+
+    buildNotification = () => {
+        const oneminlater = new Date();
+        oneminlater.setMinutes(oneminlater.getMinutes() + 1);
+
+        NotificationService.createLocalNotification('hehe title', 'hehe body', oneminlater);
+    };
 
     testFunciton = async () => {
         const hasPermission = await firebase.messaging().hasPermission();
@@ -60,6 +70,16 @@ class InitialRoute extends React.Component<Props> {
                 firebase.notifications().displayNotification(notif);
             }
           });
+
+        //   alert('AHAH');
+        // firebase.messaging().createLocalNotification({
+        //     body: 'body',
+        //     show_in_foreground: true,
+        //     title: 'title',
+        //     local_notification: true,
+        //     priority: 'high'
+        // }).catch(err => alert(err.message));
+
     }
     
     render() {

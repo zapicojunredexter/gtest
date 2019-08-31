@@ -47,8 +47,10 @@ const styles = StyleSheet.create({
 
 class Login extends React.Component<Props> {
     state = {
-        username : 'junre@yah.com',
-        password : 'junrejunre',
+        // username : 'junre@yah.com',
+        // password : 'junrejunre',
+        username : '',
+        password : '',
         isLoading : false,
     }
     login = async () => {
@@ -87,6 +89,7 @@ class Login extends React.Component<Props> {
                     value={this.state.password}
                     placeholder="Password"
                     style={styles.marginComponent}
+                    secureTextEntry
                 />
                 <Button
                     title={isLoading ? "LOGGING IN ..." : "LOGIN"}

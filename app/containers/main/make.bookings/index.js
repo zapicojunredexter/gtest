@@ -11,6 +11,7 @@ import TripsService from '../../../services/trips.service';
 import BookingsService from '../../../services/bookings.service';
 import ConfirmBooking from './confirm.booking';
 import SystemRestricted from '../../../utils/system.restrction';
+import NotificationService from '../../../services/notifications.service';
 import { getTravellingBooking } from '../../../selectors/bookings.selector';
 import Pathing from '../../../components/map.view/pathing';
 
@@ -105,10 +106,19 @@ class Container extends React.PureComponent<> {
             TripId : selectedTrip.Id,  
         };
 
+        const {
+            DepartDate,
+            DepartTime
+        } = selectedTrip.Schedule;
         addBooking(bookingData)
             .then(() => {
+                
                 ToastAndroid.show("Added new Booking",ToastAndroid.SHORT);
                 this.setState({selectedTrip : null});
+
+                const notifDate = new Date(`${DepartDate} ${DepartTime}`);
+                notifDate.setMinutes(notifDate.getMinutes() - 15);
+                NotificationService.createLocalNotification('Upcoming Trip', 'A trip you booked will be departing in 15 minutes', notifDate);
             })
             .catch(error => {
                 alert(error.message);

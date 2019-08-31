@@ -28,12 +28,19 @@ const styles = StyleSheet.create({
 
 class Registration extends React.Component<> {
     state = {
-        username : 'junre@yah.com',
-        password : 'junrejunre',
-        firstName: 'JunRe',
-        lastName: 'ZapiCo',
-        contactNum: '1231231',
+        // username : 'junre@yah.com',
+        // password : 'junrejunre',
+        // firstName: 'JunRe',
+        // lastName: 'ZapiCo',
+        // contactNum: '1231231',
+        // birthDate: '',
+        username : '',
+        password : '',
+        firstName: '',
+        lastName: '',
+        contactNum: '',
         birthDate: '',
+
         gender: 'male',
         isLoading: false,
     }

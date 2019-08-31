@@ -6,6 +6,23 @@ class NotificationsService {
 
     notificationListener = null;
 
+    createLocalNotification = (title, body, fireDate = new Date()) => {
+        const notification = new firebase.notifications.Notification()
+        .android.setChannelId('testchannel')
+        .setTitle(title)
+        .setBody(body)
+        .android.setSmallIcon('ic_notification')
+        .android.setLargeIcon('ic_notification');
+
+        // Schedule the notification for 1 minute in the future
+        // const date = new Date();
+        // date.setMinutes(date.getMinutes() + 1);a
+
+        firebase.notifications().scheduleNotification(notification, {
+            fireDate: fireDate.getTime(),
+        });
+    }
+
     unlistenNotifications = () => async (dispatch, getState) => {
         if(this.notificationListener) {
             this.notificationListener();

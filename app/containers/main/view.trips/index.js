@@ -63,6 +63,7 @@ class Container extends React.PureComponent<> {
         const seatsArray = item.Vehicle && item.Vehicle.Seats ? Object.values(item.Vehicle.Seats) : [];
         const takenSeats = seatsArray.filter(seat => seat).length;
         const totalSeats = seatsArray.length;
+        console.log('adunay date', new Date(`${item.Schedule.DepartDate} 00:25`).toString());
         return (
             <TouchableOpacity
                 onPress={() => {
@@ -73,8 +74,16 @@ class Container extends React.PureComponent<> {
                     isTravelling && styles.tripRowSelected
                 ]}
             >
-                {renderTripRecord('Departure Date',item.Schedule && item.Schedule.DepartDate)}
-                {renderTripRecord('Departure Time', `${item.Schedule && item.Schedule.DepartTime}`)}
+                {
+                    renderTripRecord('Departure',item.Schedule && item.Schedule.DepartDate && item.Schedule.DepartTime && (new Date(`${item.Schedule.DepartDate} ${item.Schedule.DepartTime}`).toLocaleString()))
+                }
+                {
+                    // renderTripRecord('Departure Date',item.Schedule && item.Schedule.DepartDate)
+                }
+                {
+                    // renderTripRecord('Departure Time', `${item.Schedule && item.Schedule.DepartTime}`)
+                }
+                {renderTripRecord('Route',item.Route && item.Route.Route)}
                 {renderTripRecord('Vehicle Plate Number',item.Vehicle && item.Vehicle.PlateNumber)}
                 {renderTripRecord('Commuter Count', `${takenSeats} / ${totalSeats}`)}
                 {renderTripRecord('Status',item.Status)}
