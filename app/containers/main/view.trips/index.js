@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, SectionList, TouchableOpacity } from 'react-native';
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
 import QRCode from 'react-native-qrcode';
+import Entypo from 'react-native-vector-icons/Entypo';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -41,7 +42,31 @@ const styles = StyleSheet.create({
     },
     tripRowSelected : {
         backgroundColor : '#87ceeb'
-    }
+    },
+
+    cardContainer : {
+        flexDirection : 'row',
+        padding : 10,
+        margin : 10,
+        borderRadius : 3,
+        borderWidth : 1,
+        borderColor : 'silver'
+    },
+    cardIcon : {
+        width: 50,
+        height: 50,
+        marginRight : 10,
+    },
+    cardContents : {
+        flex : 1,
+    },
+    cardLabel : {
+        fontSize : 12,
+    },
+    cardData : {
+        fontSize : 16,
+        fontWeight : 'bold',
+    },
 });
 class Container extends React.PureComponent<> {
     static navigationOptions = {
@@ -93,8 +118,31 @@ class Container extends React.PureComponent<> {
 
     render() {
         const { trips } = this.props;
+        const tripsWithSeats = this.props.allTrips.map(trip => {
+            const vehicleSeats = trip.Vehicle.SeatsStatus;
+            const arrVehicleSeats = Object.values(vehicleSeats);
+            const truthy = arrVehicleSeats.filter(vehi => !!vehi);
+            return {
+                seats: truthy.length,
+                price: trip.Price,
+            };
+        })
+        const reduced = tripsWithSeats.reduce((acc,cur) => {
+            return acc + (cur.price * cur.seats);
+        }, 0);
         return (
             <View style={styles.container}>
+                <View style={styles.cardContainer}>
+                    <Entypo name="wallet" size={50} color="black" style={styles.cardIcon} />
+                    <View style={styles.cardContents}>
+                        <Text style={styles.cardLabel}>
+                            Earned
+                        </Text>
+                        <Text style={styles.cardData}>
+                            {Number(reduced * 0.2).toFixed(2)}
+                        </Text>
+                    </View>
+                </View>
                 <View style={styles.flatListWrapper}>
                     {/**
                     <FlatList
@@ -166,6 +214,7 @@ const mapStateToProps = store => {
                 data : store.trips.trips.filter(trip => trip.Status === 'Finished' || trip.Status === 'Cancelled'),
             }
         ],
+        allTrips: store.trips.trips,
     };
 }
 // const mapStateToProps = store => ({

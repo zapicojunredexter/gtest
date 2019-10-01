@@ -39,7 +39,20 @@ class UserService {
                 notifToken
             });
             const jsonResult = await responseToJson(result);
-            console.log('ADUNA', jsonResult);
+            return jsonResult;
+        }catch(error){
+            console.error(error);
+        }
+    }
+
+    patchNotifToken = () => async (dispatch, getState) => {
+        try{
+            const { user } = getState();
+            const notifToken = await firebase.messaging().getToken();
+            const result = await RequestService.put(`users/${user.Id}`, {
+                notifToken
+            });
+            const jsonResult = await responseToJson(result);
             return jsonResult;
         }catch(error){
             console.error(error);

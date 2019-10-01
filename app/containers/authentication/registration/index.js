@@ -6,6 +6,7 @@ import {
   Button,
   TextInput,
   StyleSheet,
+  BackHandler,
 } from 'react-native';
 import DatePicker from '../../../components/date.picker';
 import RadioButton from '../../../components/radio.button';
@@ -44,6 +45,20 @@ class Registration extends React.Component<> {
         gender: 'male',
         isLoading: false,
     }
+
+    constructor(props){
+        super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton = () => {
+        // return true;
+        this.props.navigation.goBack(null);
+    };
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
     render() {
         const isValid = this.state.username && this.state.password && this.state.firstName && this.state.lastName && this.state.contactNum && this.state.birthDate && this.state.gender;
         return (

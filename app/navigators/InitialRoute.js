@@ -14,6 +14,18 @@ import CombineService from '../services/combine.service';
 import {NotificationsAndroid} from 'react-native-notifications';
 import ReviewDriverModal from './ReviewDriverModal';
 import NotificationService from '../services/notifications.service';
+// import { NavigationActions, StackActions } from 'react-navigation'
+
+// const resetActionLogin = StackActions.reset({
+//   index: 0,
+//   actions: [
+//     NavigationActions.navigate({ routeName: 'Login'})
+//   ]
+// });
+// const resetActionHome = StackActions.reset({
+//   index: 0,
+//   actions: [NavigationActions.navigate({ routeName: 'Home' })],
+// });
 type Props = {
 };
 
@@ -30,11 +42,13 @@ class InitialRoute extends React.Component<Props> {
         this.testFunciton();
         if(!isLoggedIn) {
 
+            // navigation.dispatch(resetActionLogin)
             navigation.navigate('Login');
         } else {
 
-            navigation.navigate('Home');
             props.masterSnap();
+            // navigation.dispatch(resetActionHome)
+            navigation.navigate('Home');
         }
 
         // this.buildNotification();

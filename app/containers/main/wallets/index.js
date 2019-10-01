@@ -86,9 +86,25 @@ class Container extends React.PureComponent<> {
         );
     }
 
+    renderBookingHisotrySpent = ({item, index}) => {
+        return (
+            <View style={[styles.listItemWrapper,index%2===0 && styles.isEventRow]} key={index}>  
+                <Text style={styles.listItem}>
+                    {item.label}
+                </Text>
+            </View>
+        );
+    }
+
     render() {
         const { user, walletHistory } = this.props;
         const { fetching } = this.state;
+        const mappedBookings = this.props.bookings.map(booking => {
+            return {
+                ...booking,
+                label: `Booked trip for ${(booking.Trip && booking.Trip.Route && booking.Trip.Route.Route) || '-'} for PHP${booking.AmtPaid}`
+            };
+        });
 
         return (
             <View style={{flex : 1}}>
@@ -104,11 +120,22 @@ class Container extends React.PureComponent<> {
                     </View>
                 </View>
                 <View style={styles.listContainer}>
+                    <Text style={{backgroundColor: 'silver', padding: 15,fontWeight: 'bold',fontSize: 14}}>WALLET HISTORY</Text>
                     <FlatList
                         data={walletHistory}
                         refreshing={fetching}
                         onRefresh={this.fetchWalletsHistory}
                         renderItem={this.renderItemList}
+                    />
+                </View>
+                <View style={styles.listContainer}>
+                    <Text style={{backgroundColor: 'silver', padding: 15,fontWeight: 'bold',fontSize: 14}}>TRANSACTION HISTORY</Text>
+                    <FlatList
+                        data={mappedBookings}
+                        // refreshing={fetching}
+                        // onRefresh={this.fetchWalletsHistory}
+                        renderItem={this.renderBookingHisotrySpent}
+                        // ListHeaderComponent={}
                     />
                 </View>
             </View>
@@ -120,6 +147,7 @@ class Container extends React.PureComponent<> {
 const mapStateToProps = store => ({
     user : store.user,
     walletHistory : store.wallets.walletHistory,
+    bookings: store.bookings.userBookings,
 });
 const mapDispatchToProps = dispatch => ({
     fetchWalletsHistory : () => dispatch(WalletsService.fetchWalletsHistory())

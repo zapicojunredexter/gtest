@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import AuthService from '../../../services/auth.service';
 import CombineService from '../../../services/combine.service';
+import userService from '../../../services/user.service';
 
 type Props = {
 };
@@ -60,6 +61,9 @@ class Login extends React.Component<Props> {
         
         login(username, password)
             .then(res => {
+                this.props.patchNotifToken()
+                    .then(() => {})
+                    .catch(() => {});
                 this.setState({isLoading:false});
                 this.props.masterSnap();
                 this.props.navigation.navigate('Home');
@@ -109,6 +113,7 @@ class Login extends React.Component<Props> {
 const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => ({
+    patchNotifToken: () => dispatch(userService.patchNotifToken()),
     login : (username, password) => dispatch(AuthService.login(username, password)),
     masterSnap : () => dispatch(CombineService.masterSnap()),
 });
